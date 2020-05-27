@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php
 		echo form_close();
 		?>
-		<div class="row">
+		<div class="row hidden">
 			<div class="col-6">
 				<div class="card">
 					<div class="card-header">
@@ -112,6 +112,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				<!-- /.card -->
 			</div>
+		</div>
+		<div class="row">
 			<div class="col-4">
 				<div class="card">
 					<div class="card-header">

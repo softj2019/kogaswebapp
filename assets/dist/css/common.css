@@ -9,3 +9,6 @@ li.page-item  a {
 	background-color: #fff;
 	border: 1px solid #dee2e6;
 }
+.hidden{
+	display:none!important;
+}
