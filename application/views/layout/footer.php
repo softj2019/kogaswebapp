@@ -34,5 +34,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/assets/dist/js/adminlte.min.js"></script>
+<!-- OPTIONAL SCRIPTS -->
+<script src="/assets/dist/js/demo.js"></script>
+<!-- ChartJS -->
+<script src="/assets/plugins/chart.js/Chart.min.js"></script>
+
+<!-- PAGE SCRIPTS -->
+<script src="/assets/dist/js/pages/dashboard2.js"></script>
 </body>
 </html>

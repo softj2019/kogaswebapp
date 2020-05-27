@@ -21,16 +21,16 @@ class Main  extends CI_Controller
         $this->load->library('form_validation');
         $this->load->helper('date');
         $this->load->helper('array');
-		$this->load->library('pagination');
-		$this->load->helper('utility');
 		$this->load->helper('alert');
-		$this->load->helper('url');
+		$this->load->library('pagination');
+
+
 
     }
     public function _remap($method)
     {
         $data=Array();
-        $this->load->view('layout/header',$data);
+
         if (method_exists($this, $method)) {
             $this->{"{$method}"}();
         }
@@ -45,18 +45,18 @@ class Main  extends CI_Controller
 //		$data['page_title']=$this->lang->line('fee_history');
 //		$data['page_sub_title']="";
 //        $data['page_css_style']="fee.css";
-//		$data['menu_code']="003";
+		$data['menu_code']="001";
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 		$where=array(
 //			'cc.paid_fee_uid'=>$user_data->uid,
 		);
-		//페이징
-		$config['base_url'] =base_url('main');
+		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
+		$config['base_url'] =base_url('main/index');
 		$config['total_rows'] = $this->common->select_count('kgart','',$where);
 		$config['per_page'] = 10;
 
 		$this->pagination->initialize($config);
-		$page = $this->uri->segment(2,0);
+		$page = $this->uri->segment(3,0);
 		$data['pagination']= $this->pagination->create_links();
 		$limit[1]=$page;
 		$limit[0]=$config['per_page'];
@@ -65,7 +65,7 @@ class Main  extends CI_Controller
 
 //		$data["list"]= $this->common->select_list_table('kgart','','',$coding=false,'');
 		$data["list"]= $this->common->select_list_table_result('kgart',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='',$limit);
-
+		$this->load->view('layout/header',$data);
         $this->load->view('main/index',$data);
     }
 }
