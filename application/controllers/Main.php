@@ -34,7 +34,7 @@ class Main  extends CI_Controller
         if (method_exists($this, $method)) {
             $this->{"{$method}"}();
         }
-        $this->load->view('layout/footer',$data);
+
     }
     public function index()
     {
@@ -68,6 +68,18 @@ class Main  extends CI_Controller
 //			'code_name'=>'is not null',
 //		);
 
+
+		$data['footerScript']="/assets/dist/js/chart/defaultChart.js";
+		$this->load->view('layout/header',$data);
+        $this->load->view('main/index',$data);
+		$this->load->view('layout/footer',$data);
+    }
+
+    public function mainAjaxCall(){
+		//값이 정확해서 폼체크 안해도
+		header('Content-type: application/json');
+
+
 		//해당 년도 고장모드 비율
 		$data["listA"]=$this->common->select_list_table_result('' .
 			'(select (select num_nm from kgcod where num_cd = break_cd) code_name,' .
@@ -92,7 +104,49 @@ class Main  extends CI_Controller
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
 			'group by action_cd) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='','');
-		$this->load->view('layout/header',$data);
-        $this->load->view('main/index',$data);
-    }
+
+		if(@$data["listA"]) {
+			$data["listAarr"]="[";
+			foreach ($data["listA"] as $row) {
+				$data["listAarr"] .= '\''.$row->code_name.'\'';
+				if (next($data["listA"])==true) $data["listAarr"] .= ",";
+			}
+			$data["listAarr"].="]";
+
+			$data["listAlabelsArr"]="[";
+			foreach ($data["listA"] as $row) {
+				$data["listAlabelsArr"] .= '\''.$row->cnt.'\'';
+				if (next($data["listA"])==true) $data["listAlabelsArr"] .= ",";
+			}
+			$data["listAlabelsArr"].="]";
+		}
+		if(@$data["listB"]) {
+			$data["listBarr"]="[";
+			foreach ($data["listB"] as $key=>$row) {
+				$data["listBarr"] .= '\''.$row->code_name.'\'';
+				if (next($data["listB"])==true) $data["listBarr"] .= ",";
+			}
+			$data["listBlabelsArr"]="[";
+			foreach ($data["listB"] as $row) {
+				$data["listBlabelsArr"] .= '\''.$row->cnt.'\'';
+				if (next($data["listB"])==true) $data["listBlabelsArr"] .= ",";
+			}
+			$data["listBlabelsArr"].="]";
+		}
+		if(@$data["listC"]) {
+			$data["listCarr"]="[";
+			foreach ($data["listC"] as $key=>$row) {
+				$data["listCarr"] .= '\''.$row->code_name.'\'';
+				if (next($data["listC"])==true) $data["listCarr"] .= ",";
+			}
+
+			$data["listClabelsArr"]="[";
+			foreach ($data["listC"] as $row) {
+				$data["listClabelsArr"] .= '\''.$row->cnt.'\'';
+				if (next($data["listC"])==true) $data["listClabelsArr"] .= ",";
+			}
+			$data["listClabelsArr"].="]";
+		}
+		echo json_encode($data);
+	}
 }
