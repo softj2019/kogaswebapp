@@ -105,48 +105,7 @@ class Main  extends CI_Controller
 			'group by action_cd) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='','');
 
-		if(@$data["listA"]) {
-			$data["listAarr"]="[";
-			foreach ($data["listA"] as $row) {
-				$data["listAarr"] .= '\''.$row->code_name.'\'';
-				if (next($data["listA"])==true) $data["listAarr"] .= ",";
-			}
-			$data["listAarr"].="]";
 
-			$data["listAlabelsArr"]="[";
-			foreach ($data["listA"] as $row) {
-				$data["listAlabelsArr"] .= '\''.$row->cnt.'\'';
-				if (next($data["listA"])==true) $data["listAlabelsArr"] .= ",";
-			}
-			$data["listAlabelsArr"].="]";
-		}
-		if(@$data["listB"]) {
-			$data["listBarr"]="[";
-			foreach ($data["listB"] as $key=>$row) {
-				$data["listBarr"] .= '\''.$row->code_name.'\'';
-				if (next($data["listB"])==true) $data["listBarr"] .= ",";
-			}
-			$data["listBlabelsArr"]="[";
-			foreach ($data["listB"] as $row) {
-				$data["listBlabelsArr"] .= '\''.$row->cnt.'\'';
-				if (next($data["listB"])==true) $data["listBlabelsArr"] .= ",";
-			}
-			$data["listBlabelsArr"].="]";
-		}
-		if(@$data["listC"]) {
-			$data["listCarr"]="[";
-			foreach ($data["listC"] as $key=>$row) {
-				$data["listCarr"] .= '\''.$row->code_name.'\'';
-				if (next($data["listC"])==true) $data["listCarr"] .= ",";
-			}
-
-			$data["listClabelsArr"]="[";
-			foreach ($data["listC"] as $row) {
-				$data["listClabelsArr"] .= '\''.$row->cnt.'\'';
-				if (next($data["listC"])==true) $data["listClabelsArr"] .= ",";
-			}
-			$data["listClabelsArr"].="]";
-		}
 		echo json_encode($data);
 	}
 }

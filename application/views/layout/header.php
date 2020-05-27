@@ -86,10 +86,91 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!--					</li>-->
 					<li class="nav-item">
 						<a href="/" class="nav-link <?=$menu_code=='001'?'active':''?>">
-							<i class="nav-icon fas fas fa-tachometer-alt fa-th"></i>
+							<i class="nav-icon fas fa-tachometer-alt"></i>
 							<p>
 								대시보드
 <!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+							<i class="far fa-newspaper"></i>
+							<p>
+								게시판
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+							<i class="fas fa-chart-line"></i>
+							<p>
+								신뢰도 분석(생산)
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+							<i class="far fa-chart-bar"></i>
+							<p>
+								신뢰도 분석(공급)
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+							<i class="fas fa-chart-area"></i>
+							<p>
+								기초 통계 분석
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+							<i class="far fa-list-alt"></i>
+							<p>
+								분석 결과 조회
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+							<i class="fas fa-clipboard-list"></i>
+							<p>
+								기초 통계 분석
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+							<i class="far fa-clipboard"></i>
+							<p>
+								분석결과 비교
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+							<i class="fas fa-cogs"></i>
+							<p>
+								관리자 메뉴
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+							<i class="fab fa-hire-a-helper"></i>
+							<p>
+								도움말
+								<!--								<span class="right badge badge-danger">New</span>-->
 							</p>
 						</a>
 					</li>
