@@ -47,12 +47,10 @@ class Main  extends CI_Controller
 //        $data['page_css_style']="fee.css";
 		$data['menu_code']="001";
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
-		$where=array(
-//			'cc.paid_fee_uid'=>$user_data->uid,
-		);
+
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
 		$config['base_url'] =base_url('main/index');
-		$config['total_rows'] = $this->common->select_count('kgart','',$where);
+		$config['total_rows'] = $this->common->select_count('kgart','','');
 		$config['per_page'] = 10;
 
 		$this->pagination->initialize($config);
@@ -64,7 +62,36 @@ class Main  extends CI_Controller
 
 
 //		$data["list"]= $this->common->select_list_table('kgart','','',$coding=false,'');
+		//기본목록
 		$data["list"]= $this->common->select_list_table_result('kgart',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='',$limit);
+//		$where=array(
+//			'code_name'=>'is not null',
+//		);
+
+		//해당 년도 고장모드 비율
+		$data["listA"]=$this->common->select_list_table_result('' .
+			'(select (select num_nm from kgcod where num_cd = break_cd) code_name,' .
+			'count(*) as cnt ' .
+			'from kgdata ' .
+			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
+			'group by break_cd) A',
+			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='','');
+		//해당 년도 고장원인 비율
+		$data["listB"]=$this->common->select_list_table_result('' .
+			'(select (select num_nm from kgcod where num_cd = cause_cd) code_name,' .
+			'count(*) as cnt ' .
+			'from kgdata ' .
+			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
+			'group by cause_cd) A',
+			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='','');
+		//해당 년도 고장조치 비율
+		$data["listC"]=$this->common->select_list_table_result(
+			'(select (select num_nm from kgcod where num_cd = action_cd) code_name,' .
+			'count(*) as cnt ' .
+			'from kgdata ' .
+			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
+			'group by action_cd) A',
+			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='','');
 		$this->load->view('layout/header',$data);
         $this->load->view('main/index',$data);
     }
