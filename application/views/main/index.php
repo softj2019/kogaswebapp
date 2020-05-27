@@ -16,6 +16,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="card">
 					<div class="card-header">
 						<h3 class="card-title">분석요청 최근 10건</h3>
+						<div class="card-tools">
+							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+							</button>
+							<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							</button>
+						</div>
+
 					</div>
 					<!-- /.card-header -->
 					<div class="card-body table-responsive p-0">
@@ -58,65 +65,121 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-6">
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">Responsive Hover Table</h3>
-
+						<h3 class="card-title">분석요청 최근 10건</h3>
 						<div class="card-tools">
-							<div class="input-group input-group-sm" style="width: 150px;">
-								<input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-								<div class="input-group-append">
-									<button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-								</div>
-							</div>
+							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+							</button>
+							<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							</button>
 						</div>
+
 					</div>
 					<!-- /.card-header -->
 					<div class="card-body table-responsive p-0">
 						<table class="table table-hover text-nowrap">
 							<thead>
 							<tr>
-								<th>ID</th>
-								<th>User</th>
-								<th>Date</th>
-								<th>Status</th>
-								<th>Reason</th>
+								<th>요청일시</th>
+								<th>요청번호</th>
+								<th>요청자</th>
+								<th>요청분석</th>
+								<th>분석여부</th>
 							</tr>
 							</thead>
 							<tbody>
-							<tr>
-								<td>183</td>
-								<td>John Doe</td>
-								<td>11-7-2014</td>
-								<td><span class="tag tag-success">Approved</span></td>
-								<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-							</tr>
-							<tr>
-								<td>219</td>
-								<td>Alexander Pierce</td>
-								<td>11-7-2014</td>
-								<td><span class="tag tag-warning">Pending</span></td>
-								<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-							</tr>
-							<tr>
-								<td>657</td>
-								<td>Bob Doe</td>
-								<td>11-7-2014</td>
-								<td><span class="tag tag-primary">Approved</span></td>
-								<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-							</tr>
-							<tr>
-								<td>175</td>
-								<td>Mike Doe</td>
-								<td>11-7-2014</td>
-								<td><span class="tag tag-danger">Denied</span></td>
-								<td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-							</tr>
+							<?php if(@$list) {
+								foreach ($list as $row) {
+									?>
+									<tr>
+										<td><?=$row->AR_time?></td>
+										<td><?=$row->AR_CD?></td>
+										<td><?=$row->user_id?></td>
+										<td><?=$row->analysis_type?></td>
+										<td><?=$row->analysis_flg?></td>
+									</tr>
+									<?php
+								}
+							}
+							?>
 							</tbody>
 						</table>
+
 					</div>
-					<!-- /.card-body -->
+					<!-- /card-body -->
+					<div class="card-footer">
+						<?php echo $pagination?>
+					</div>
 				</div>
 				<!-- /.card -->
+			</div>
+			<div class="col-4">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Browser Usage</h3>
+
+						<div class="card-tools">
+							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+							</button>
+							<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							</button>
+						</div>
+					</div>
+					<!-- /.card-header -->
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-8">
+								<div class="chart-responsive">
+									<canvas id="pieChart" height="150"></canvas>
+								</div>
+								<!-- ./chart-responsive -->
+							</div>
+							<!-- /.col -->
+							<div class="col-md-4">
+								<ul class="chart-legend clearfix">
+									<li><i class="far fa-circle text-danger"></i> Chrome</li>
+									<li><i class="far fa-circle text-success"></i> IE</li>
+									<li><i class="far fa-circle text-warning"></i> FireFox</li>
+									<li><i class="far fa-circle text-info"></i> Safari</li>
+									<li><i class="far fa-circle text-primary"></i> Opera</li>
+									<li><i class="far fa-circle text-secondary"></i> Navigator</li>
+								</ul>
+							</div>
+							<!-- /.col -->
+						</div>
+						<!-- /.row -->
+					</div>
+					<!-- /.card-body -->
+					<div class="card-footer bg-white p-0">
+						<ul class="nav nav-pills flex-column">
+							<li class="nav-item">
+								<a href="#" class="nav-link">
+									United States of America
+									<span class="float-right text-danger">
+                        <i class="fas fa-arrow-down text-sm"></i>
+                        12%</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="#" class="nav-link">
+									India
+									<span class="float-right text-success">
+                        <i class="fas fa-arrow-up text-sm"></i> 4%
+                      </span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="#" class="nav-link">
+									China
+									<span class="float-right text-warning">
+                        <i class="fas fa-arrow-left text-sm"></i> 0%
+                      </span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<!-- /.footer -->
+				</div>
+
 			</div>
 		</div>
 	</div>
