@@ -27,6 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+<!-- PAGE SCRIPTS -->
 
 <!-- jQuery -->
 <script src="/assets/plugins/jquery/jquery.min.js"></script>
@@ -39,7 +40,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- ChartJS -->
 <script src="/assets/plugins/chart.js/Chart.min.js"></script>
 
-<!-- PAGE SCRIPTS -->
-<script src="/assets/dist/js/pages/dashboard2.js"></script>
+<?php
+if(@$footerScript){
+	?>
+	<script src="<?=$footerScript?>"></script>
+	<?php
+}
+?>
+
 </body>
 </html>
