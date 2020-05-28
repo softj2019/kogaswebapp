@@ -39,6 +39,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="/assets/dist/js/demo.js"></script>
 <!-- ChartJS -->
 <script src="/assets/plugins/chart.js/Chart.min.js"></script>
+<!-- Select2 -->
+<script src="/assets/plugins/select2/js/select2.full.min.js"></script>
+
+<script type="text/javascript" src="/assets/plugins/moment/moment.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/moment/locale/ko.js"></script>
+<script type="text/javascript" src="/assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+<script src="/assets/dist/js/common.js"></script>
+
+
 
 <?php
 if(@$footerScript){
