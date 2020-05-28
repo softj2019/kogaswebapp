@@ -83,11 +83,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<!-- /.input group -->
 					</div>
 					<div class="row">
-						<div class="col-3">
+						<div class="col-2">
 							<!-- Select multiple-->
 							<div class="form-group">
-								<label>Select Multiple</label>
-								<select multiple class="form-control multipleSelect1">
+								<label>플랜트</label>
+								<select multiple class="form-control multipleSelect1 kgpbtMultiSelect">
 							<?php if(@$listKey1) {
 								foreach ($listKey1 as $row) {
 									?>
@@ -100,27 +100,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</select>
 							</div>
 						</div>
-<!--						<div class="col-6">-->
-<!--							<div class="form-group">-->
-<!--								<label>Select Multiple Disabled</label>-->
-<!--								<select multiple class="form-control" disabled>-->
-<!--									<option>option 1</option>-->
-<!--									<option>option 2</option>-->
-<!--									<option>option 3</option>-->
-<!--									<option>option 4</option>-->
-<!--									<option>option 5</option>-->
-<!--								</select>-->
-<!--							</div>-->
-<!--						</div>-->
-					</div>
+						<div class="col-2 hidden kgpbtLocale">
+							<div class="form-group">
+								<label>위치</label>
+								<select multiple class="form-control multipleSelect2 kgpbtMultiSelect ">
+								</select>
+							</div>
+						</div>
+						<div class="col-2">
+							<!-- Select multiple-->
+							<div class="form-group">
+								<label>생산설비 신뢰도 분석 1차분류</label>
+								<select multiple class="form-control multipleSelect3 kgpbtMultiSelect" data-max-options="1">
+									<?php if(@$kgpbtClass1) {
+										foreach ($kgpbtClass1 as $row) {
+											?>
+											<option value="<?php echo $row->key3_cd; ?>"><?php echo $row->key3_nm; ?></option>
 
-
-					<div class="form-group row">
-						<label for="anal_type" class="col-2 col-form-label">분석타입선택</label>
-						<div class="col-10">
-							<input name="anal_type" id="anal_type" class="form-control">
+											<?php
+										}
+									}
+									?>
+								</select>
+							</div>
 						</div>
 					</div>
+
+
+<!--					<div class="form-group row">-->
+<!--						<label for="anal_type" class="col-2 col-form-label">분석타입선택</label>-->
+<!--						<div class="col-10">-->
+<!--							<input name="anal_type" id="anal_type" class="form-control">-->
+<!--						</div>-->
+<!--					</div>-->
 				</div>
 			</form>
 

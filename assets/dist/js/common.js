@@ -3,8 +3,10 @@ $('input[name=anal_type]').on('change',function(){
 	console.log(anal_type_value)
 	if(anal_type_value=='E'){
 		$('.anal_flag_c').addClass('hidden');
+		$('.kgpbtLocale').addClass('hidden');
 	}else{
 		$('.anal_flag_c').removeClass('hidden');
+		$('.kgpbtLocale').removeClass('hidden');
 	}
 })
 // $('.sdate').datetimepicker({"format":"YYYY-MM-DD","locale":"ko"});
@@ -26,15 +28,35 @@ $('.endDate').daterangepicker({
 	}
 });
 $('.multipleSelect1').on('change',function () {
-	console.log($(this).val());
-	$.ajax({
-		type: "POST",
-		url: "kgpbt/ajaxMultiSelect",
-		// data:{"key1arr":1},
-		dataType: "json",
-		success: function (data) {
-			console.log(data)
-		}
-	});
+	var html='';
+	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
+	if($('.kgpbtLocale').length > 0 ){
+		$.ajax({
+			type: "POST",
+			url: base_url+"kgpbt/ajaxMultiSelect",
+			data:{"key1arr":$(this).val()},
+			dataType: "json",
+			success: function (data) {
+				$.each(data.localeList,function (key,value) {
+					html+='<option value="'+value.key2_cd+'">'+value.key2_nm+'</option>\n';
+				})
+				$('.multipleSelect2').html(html);
+			}
+		});
+	}
 })
-
+$('.multipleSelect3').on('change',function () {
+	var multiSelectVal = $(this).val()
+	$.ajax({
+		// type: "POST",
+		// url: base_url+"kgpbt/ajaxMultiSelect",
+		// data:{"key1arr":$(this).val()},
+		// dataType: "json",
+		// success: function (data) {
+		// 	$.each(data.localeList,function (key,value) {
+		// 		html+='<option value="'+value.key2_cd+'">'+value.key2_nm+'</option>\n';
+		// 	})
+		// 	$('.multipleSelect2').html(html);
+		// }
+	});
+});

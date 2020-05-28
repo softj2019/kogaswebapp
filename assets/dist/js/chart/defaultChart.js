@@ -56,7 +56,7 @@
 	var listCarr=[]
 	$.ajax({
 		type: "POST",
-		url: "main/mainAjaxCall",
+		url: base_url+"main/mainAjaxCall",
 
 		dataType: "json",
 		success: function (data) {

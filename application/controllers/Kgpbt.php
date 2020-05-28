@@ -66,13 +66,25 @@ class Kgpbt  extends CI_Controller
 
 		$data["listKey1"]= $this->common->select_list_table_result('kgloc',$sql='distinct key1_cd,key1_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like,$joina='',$joinb='','');
 //		$data['footerScript']="/assets/dist/js/chart/defaultChart.js";
+
+		$data["kgpbtClass1"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='','');
 		$this->load->view('layout/header',$data);
         $this->load->view('kgpbt/writeform',$data);
 		$this->load->view('layout/footer',$data);
     }
     public function ajaxMultiSelect(){
 		header('Content-type: application/json');
-//		$data["kgpbtList1"]= $this->common->select_list_table_result('kgloc',$sql='distinct key1_cd,key1_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='','',$joina='',$joinb='','');
-		echo json_encode('123');
+		$keyArr = $this->input->post("key1arr");
+		$like=array(
+			'key1_cd','2','after'
+		);
+		$where_in_key = "key1_cd";
+		$where_in_array= $keyArr;
+//		foreach($keyArr as $key => $value){
+//			array_push($where_in_array,$value);
+//		}
+		$data["localeList"]= $this->common->select_list_table_result('kgloc',$sql='distinct key2_cd,key2_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in_key,$where_in_array,$like,$joina='',$joinb='','');
+
+		echo json_encode($data);
 	}
 }
