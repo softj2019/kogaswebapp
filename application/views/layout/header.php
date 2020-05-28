@@ -29,6 +29,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<!-- Google Font: Source Sans Pro -->
 <!--	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">-->
 	<link rel="stylesheet" href="/assets/dist/css/common.css">
+	<script>
+		var base_url ='<?=base_url()?>';
+	</script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">

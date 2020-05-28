@@ -12,3 +12,6 @@ li.page-item  a {
 .hidden{
 	display:none!important;
 }
+select.form-control.kgpbtMultiSelect {
+	height: 400px!important;
+}
