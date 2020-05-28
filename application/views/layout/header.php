@@ -12,10 +12,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 
-	<title>AdminLTE 3 | Starter</title>
+	<title>도시가스공사</title>
 
 	<!-- Font Awesome Icons -->
 	<link rel="stylesheet" href="/assets/plugins/fontawesome-free/css/all.min.css">
+
+	<!-- Select2 -->
+	<link rel="stylesheet" href="/assets/plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="/assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+	<!-- iCheck for checkboxes and radio inputs -->
+	<link rel="stylesheet" href="/assets/plugins/icheck-bootstrap/icheck-bootstrap.css">
+
+	<link rel="stylesheet" type="text/css" href="/assets/plugins/daterangepicker/daterangepicker.css" />
 	<!-- Theme style -->
 	<link rel="stylesheet" href="/assets/dist/css/adminlte.min.css">
 	<!-- Google Font: Source Sans Pro -->
@@ -103,7 +111,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+						<a href="/kgpbt/writeform" class="nav-link <?=$menu_code=='003'?'active':''?>">
 							<i class="fas fa-chart-line"></i>
 							<p>
 								신뢰도 분석(생산)

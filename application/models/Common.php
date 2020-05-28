@@ -64,7 +64,7 @@ class Common extends CI_Model
         $this->db->select($sql,$coding);
         if($where)  $this->db->where($where);
         if($where_in_key) $this->db->where_in($where_in_key,$where_in_array);
-        if($like) $this->db->like($like);
+        if($like) $this->db->like($like[0],$like[1],$like[2]);
         if($joina) $this->db->join($joina[0],$joina[1],$joina[2]);
         if($joinb) $this->db->join($joinb[0],$joinb[1],$joinb[2]);
         if($limit) $this->db->limit($limit[0],$limit[1]);
