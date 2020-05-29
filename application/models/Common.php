@@ -57,13 +57,18 @@ class Common extends CI_Model
         $result = $this->db->get($table);
         return $result->num_rows();
     }
-
-
-    function select_list_table_result($table='',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='',$limit='')
+	// where in array
+	function multiple_where_in($array){
+		foreach($array as $key  => $data){
+			$this->db->where_in($key, $data);
+		}
+	}
+    function select_list_table_result($table='',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit='')
     {
         $this->db->select($sql,$coding);
         if($where)  $this->db->where($where);
-        if($where_in_key) $this->db->where_in($where_in_key,$where_in_array);
+//        if($where_in) $this->db->where_in($where_in);
+		if($where_in) $this->multiple_where_in($where_in);
         if($like) $this->db->like($like[0],$like[1],$like[2]);
         if($joina) $this->db->join($joina[0],$joina[1],$joina[2]);
         if($joinb) $this->db->join($joinb[0],$joinb[1],$joinb[2]);
