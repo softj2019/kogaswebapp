@@ -6,7 +6,7 @@
  * Time: 오후 5:58
  */
 
-class Kgpbt  extends CI_Controller
+class Kgsbt  extends CI_Controller
 {
     function __construct()
     {
@@ -42,9 +42,9 @@ class Kgpbt  extends CI_Controller
 		//사용자 정보
 
 
-		$data['page_title']="신뢰도 분석 (생산)";
+		$data['page_title']="신뢰도 분석 (공급)";
 		$data['page_sub_title']="";
-		$data['menu_code']="003";
+		$data['menu_code']="004";
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명

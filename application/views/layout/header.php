@@ -128,7 +128,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+						<a href="/kgsbt/writeform" class="nav-link <?=$menu_code=='004'?'active':''?>">
 							<i class="far fa-chart-bar"></i>
 							<p>
 								신뢰도 분석(공급)
@@ -203,12 +203,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1 class="m-0 text-dark">Starter Page</h1>
+						<h1 class="m-0 text-dark"><?php echo $page_title; ?></h1>
 					</div><!-- /.col -->
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
 							<li class="breadcrumb-item"><a href="#">Home</a></li>
-							<li class="breadcrumb-item active">Starter Page</li>
+							<li class="breadcrumb-item active"><?php echo $page_title; ?></li>
 						</ol>
 					</div><!-- /.col -->
 				</div><!-- /.row -->
