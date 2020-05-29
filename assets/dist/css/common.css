@@ -13,5 +13,12 @@ li.page-item  a {
 	display:none!important;
 }
 select.form-control.kgpbtMultiSelect {
-	height: 400px!important;
+	height: 300px!important;
+}
+.table td, .table th {
+	min-width: 180px;
+}
+.table td.text-truncate, .table th.text-truncate {
+	max-width: 180px;
+	overflow: hidden;
 }

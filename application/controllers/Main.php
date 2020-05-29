@@ -63,7 +63,7 @@ class Main  extends CI_Controller
 
 //		$data["list"]= $this->common->select_list_table('kgart','','',$coding=false,'');
 		//기본목록
-		$data["list"]= $this->common->select_list_table_result('kgart',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('kgart',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 //		$where=array(
 //			'code_name'=>'is not null',
 //		);
@@ -87,7 +87,7 @@ class Main  extends CI_Controller
 			'from kgdata ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
 			'group by break_cd) A',
-			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='','');
+			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		//해당 년도 고장원인 비율
 		$data["listB"]=$this->common->select_list_table_result('' .
 			'(select (select num_nm from kgcod where num_cd = cause_cd) code_name,' .
@@ -95,7 +95,7 @@ class Main  extends CI_Controller
 			'from kgdata ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
 			'group by cause_cd) A',
-			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='','');
+			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		//해당 년도 고장조치 비율
 		$data["listC"]=$this->common->select_list_table_result(
 			'(select (select num_nm from kgcod where num_cd = action_cd) code_name,' .
@@ -103,7 +103,7 @@ class Main  extends CI_Controller
 			'from kgdata ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
 			'group by action_cd) A',
-			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in_key='',$where_in_array='',$like='',$joina='',$joinb='','');
+			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
 
 		echo json_encode($data);
