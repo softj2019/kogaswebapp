@@ -6,8 +6,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="container-fluid">
 		<form class="form-horizonatal">
 			<div class="card">
-<!--				<div class="card-header">-->
-<!--				</div>-->
+				<!--				<div class="card-header">-->
+				<!--				</div>-->
 				<div class="card-body">
 					<div class="row">
 						<div class="col-4">
@@ -18,14 +18,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="col-10">
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="anal_type_e" name="anal_type" value="E" checked>
-										<label for="anal_type_e">
+										<input type="radio" id="anal_type_b" name="anal_type" value="B" checked>
+										<label for="anal_type_b">
 											기본분석
 										</label>
 									</div>
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="anal_type_b" name="anal_type" value="B">
-										<label for="anal_type_b">
+										<input type="radio" id="anal_type_c" name="anal_type" value="C">
+										<label for="anal_type_c">
 											심화분석
 										</label>
 									</div>
@@ -38,20 +38,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="col-10">
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="anal_flag_n" name="anal_flag" value="N" >
-										<label for="anal_flag_n">
+										<input type="radio" id="select_mode_n" name="select_mode" value="none">
+										<label for="select_mode_n">
 											선택안함
 										</label>
 									</div>
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="anal_flag_b" name="anal_flag" checked value="B">
-										<label for="anal_flag_b">
+										<input type="radio" id="select_mode_f" name="select_mode" checked value="fmode">
+										<label for="select_mode_f">
 											고장모드
 										</label>
 									</div>
-									<div class="icheck-primary d-inline anal_flag_c hidden">
-										<input type="radio" id="anal_flag_c" name="anal_flag" value="C">
-										<label for="anal_flag_c">
+									<div class="icheck-primary d-inline select_mode_s hidden">
+										<input type="radio" id="select_mode_s" name="select_mode" value="smode">
+										<label for="select_mode_s">
 											검정모드
 										</label>
 									</div>
@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="col-2">
 							<div class="form-group">
 								<label>고장모드</label>
-								<select multiple class="form-control anal_flag" name="kgcod">
+								<select multiple class="form-control anal_flag" name="fmode">
 									<?php if(@$kgcodList) {
 										foreach ($kgcodList as $row) {
 											?>
@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</select>
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="관심시간 : ex) 숫자,숫자" value="1000,5000,10000,50000,100000 ">
+								<input class="form-control" name="wvalue" placeholder="관심시간 : ex) 숫자,숫자" value="1000,5000,10000,50000,100000 ">
 							</div>
 						</div>
 
@@ -106,30 +106,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="form-group">
 								<label>검정모드 플랜트</label>
 
-									<select multiple disabled name='check_mode_key1_cd' class="form-control anal_flag">
-										<?php if(@$listKey1) {
-											foreach ($listKey1 as $row) {
-												?>
-												<option value="<?php echo $row->key1_cd; ?>"><?php echo $row->key1_nm; ?></option>
+								<select multiple disabled name='smode' class="form-control anal_flag">
+									<?php if(@$listKey1) {
+										foreach ($listKey1 as $row) {
+											?>
+											<option value="<?php echo $row->key1_cd; ?>"><?php echo $row->key1_nm; ?></option>
 
-												<?php
-											}
+											<?php
 										}
-										?>
-									</select>
-
-							</div>
-						</div>
-						<div class="col-2">
-							<div class="form-group">
-								<label>검정모드 위치</label>
-								<select multiple disabled class="form-control anal_flag" name="check_mode_key2_cd">
+									}
+									?>
 								</select>
+
 							</div>
 							<div class="form-group">
 								<button class="btn btn-success btn-block">분석 요청</button>
 							</div>
 						</div>
+						<!--						<div class="col-2">-->
+						<!--							<div class="form-group">-->
+						<!--								<label>검정모드 위치</label>-->
+						<!--								<select multiple disabled class="form-control anal_flag" name="check_mode_key2_cd">-->
+						<!--								</select>-->
+						<!--							</div>-->
+						<!--							<div class="form-group">-->
+						<!--								<button class="btn btn-success btn-block">분석 요청</button>-->
+						<!--							</div>-->
+						<!--						</div>-->
 
 
 
@@ -138,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			</div>
 			<div class="card">
-<!--				<div class="card-header"></div>-->
+				<!--				<div class="card-header"></div>-->
 				<div class="card-blue">
 					<div class="card-body">
 						<div class="row">
@@ -245,7 +248,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?php echo $row->RC_time; ?></td>
 								<td class="text-truncate"><?php echo $row->key1_cd; ?></td>
 								<td class="text-truncate"><?php echo $row->key2_cd; ?></td>
-<!--								<td>--><?php //echo $row->key3_nm; ?><!--</td>-->
+								<!--								<td>--><?php //echo $row->key3_nm; ?><!--</td>-->
 								<td>&nbsp;</td>
 								<td class="text-truncate"><?php echo $row->key4_cd; ?></td>
 								<td class="text-truncate"><?php echo $row->key5_cd; ?></td>
@@ -257,19 +260,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td>
 									<button class="btn btn-info btn-block"><i class="fas fa-search"></i> </button>
 								</td>
-<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
 
-<!--								<td class="text-truncate">--><?php //echo $row->sdate; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->edate; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->distri; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->fmode; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->smode; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->wvalue; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->AR_time; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->user_id; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->created_at; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->updated_at; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->sdate; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->edate; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->distri; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->fmode; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->smode; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->wvalue; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->AR_time; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->user_id; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->created_at; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->updated_at; ?><!--</td>-->
 							</tr>
 							<?php
 						}
@@ -301,7 +304,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="modal-footer justify-content-between">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-<!--				<button type="button" class="btn btn-primary">Save changes</button>-->
+				<!--				<button type="button" class="btn btn-primary">Save changes</button>-->
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<div class="modal  fade" id="modal-default2">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">기초통계 분석 결과</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>
+				</p>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<!--				<button type="button" class="btn btn-primary">Save changes</button>-->
 			</div>
 		</div>
 		<!-- /.modal-content -->

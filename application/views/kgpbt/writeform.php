@@ -18,14 +18,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="col-10">
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="anal_type_e" name="anal_type" value="E" checked>
-										<label for="anal_type_e">
+										<input type="radio" id="anal_type_b" name="anal_type" value="B" checked>
+										<label for="anal_type_b">
 											기본분석
 										</label>
 									</div>
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="anal_type_b" name="anal_type" value="B">
-										<label for="anal_type_b">
+										<input type="radio" id="anal_type_c" name="anal_type" value="C">
+										<label for="anal_type_c">
 											심화분석
 										</label>
 									</div>
@@ -38,20 +38,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="col-10">
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="anal_flag_n" name="anal_flag" value="N" >
-										<label for="anal_flag_n">
+										<input type="radio" id="select_mode_n" name="select_mode" value="none">
+										<label for="select_mode_n">
 											선택안함
 										</label>
 									</div>
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="anal_flag_b" name="anal_flag" checked value="B">
-										<label for="anal_flag_b">
+										<input type="radio" id="select_mode_f" name="select_mode" checked value="fmode">
+										<label for="select_mode_f">
 											고장모드
 										</label>
 									</div>
-									<div class="icheck-primary d-inline anal_flag_c hidden">
-										<input type="radio" id="anal_flag_c" name="anal_flag" value="C">
-										<label for="anal_flag_c">
+									<div class="icheck-primary d-inline select_mode_s hidden">
+										<input type="radio" id="select_mode_s" name="select_mode" value="smode">
+										<label for="select_mode_s">
 											검정모드
 										</label>
 									</div>
@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="col-2">
 							<div class="form-group">
 								<label>고장모드</label>
-								<select multiple class="form-control anal_flag" name="kgcod">
+								<select multiple class="form-control anal_flag" name="fmode">
 									<?php if(@$kgcodList) {
 										foreach ($kgcodList as $row) {
 											?>
@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</select>
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="관심시간 : ex) 숫자,숫자" value="1000,5000,10000,50000,100000 ">
+								<input class="form-control" name="wvalue" placeholder="관심시간 : ex) 숫자,숫자" value="1000,5000,10000,50000,100000 ">
 							</div>
 						</div>
 
@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="form-group">
 								<label>검정모드 플랜트</label>
 
-									<select multiple disabled name='check_mode_key1_cd' class="form-control anal_flag">
+									<select multiple disabled name='smode' class="form-control anal_flag">
 										<?php if(@$listKey1) {
 											foreach ($listKey1 as $row) {
 												?>
@@ -119,17 +119,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</select>
 
 							</div>
-						</div>
-						<div class="col-2">
-							<div class="form-group">
-								<label>검정모드 위치</label>
-								<select multiple disabled class="form-control anal_flag" name="check_mode_key2_cd">
-								</select>
-							</div>
 							<div class="form-group">
 								<button class="btn btn-success btn-block">분석 요청</button>
 							</div>
 						</div>
+<!--						<div class="col-2">-->
+<!--							<div class="form-group">-->
+<!--								<label>검정모드 위치</label>-->
+<!--								<select multiple disabled class="form-control anal_flag" name="check_mode_key2_cd">-->
+<!--								</select>-->
+<!--							</div>-->
+<!--							<div class="form-group">-->
+<!--								<button class="btn btn-success btn-block">분석 요청</button>-->
+<!--							</div>-->
+<!--						</div>-->
 
 
 

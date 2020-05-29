@@ -1,12 +1,35 @@
+//분석타입 선택
 $('input[name=anal_type]').on('change',function(){
 	var anal_type_value = $(this).val();
 	console.log(anal_type_value)
-	if(anal_type_value=='E'){
-		$('.anal_flag_c').addClass('hidden');
+	if(anal_type_value=='B'){
+		$('.select_mode_s').addClass('hidden');
 		$('.kgpbtLocale').addClass('hidden');
 	}else{
-		$('.anal_flag_c').removeClass('hidden');
+		$('.select_mode_s').removeClass('hidden');
 		$('.kgpbtLocale').removeClass('hidden');
+	}
+})
+//모드 선택
+$('input[name=select_mode]').on('change',function () {
+	console.log($(this).val());
+	var select_mode = $(this).val();
+	$('.anal_flag').attr('disabled','disabled');
+	if(select_mode == 'fmode'){
+		//고장모드
+		$('select[name=fmode]').removeAttr('disabled');
+		//검정모드
+		$('select[name=smode]').attr('disabled','disabled');
+		//고장모드 input
+		$('input[name=wvalue]').removeAttr('disabled');
+	}else if(select_mode == 'smode'){
+		$('select[name=smode]').removeAttr('disabled');
+		$('input[name=wvalue]').attr('disabled','disabled');
+		$('select[name=fmode]').attr('disabled','disabled');
+	}else{
+		$('select[name=fmode]').attr('disabled','disabled');
+		$('select[name=smode]').attr('disabled','disabled');
+		$('input[name=wvalue]').attr('disabled','disabled');
 	}
 })
 // $('.sdate').datetimepicker({"format":"YYYY-MM-DD","locale":"ko"});
@@ -47,24 +70,24 @@ $('select[name=key1_cd]').on('change',function () {
 	}
 })
 //검정모드 플랜트 선택
-$('select[name=check_mode_key1_cd]').on('change',function () {
-	var html='';
-	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
-	if($('.kgpbtLocale').length > 0 ){
-		$.ajax({
-			type: "POST",
-			url: base_url+"kgpbt/ajaxMultiSelect",
-			data:{"key1arr":$(this).val()},
-			dataType: "json",
-			success: function (data) {
-				$.each(data.localeList,function (key,value) {
-					html+='<option value="'+value.key2_cd+'">'+value.key2_nm+'</option>\n';
-				})
-				$('select[name=check_mode_key2_cd]').html(html);
-			}
-		});
-	}
-})
+// $('select[name=check_mode_key1_cd]').on('change',function () {
+// 	var html='';
+// 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
+// 	if($('.kgpbtLocale').length > 0 ){
+// 		$.ajax({
+// 			type: "POST",
+// 			url: base_url+"kgpbt/ajaxMultiSelect",
+// 			data:{"key1arr":$(this).val()},
+// 			dataType: "json",
+// 			success: function (data) {
+// 				$.each(data.localeList,function (key,value) {
+// 					html+='<option value="'+value.key2_cd+'">'+value.key2_nm+'</option>\n';
+// 				})
+// 				$('select[name=check_mode_key2_cd]').html(html);
+// 			}
+// 		});
+// 	}
+// })
 // 1차 분류 선택 2차 표시
 $('select[name=key3_cd]').on('change',function () {
 	var html ='';
@@ -128,22 +151,7 @@ $('select[name=key5_cd]').on('change',function () {
 		}
 	});
 });
-//고장모드 선택
-$('input[name=anal_flag]').on('change',function () {
-	console.log($(this).val());
-	var anal_flag_value = $(this).val();
-	$('.anal_flag').attr('disabled','disabled');
-	if(anal_flag_value == 'B'){
-		$('select[name=kgcod]').removeAttr('disabled');
-		$('select[name=check_mode_key1_cd]').attr('disabled','disabled');
-	}else if(anal_flag_value == 'C'){
-		$('select[name=check_mode_key1_cd]').removeAttr('disabled');
-		$('select[name=check_mode_key2_cd]').removeAttr('disabled');
-		$('select[name=kgcod]').attr('disabled','disabled');
-	}else{
-		$('select[name=kgcod]').attr('disabled','disabled');
-	}
-})
+
 //모달 뷰어
 $('#modal-default').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal
