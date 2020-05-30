@@ -41,7 +41,6 @@ class Kgsbt  extends CI_Controller
         $data=Array();
 		//사용자 정보
 
-
 		$data['page_title']="신뢰도 분석 (공급)";
 		$data['page_sub_title']="";
 		$data['menu_code']="004";
@@ -70,13 +69,13 @@ class Kgsbt  extends CI_Controller
 			"";
 		$data["list"]= $this->common->select_list_table_result('kgart TB',$sql,$where,$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		$like=array(
-			'key1_cd','2','after'
+			'key1_cd','3','after'
 		);
 		//플랜트 조회
 		$data["listKey1"]= $this->common->select_list_table_result('kgloc',$sql='distinct key1_cd,key1_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like,$joina='',$joinb='','');
 //		$data['footerScript']="/assets/dist/js/chart/defaultChart.js";
 
-		$data["kgpbtClass1"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
+		$data["kgpbtClass1"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
 		$this->load->view('layout/header',$data);
@@ -88,7 +87,7 @@ class Kgsbt  extends CI_Controller
 		header('Content-type: application/json');
 		$keyArr = $this->input->post("key1arr");
 		$like=array(
-			'key1_cd','2','after'
+			'key1_cd','3','after'
 		);
 		$where_in = array(
 			"key1_cd"=>$keyArr
@@ -102,7 +101,6 @@ class Kgsbt  extends CI_Controller
 		header('Content-type: application/json');
 		$keyArr = $this->input->post("key3_cd");
 
-
 		$where_in = array(
 			"key3_cd"=>	$keyArr
 		);
@@ -112,7 +110,7 @@ class Kgsbt  extends CI_Controller
 			$data["alerts_icon"]="error";
 			$data["alerts_title"]="&nbsp;1차 분류는 1개만 선택 가능";
 		}else{
-			$data["list"]= $result = $this->common->select_list_table_result('kgpbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $result = $this->common->select_list_table_result('kgsbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}
 		echo json_encode($data);
 	}
@@ -126,11 +124,7 @@ class Kgsbt  extends CI_Controller
 			"key3_cd"=>	$keyArr,
 			"key4_cd"=>	$keyArr2,
 		);
-		if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
-			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
-		}else{
-			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
-		}
+		$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		echo json_encode($data);
 	}
 	//3차 분류 선택 4차 조회
@@ -144,12 +138,7 @@ class Kgsbt  extends CI_Controller
 			"key4_cd"=>	$keyArr2,
 			"key5_cd"=>	$keyArr3,
 		);
-		if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
-			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key6_cd,key6_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
-		}else{
-			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key6_cd,key6_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
-		}
-
+		$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key6_cd,key6_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 
 		echo json_encode($data);
 	}
