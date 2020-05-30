@@ -42,7 +42,7 @@ class Main  extends CI_Controller
 		//사용자 정보
 
 
-//		$data['page_title']=$this->lang->line('fee_history');
+		$data['page_title']="대시보드";
 //		$data['page_sub_title']="";
 //        $data['page_css_style']="fee.css";
 		$data['menu_code']="001";
