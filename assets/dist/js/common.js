@@ -173,3 +173,49 @@ $('#modal-default').on('show.bs.modal', function (event) {
 	});
 
 })
+//모달 뷰어
+$('#modal-default2').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget) // Button that triggered the modal
+	var recipient = button.data('whatever') // Extract info from data-* attributes
+
+	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	var modal = $(this)
+
+	var html='';
+	html='<div class="col-6">\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie" onclick=""></i> 고장모드 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 고장원인 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 고장조치사항 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 플랜트 구분 고장모드 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 플랜트 구분 고장원인 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 플랜트 구분 고장조치사항 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장모드 별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장원인 별 고장시간 히스토그램\t</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장조치사항 별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t</div>\n' +
+		'\t\t\t\t<div class="col-6">\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 설비 별 고장시간 히스토그램\t</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 설비 구분 고장모드별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 설비 구분 고장원일별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 구분 고장조치사항별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장모드 별 보수시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장원인 별 보수시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장조치사항 별 보수시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 설비 별 보수시간 히스토그램\t</button>\n' +
+		'\t\t\t\t</div>';
+	modal.find('.modal-body p').html(html)
+
+})
+function callChart(arcd,htmlNum) {
+	$.ajax({
+		type: "POST",
+		url: base_url+"kgpbt/htmlViewer",
+		// dataType:"html",
+		data:{"url":recipient},
+		// async: false
+	}).done(function(data){
+		modal.find('.modal-body p').html(data)
+	});
+
+}

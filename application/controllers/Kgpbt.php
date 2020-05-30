@@ -64,7 +64,7 @@ class Kgpbt  extends CI_Controller
 		//기본목록
 		$sql="" .
 			"TB.*," .
-			"(select Z.key1_nm from kgloc Z where Z.key1_cd = TB.key1_cd) as key1_nm," .
+			"(select distinct Z.key1_nm from kgloc Z where Z.key1_cd = TB.key1_cd) as key1_nm," .
 //			"(select Z.key3_cd from kgpbt Z where Z.key3_cd = TB.key3_cd) as key3_nm," .
 			"(select Z.htm4 from kgrct Z where Z.ar_cd = TB.ar_cd) as htm4" .
 			"";

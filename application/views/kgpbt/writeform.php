@@ -248,8 +248,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?php echo $row->RC_time; ?></td>
 								<td class="text-truncate"><?php echo $row->key1_cd; ?></td>
 								<td class="text-truncate"><?php echo $row->key2_cd; ?></td>
-								<!--								<td>--><?php //echo $row->key3_nm; ?><!--</td>-->
-								<td>&nbsp;</td>
+								<td><?php echo $row->key1_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key4_cd; ?></td>
 								<td class="text-truncate"><?php echo $row->key5_cd; ?></td>
 								<td class="text-truncate"><?php echo $row->key6_cd; ?></td>
@@ -258,7 +257,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<button class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default" data-whatever="http://58.181.55.191/<?php echo $row->htm4; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
-									<button class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default2"><i class="fas fa-search"></i> </button>
+									<button class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->AR_CD; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
 								<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
@@ -320,9 +319,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<p>
-				</p>
+			<div class="modal-body row">
+
 			</div>
 			<div class="modal-footer justify-content-between">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
