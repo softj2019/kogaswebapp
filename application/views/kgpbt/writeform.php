@@ -6,8 +6,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="container-fluid">
 		<form class="form-horizonatal">
 			<div class="card">
-<!--				<div class="card-header">-->
-<!--				</div>-->
+				<!--				<div class="card-header">-->
+				<!--				</div>-->
 				<div class="card-body">
 					<div class="row">
 						<div class="col-4">
@@ -106,33 +106,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="form-group">
 								<label>검정모드 플랜트</label>
 
-									<select multiple disabled name='smode' class="form-control anal_flag">
-										<?php if(@$listKey1) {
-											foreach ($listKey1 as $row) {
-												?>
-												<option value="<?php echo $row->key1_cd; ?>"><?php echo $row->key1_nm; ?></option>
+								<select multiple disabled name='smode' class="form-control anal_flag">
+									<?php if(@$listKey1) {
+										foreach ($listKey1 as $row) {
+											?>
+											<option value="<?php echo $row->key1_cd; ?>"><?php echo $row->key1_nm; ?></option>
 
-												<?php
-											}
+											<?php
 										}
-										?>
-									</select>
+									}
+									?>
+								</select>
 
 							</div>
 							<div class="form-group">
 								<button class="btn btn-success btn-block">분석 요청</button>
 							</div>
 						</div>
-<!--						<div class="col-2">-->
-<!--							<div class="form-group">-->
-<!--								<label>검정모드 위치</label>-->
-<!--								<select multiple disabled class="form-control anal_flag" name="check_mode_key2_cd">-->
-<!--								</select>-->
-<!--							</div>-->
-<!--							<div class="form-group">-->
-<!--								<button class="btn btn-success btn-block">분석 요청</button>-->
-<!--							</div>-->
-<!--						</div>-->
+						<!--						<div class="col-2">-->
+						<!--							<div class="form-group">-->
+						<!--								<label>검정모드 위치</label>-->
+						<!--								<select multiple disabled class="form-control anal_flag" name="check_mode_key2_cd">-->
+						<!--								</select>-->
+						<!--							</div>-->
+						<!--							<div class="form-group">-->
+						<!--								<button class="btn btn-success btn-block">분석 요청</button>-->
+						<!--							</div>-->
+						<!--						</div>-->
 
 
 
@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 			</div>
 			<div class="card">
-<!--				<div class="card-header"></div>-->
+				<!--				<div class="card-header"></div>-->
 				<div class="card-blue">
 					<div class="card-body">
 						<div class="row">
@@ -221,9 +221,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</form>
 		<div class="card">
-			<div class="card-body">
+			<div class="card-body table-responsive">
 
-				<table class="table table-striped table-responsive">
+				<table class="table table-hover table-striped">
 					<thead>
 					<tr>
 						<th>Request No</th>
@@ -248,7 +248,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?php echo $row->RC_time; ?></td>
 								<td class="text-truncate"><?php echo $row->key1_cd; ?></td>
 								<td class="text-truncate"><?php echo $row->key2_cd; ?></td>
-<!--								<td>--><?php //echo $row->key3_nm; ?><!--</td>-->
+								<!--								<td>--><?php //echo $row->key3_nm; ?><!--</td>-->
 								<td>&nbsp;</td>
 								<td class="text-truncate"><?php echo $row->key4_cd; ?></td>
 								<td class="text-truncate"><?php echo $row->key5_cd; ?></td>
@@ -258,21 +258,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<button class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default" data-whatever="http://58.181.55.191/<?php echo $row->htm4; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
-									<button class="btn btn-info btn-block"><i class="fas fa-search"></i> </button>
+									<button class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default2"><i class="fas fa-search"></i> </button>
 								</td>
-<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
 
-<!--								<td class="text-truncate">--><?php //echo $row->sdate; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->edate; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->distri; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->fmode; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->smode; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->wvalue; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->AR_time; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->user_id; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->created_at; ?><!--</td>-->
-<!--								<td class="text-truncate">--><?php //echo $row->updated_at; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->sdate; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->edate; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->distri; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->fmode; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->smode; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->wvalue; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->AR_time; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->user_id; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->created_at; ?><!--</td>-->
+								<!--								<td class="text-truncate">--><?php //echo $row->updated_at; ?><!--</td>-->
 							</tr>
 							<?php
 						}
@@ -304,7 +304,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="modal-footer justify-content-between">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-<!--				<button type="button" class="btn btn-primary">Save changes</button>-->
+				<!--				<button type="button" class="btn btn-primary">Save changes</button>-->
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-default2">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">기초통계 분석 결과</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>
+				</p>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<!--				<button type="button" class="btn btn-primary">Save changes</button>-->
 			</div>
 		</div>
 		<!-- /.modal-content -->

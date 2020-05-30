@@ -221,9 +221,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</form>
 		<div class="card">
-			<div class="card-body">
+			<div class="card-body table-responsive">
 
-				<table class="table table-striped table-responsive">
+				<table class="table table-hover table-striped">
 					<thead>
 					<tr>
 						<th>Request No</th>
@@ -258,7 +258,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<button class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default" data-whatever="http://58.181.55.191/<?php echo $row->htm4; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
-									<button class="btn btn-info btn-block"><i class="fas fa-search"></i> </button>
+									<button class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default2"><i class="fas fa-search"></i> </button>
 								</td>
 								<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
 								<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
@@ -311,7 +311,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<!-- /.modal-dialog -->
 </div>
-<div class="modal  fade" id="modal-default2">
+<div class="modal fade" id="modal-default2">
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
