@@ -184,38 +184,38 @@ $('#modal-default2').on('show.bs.modal', function (event) {
 
 	var html='';
 	html='<div class="col-6">\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie" onclick=""></i> 고장모드 별 파이차트</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 고장원인 별 파이차트</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 고장조치사항 별 파이차트</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 플랜트 구분 고장모드 별 파이차트</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 플랜트 구분 고장원인 별 파이차트</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-pie"></i> 플랜트 구분 고장조치사항 별 파이차트</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장모드 별 고장시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장원인 별 고장시간 히스토그램\t</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장조치사항 별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm5\')"><i class="fas fa-chart-pie""></i> 고장모드 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm6\')"><i class="fas fa-chart-pie" ></i> 고장원인 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm7\')"><i class="fas fa-chart-pie" ></i> 고장조치사항 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm8\')"><i class="fas fa-chart-pie" ></i> 플랜트 구분 고장모드 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm9\')"><i class="fas fa-chart-pie" ></i> 플랜트 구분 고장원인 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm10\')"><i class="fas fa-chart-pie" ></i> 플랜트 구분 고장조치사항 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm11\')"><i class="fas fa-chart-line "></i> 고장모드 별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm12\')"><i class="fas fa-chart-line "></i> 고장원인 별 고장시간 히스토그램\t</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm13\')"><i class="fas fa-chart-line "></i> 고장조치사항 별 고장시간 히스토그램</button>\n' +
 		'\t\t\t\t</div>\n' +
 		'\t\t\t\t<div class="col-6">\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 설비 별 고장시간 히스토그램\t</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 설비 구분 고장모드별 고장시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 설비 구분 고장원일별 고장시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 구분 고장조치사항별 고장시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장모드 별 보수시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장원인 별 보수시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 고장조치사항 별 보수시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary"><i class="fas fa-chart-line"></i> 설비 별 보수시간 히스토그램\t</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm14\')"><i class="fas fa-chart-line"></i> 설비 별 고장시간 히스토그램\t</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm15\')"><i class="fas fa-chart-line"></i> 설비 구분 고장모드별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm16\')"><i class="fas fa-chart-line"></i> 설비 구분 고장원일별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm17\')"><i class="fas fa-chart-line"></i> 구분 고장조치사항별 고장시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm18\')"><i class="fas fa-chart-line"></i> 고장모드 별 보수시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm19\')"><i class="fas fa-chart-line"></i> 고장원인 별 보수시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm20\')"><i class="fas fa-chart-line"></i> 고장조치사항 별 보수시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary" onclick="callChart(\''+recipient+'\',\'htm21\')"><i class="fas fa-chart-line"></i> 설비 별 보수시간 히스토그램\t</button>\n' +
 		'\t\t\t\t</div>';
-	modal.find('.modal-body p').html(html)
-
+	modal.find('.modal-body.row').html(html)
+	console.log(html)
 })
 function callChart(arcd,htmlNum) {
 	$.ajax({
 		type: "POST",
-		url: base_url+"kgpbt/htmlViewer",
+		url: base_url+"kgpbt/htmlDefaultViewer",
 		// dataType:"html",
-		data:{"url":recipient},
+		data:{"arcd":arcd,"htmlNum":htmlNum,},
 		// async: false
 	}).done(function(data){
-		modal.find('.modal-body p').html(data)
+		$('.modal-body.row').html(data)
 	});
 
 }

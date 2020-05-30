@@ -157,4 +157,14 @@ class Kgpbt  extends CI_Controller
 		$content = file_get_contents($this->input->post("url"));
 		echo $content;
 	}
+	public function htmlDefaultViewer(){
+    	$arcd = $this->input->post("arcd");
+    	$selectKey = $this->input->post("htmlNum")." as htmNum ";
+    	$where = array(
+    		"ar_cd"=>$arcd,
+		);
+    	$row =  $this->common->select_row($table='kgrct',$selectKey,$where,$coding=false,$order_by='',$group_by='' );
+		$content = file_get_contents('http://58.181.55.191/'.$row->htmNum);
+		echo $content;
+	}
 }
