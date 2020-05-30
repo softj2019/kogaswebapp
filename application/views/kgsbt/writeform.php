@@ -38,13 +38,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<div class="col-10">
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="select_mode_n" name="select_mode" value="none">
+										<input type="radio" id="select_mode_n" name="select_mode" checked value="none">
 										<label for="select_mode_n">
 											선택안함
 										</label>
 									</div>
-									<div class="icheck-primary d-inline">
-										<input type="radio" id="select_mode_f" name="select_mode" checked value="fmode">
+									<div class="icheck-primary d-inline ">
+										<input type="radio" id="select_mode_f" name="select_mode" value="fmode">
 										<label for="select_mode_f">
 											고장모드
 										</label>
@@ -149,7 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<!-- Select multiple-->
 								<div class="form-group">
 									<label>플랜트</label>
-									<select multiple name='key1_cd' class="form-control  kgpbtMultiSelect">
+									<select multiple name='key1_cd' class="form-control  kgsbtMultiSelect">
 										<?php if(@$listKey1) {
 											foreach ($listKey1 as $row) {
 												?>
@@ -162,20 +162,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</select>
 								</div>
 							</div>
-							<div class="col-2 hidden kgpbtLocale">
+							<div class="col-2 hidden kgsbtLocale">
 								<div class="form-group">
 									<label>위치</label>
-									<select multiple name='key2_cd' class="form-control  kgpbtMultiSelect ">
+									<select multiple name='key2_cd_sbt' class="form-control  kgsbtMultiSelect ">
 									</select>
 								</div>
 							</div>
 							<div class="col-2">
 								<!-- Select multiple-->
 								<div class="form-group">
-									<label>생산설비 신뢰도 분석 1차분류</label>
-									<select multiple name='key3_cd' class="form-control  kgpbtMultiSelect" data-max-options="1">
-										<?php if(@$kgpbtClass1) {
-											foreach ($kgpbtClass1 as $row) {
+									<label>공급설비 신뢰도 분석 1차분류</label>
+									<select multiple name='key3_cd_sbt' class="form-control  kgsbtMultiSelect" data-max-options="1">
+										<?php if(@$kgsbtClass1) {
+											foreach ($kgsbtClass1 as $row) {
 												?>
 												<option value="<?php echo $row->key3_cd; ?>"><?php echo $row->key3_nm; ?></option>
 
@@ -188,22 +188,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="col-2">
 								<div class="form-group">
-									<label>생산설비 신뢰도 분석 2차분류</label>
-									<select multiple name='key4_cd' class="form-control  kgpbtMultiSelect ">
+									<label>공급설비 신뢰도 분석 2차분류</label>
+									<select multiple name='key4_cd_sbt' class="form-control  kgsbtMultiSelect ">
 									</select>
 								</div>
 							</div>
 							<div class="col-2">
 								<div class="form-group">
-									<label>생산설비 신뢰도 분석 3차분류</label>
-									<select multiple name='key5_cd' class="form-control  kgpbtMultiSelect ">
-									</select>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="form-group">
-									<label>생산설비 신뢰도 분석 4차분류</label>
-									<select multiple name='key6_cd' class="form-control  kgpbtMultiSelect ">
+									<label>공급설비 신뢰도 분석 3차분류</label>
+									<select multiple name='key5_cd_sbt' class="form-control  kgsbtMultiSelect ">
 									</select>
 								</div>
 							</div>

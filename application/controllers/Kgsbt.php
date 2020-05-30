@@ -23,9 +23,6 @@ class Kgsbt  extends CI_Controller
         $this->load->helper('array');
 		$this->load->helper('alert');
 		$this->load->library('pagination');
-
-
-
     }
     public function _remap($method)
     {
@@ -47,7 +44,7 @@ class Kgsbt  extends CI_Controller
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
-		$config['base_url'] =base_url('kgpbt/writeform');
+		$config['base_url'] =base_url('kgsbt/writeform');
 		$config['total_rows'] = $this->common->select_count('kgart','','');
 		$config['per_page'] = 7;
 
@@ -75,7 +72,7 @@ class Kgsbt  extends CI_Controller
 		$data["listKey1"]= $this->common->select_list_table_result('kgloc',$sql='distinct key1_cd,key1_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like,$joina='',$joinb='','');
 //		$data['footerScript']="/assets/dist/js/chart/defaultChart.js";
 
-		$data["kgpbtClass1"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
+		$data["kgsbtClass1"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
 		$this->load->view('layout/header',$data);
@@ -97,7 +94,7 @@ class Kgsbt  extends CI_Controller
 		echo json_encode($data);
 	}
 	//1차 분류 선택 2차 조회
-	public function ajaxMultiSelectKgpbtFirst(){
+	public function ajaxMultiSelectKgsbtFirst(){
 		header('Content-type: application/json');
 		$keyArr = $this->input->post("key3_cd");
 
@@ -115,7 +112,7 @@ class Kgsbt  extends CI_Controller
 		echo json_encode($data);
 	}
 	//2차 분류 선택 3차 조회
-	public function ajaxMultiSelectKgpbtSecond(){
+	public function ajaxMultiSelectKgsbtSecond(){
 		header('Content-type: application/json');
 
 		$keyArr = $this->input->post("key3_cd");
@@ -125,21 +122,6 @@ class Kgsbt  extends CI_Controller
 			"key4_cd"=>	$keyArr2,
 		);
 		$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
-		echo json_encode($data);
-	}
-	//3차 분류 선택 4차 조회
-	public function ajaxMultiSelectKgpbtThird(){
-		header('Content-type: application/json');
-		$keyArr = $this->input->post("key3_cd");
-		$keyArr2 = $this->input->post("key4_cd");
-		$keyArr3 = $this->input->post("key5_cd");
-		$where_in =array(
-			"key3_cd"=>	$keyArr,
-			"key4_cd"=>	$keyArr2,
-			"key5_cd"=>	$keyArr3,
-		);
-		$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key6_cd,key6_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
-
 		echo json_encode($data);
 	}
 	public function htmlViewer(){
