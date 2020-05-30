@@ -80,7 +80,7 @@ class Kgsbt  extends CI_Controller
 		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
 		$this->load->view('layout/header',$data);
-        $this->load->view('kgpbt/writeform',$data);
+        $this->load->view('kgsbt/writeform',$data);
 		$this->load->view('layout/footer',$data);
     }
     //플랜트 선택 위치 조회
