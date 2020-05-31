@@ -32,11 +32,12 @@ class Common extends CI_Model
         return $this->db->update('ci_config', $param);
     }
     //
-    function select_row($table='',$sql='',$where='',$coding=false,$order_by='',$group_by='' )
+    function select_row($table='',$sql='',$where='',$coding=true,$order_by='',$group_by='',$like='' )
     {
         $this->db->select($sql);
         if($where)  $this->db->where($where);
-        if($order_by) $this->db->order_by($order_by['key'],$order_by['value']);
+		if($like) $this->db->like($like[0],$like[1],$like[2]);
+        if($order_by) $this->db->order_by($order_by);
         if($group_by) $this->db->group_by($group_by);
         $result = $this->db->get($table);
         return $result->row();

@@ -6,11 +6,11 @@ $('input[name=anal_type]').on('change',function(){
 		$('.select_mode_s').addClass('hidden');
 		$('.kgpbtLocale').addClass('hidden');
 
-		$('input:radio[name="select_mode"]').filter('[value="none"]').click();
+		$('input:radio[name="select_mode"]').filter('[value=""]').click();
 	}else{
 		$('.select_mode_s').removeClass('hidden');
 		$('.kgpbtLocale').removeClass('hidden');
-		$('input:radio[name="select_mode"]').filter('[value="none"]').click();
+		$('input:radio[name="select_mode"]').filter('[value=""]').click();
 	}
 })
 //모드 선택
@@ -59,20 +59,20 @@ $('input[name=checkAll]').on("change",function () {
 	var target = $(this).val();
 	//값을 변경후 트리거 해준다
 	if($(this).is(":checked")){
-		$('input:checkbox[name='+target+']').prop("checked",true).trigger('change');;
+		$('.'+target).prop("checked",true).trigger('change');;
 	}else{
-		$('input:checkbox[name='+target+']').prop("checked",false).trigger('change');
+		$('.'+target).prop("checked",false).trigger('change');
 		$('.'+target+'_view').html()
 	}
 
 })
 //플랜트 선택 위치 표시
-$('input[name=key1_cd]').on('change',function () {
+$('.key1_cd').on('change',function () {
 	var html='';
 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
 	var key1_cd=[];
 	//다중셀렉트 체크된 결과값 반환
-	$.each($('input[name=key1_cd]'),function () {
+	$.each($('.key1_cd'),function () {
 		if($(this).is(":checked")){
 			key1_cd.push($(this).val());
 		}
@@ -88,7 +88,7 @@ $('input[name=key1_cd]').on('change',function () {
 					html+='' +
 						'<div class="form-group clearfix">\n' +
 							'<div class="icheck-primary d-inline text-truncate">' +
-								'<input type="checkbox" name="key2_cd" id="key2_cd_'+key+'" value="'+value.key2_cd+'">\n' +
+								'<input type="checkbox" class="key2_cd" name="key2_cd[]" id="key2_cd_'+key+'" value="'+value.key2_cd+'">\n' +
 								'<label for="key2_cd_'+key+'">'+value.key2_nm+'</label>\n' +
 							'</div>' +
 						'</div>';
@@ -98,16 +98,50 @@ $('input[name=key1_cd]').on('change',function () {
 		});
 	}
 })
-// 1차 분류 선택 2차 표시
-$('input[name=key3_cd]').on('change',function () {
+// 1차 분류 선택 1-1차 표시
+$('.key3_cd').on('change',function () {
 	var html='';
 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
 	var key3_cd=[];
 	//단일선택처리
-	var oneSelect = $('input[name=key3_cd]').not(this).prop("checked", false);
+	var oneSelect = $('.key3_cd').not(this).prop("checked", false);
 	// oneSelect.change();
 	//다중셀렉트 체크된 결과값 반환
-	$.each($('input[name=key3_cd]'),function () {
+	$.each($('.key3_cd'),function () {
+		if($(this).is(":checked")){
+			key3_cd.push($(this).val());
+		}
+	})
+	$.ajax({
+		type: "POST",
+		url: base_url+"kgpbt/ajaxMultiSelectKgpbtFirstB",
+		data:{"key3_cd":key3_cd},
+		dataType: "json",
+		success: function (data) {
+			console.log(data)
+			$.each(data.list,function (key,value) {
+				html+='' +
+					'<div class="form-group clearfix">\n' +
+					'<div class="icheck-primary d-inline text-truncate">' +
+					'<input type="checkbox" class="key3_1_cd" name="key3_1_cd[]" id="key3_1_cd_'+key+'" value="'+value.key3_1_cd+'">\n' +
+					'<label for="key3_1_cd_'+key+'">'+value.key3_1_nm+'</label>\n' +
+					'</div>' +
+					'</div>';
+			})
+			$('.key3_1_cd_view').html(html);
+		}
+	});
+})
+// 1차 분류 선택 2차 표시
+$('.key3_cd').on('change',function () {
+	var html='';
+	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
+	var key3_cd=[];
+	//단일선택처리
+	var oneSelect = $('.key3_cd').not(this).prop("checked", false);
+	// oneSelect.change();
+	//다중셀렉트 체크된 결과값 반환
+	$.each($('.key3_cd'),function () {
 		if($(this).is(":checked")){
 			key3_cd.push($(this).val());
 		}
@@ -123,7 +157,7 @@ $('input[name=key3_cd]').on('change',function () {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
 					'<div class="icheck-primary d-inline text-truncate">' +
-					'<input type="checkbox" name="key4_cd" id="key4_cd_'+key+'" value="'+value.key4_cd+'">\n' +
+					'<input type="checkbox" class="key4_cd" name="key4_cd[]" id="key4_cd_'+key+'" value="'+value.key4_cd+'">\n' +
 					'<label for="key4_cd_'+key+'">'+value.key4_nm+'</label>\n' +
 					'</div>' +
 					'</div>';
@@ -133,18 +167,18 @@ $('input[name=key3_cd]').on('change',function () {
 	});
 })
 //2차 분류 선택 3차 표시
-$(document).on('change','input[name=key4_cd]',function () {
+$(document).on('change','.key4_cd',function () {
 	var html='';
 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
 	var key3_cd=[];
 	var key4_cd=[];
 	//다중셀렉트 체크된 결과값 반환
-	$.each($('input[name=key3_cd]'),function () {
+	$.each($('.key3_cd'),function () {
 		if($(this).is(":checked")){
 			key3_cd.push($(this).val());
 		}
 	})
-	$.each($('input[name=key4_cd]'),function () {
+	$.each($('.key4_cd'),function () {
 		if($(this).is(":checked")){
 			key4_cd.push($(this).val());
 		}
@@ -164,7 +198,7 @@ $(document).on('change','input[name=key4_cd]',function () {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
 					'<div class="icheck-primary d-inline text-truncate">' +
-					'<input type="checkbox" name="key5_cd" id="key5_cd_'+key+'" value="'+value.key5_cd+'">\n' +
+					'<input type="checkbox" class="key5_cd" name="key5_cd[]" id="key5_cd_'+key+'" value="'+value.key5_cd+'">\n' +
 					'<label for="key5_cd_'+key+'">'+value.key5_nm+'</label>\n' +
 					'</div>' +
 					'</div>';
@@ -176,24 +210,24 @@ $(document).on('change','input[name=key4_cd]',function () {
 });
 //3차분류 선택 4차 표시
 
-$(document).on('change','input[name=key5_cd]',function () {
+$(document).on('change','.key5_cd',function () {
 	var html='';
 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
 	var key3_cd=[];
 	var key4_cd=[];
 	var key5_cd=[];
 	//다중셀렉트 체크된 결과값 반환
-	$.each($('input[name=key3_cd]'),function () {
+	$.each($('.key3_cd'),function () {
 		if($(this).is(":checked")){
 			key3_cd.push($(this).val());
 		}
 	})
-	$.each($('input[name=key4_cd]'),function () {
+	$.each($('.key4_cd'),function () {
 		if($(this).is(":checked")){
 			key4_cd.push($(this).val());
 		}
 	})
-	$.each($('input[name=key5_cd]'),function () {
+	$.each($('.key5_cd'),function () {
 		if($(this).is(":checked")){
 			key5_cd.push($(this).val());
 		}
@@ -214,12 +248,42 @@ $(document).on('change','input[name=key5_cd]',function () {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
 					'<div class="icheck-primary d-inline text-truncate">' +
-					'<input type="checkbox" name="key6_cd" id="key6_cd_'+key+'" value="'+value.key6_cd+'">\n' +
+					'<input type="checkbox" class="key6_cd" name="key6_cd[]" id="key6_cd_'+key+'" value="'+value.key6_cd+'">\n' +
 					'<label for="key6_cd_'+key+'">'+value.key6_nm+'</label>\n' +
 					'</div>' +
 					'</div>';
 			})
 			$('.key6_cd_view').html(html);
+		}
+	});
+});
+$('.submitKgArt').on("click",function () {
+	$.ajax({
+		type: "POST",
+		url: base_url+"kgpbt/insertKgArt",
+		data:$('#defaultForm').serialize(),
+		dataType: "json",
+		success: function (data) {
+			console.log(data)
+			if(data.alerts_title){
+				$.each(data.alerts_title,function (key,value) {
+					// Toast.fire({
+					// 	icon: data.alerts_icon,
+					// 	title: value,
+					// })
+					if(data.alerts_icon=='error'){
+						toastr.error(value)
+					}
+					if(data.alerts_icon=='success'){
+						toastr.success(value)
+					}
+					if(data.alerts_icon=='primary'){
+						toastr.primary(value)
+					}
+
+				})
+
+			}
 		}
 	});
 });

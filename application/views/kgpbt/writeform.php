@@ -4,7 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Main content -->
 <div class="content">
 	<div class="container-fluid">
-		<form class="form-horizonatal">
+		<?php
+		$attributes = array('class' => 'form-horizonatal', 'id' => 'defaultForm','name' => 'defaultForm');
+		echo form_open('email/send',$attributes);
+		?>
 			<div class="selectListCard row">
 				<div class="col-6">
 					<div class="card">
@@ -36,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</label>
 								<div class="col-10">
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="select_mode_n" name="select_mode" value="none" checked>
+										<input type="radio" id="select_mode_n" name="select_mode" value="checkAll_key_3_1" checked>
 										<label for="select_mode_n">
 											선택안함
 										</label>
@@ -87,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group">
 								<label></label>
-								<button class="btn btn-success btn-block">분석 요청</button>
+								<button type="button" class="btn btn-success btn-block submitKgArt" >분석 요청</button>
 							</div>
 						</div>
 					</div>
@@ -108,7 +111,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									?>
 							<div class="form-group clearfix">
 								<div class="icheck-primary d-inline">
-									<input type="checkbox" id="fmode_<?php echo $key; ?>" name="fmode" value="<?php echo $row->num_cd; ?>">
+									<input type="checkbox" id="fmode_<?php echo $key; ?>" name="fmode[]" value="<?php echo $row->num_cd; ?>" class="fmode">
 									<label for="fmode_<?php echo $key; ?>">
 										<?php echo $row->num_nm; ?>
 									</label>
@@ -140,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							?>
 							<div class="form-group clearfix">
 								<div class="icheck-primary d-inline">
-									<input type="checkbox" id="smode_<?=$key?>" name='smode' value="<?php echo $row->key1_cd; ?>">
+									<input type="checkbox" id="smode_<?=$key?>" name='smode[]' value="<?php echo $row->key1_cd; ?>" class="smode">
 									<label for="smode_<?=$key?>">
 										<?php echo $row->key1_nm; ?>
 									</label>
@@ -154,23 +157,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="smodeOverlay overlay">
 							<i class="fas fa-2x fa-sync-alt"></i>
 						</div>
-					</div>
-				</div>
-				<div class="col-2 hidden">
-					<div class="form-group">
-						<label>검정모드 플랜트</label>
-
-						<select multiple disabled name='smode' class="form-control anal_flag">
-							<?php if(@$listKey1) {
-								foreach ($listKey1 as $row) {
-									?>
-									<option value="<?php echo $row->key1_cd; ?>"><?php echo $row->key1_nm; ?></option>
-
-									<?php
-								}
-							}
-							?>
-						</select>
 					</div>
 				</div>
 			</div>
@@ -193,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									?>
 									<div class="form-group clearfix">
 										<div class="icheck-primary d-inline">
-											<input type="checkbox" id="key1_cd_<?=$key?>" name='key1_cd' value="<?php echo $row->key1_cd; ?>">
+											<input type="checkbox" id="key1_cd_<?=$key?>" name='key1_cd[]' value="<?php echo $row->key1_cd; ?>" class="key1_cd">
 											<label for="key1_cd_<?=$key?>">
 												<?php echo $row->key1_nm; ?>
 											</label>
@@ -238,7 +224,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									?>
 									<div class="form-group clearfix">
 										<div class="icheck-primary d-inline text-truncate">
-											<input type="checkbox" id="key3_cd_<?=$key?>" name='key3_cd' value="<?php echo $row->key3_cd; ?>">
+											<input type="checkbox" id="key3_cd_<?=$key?>" name='key3_cd[]' value="<?php echo $row->key3_cd; ?>" class="key3_cd">
 											<label for="key3_cd_<?=$key?>" class="">
 												<?php echo $row->key3_nm; ?>
 											</label>
@@ -317,7 +303,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 			</div>
-		</form>
+		<?php form_close();?>
 		<div class="card">
 			<div class="card-body table-responsive">
 
