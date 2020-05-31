@@ -70,7 +70,7 @@ class Kgsbt  extends CI_Controller
 		);
 		//플랜트 조회
 		$data["listKey1"]= $this->common->select_list_table_result('kgloc',$sql='distinct key1_cd,key1_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like,$joina='',$joinb='','');
-//		$data['footerScript']="/assets/dist/js/chart/defaultChart.js";
+		$data['footerScript']="/assets/dist/js/commonSbt.js";
 
 		$data["kgsbtClass1"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
