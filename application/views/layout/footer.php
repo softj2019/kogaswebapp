@@ -54,14 +54,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="/assets/dist/js/common.js"></script>
 
 <script>
-
+		//sweet toast init https://sweetalert2.github.io/
 		const Toast = Swal.mixin({
 			toast: true,
 			position: 'top-end',
 			showConfirmButton: false,
 			timer: 3000
 		});
-
+		//toastr https://codeseven.github.io/toastr/demo.html
+		toastr.options = {
+			// "closeButton": false,
+			// "debug": false,
+			// "newestOnTop": false,
+			"progressBar": true,
+			"positionClass": "toast-top-right",
+			// "preventDuplicates": false,
+			// "onclick": null,
+			// "showDuration": "300",
+			// "hideDuration": "1000",
+			// "timeOut": "5000",
+			// "extendedTimeOut": "1000",
+			// "showEasing": "swing",
+			// "hideEasing": "linear",
+			// "showMethod": "fadeIn",
+			// "hideMethod": "fadeOut"
+		}
 </script>
 
 
