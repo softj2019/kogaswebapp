@@ -15,10 +15,26 @@ li.page-item  a {
 select.form-control.kgpbtMultiSelect {
 	height: 300px!important;
 }
+.scroll-300 {
+	min-height: 300px;
+	max-height: 300px;
+	overflow-y: auto;
+}
 .table td, .table th {
 	min-width: 180px;
 }
 .table td.text-truncate, .table th.text-truncate {
 	max-width: 180px;
 	overflow: hidden;
+}
+
+.selectListCard .col-2 {
+	-ms-flex: 0 0 14.666667%!important;
+	flex: 0 0 14.166667%!important;
+	max-width: 14.166667%!important;
+}
+.selectListCard .col-6 {
+	-ms-flex: 0 0 50.6%;
+	flex: 0 0 56.6%;
+	max-width: 56.6%;
 }

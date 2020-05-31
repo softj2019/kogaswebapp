@@ -5,17 +5,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="content">
 	<div class="container-fluid">
 		<form class="form-horizonatal">
-			<div class="card">
-				<!--				<div class="card-header">-->
-				<!--				</div>-->
-				<div class="card-body">
-					<div class="row">
-						<div class="col-4">
+			<div class="selectListCard row">
+				<div class="col-6">
+					<div class="card">
+						<div class="card-body">
 							<!-- radio -->
 							<div class="form-group row">
-								<div class="col-2">
+								<label class="col-2">
 									분석타입
-								</div>
+								</label>
 								<div class="col-10">
 									<div class="icheck-primary d-inline">
 										<input type="radio" id="anal_type_b" name="anal_type" value="B" checked>
@@ -33,18 +31,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<!-- radio -->
 							<div class="form-group row">
-								<div class="col-2">
+								<label class="col-2">
 									모드선택
-								</div>
+								</label>
 								<div class="col-10">
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="select_mode_n" name="select_mode" value="none">
+										<input type="radio" id="select_mode_n" name="select_mode" value="none" checked>
 										<label for="select_mode_n">
 											선택안함
 										</label>
 									</div>
 									<div class="icheck-primary d-inline">
-										<input type="radio" id="select_mode_f" name="select_mode" checked value="fmode">
+										<input type="radio" id="select_mode_f" name="select_mode" value="fmode">
 										<label for="select_mode_f">
 											고장모드
 										</label>
@@ -63,9 +61,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-5">
 									<div class="input-group">
 										<div class="input-group-prepend">
-								  <span class="input-group-text">
-									<i class="far fa-calendar-alt"></i>
-								  </span>
+						  <span class="input-group-text">
+							<i class="far fa-calendar-alt"></i>
+						  </span>
 										</div>
 										<input type="text" name="startDate" class="form-control float-right startDate">
 									</div>
@@ -73,149 +71,249 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-5">
 									<div class="input-group">
 										<div class="input-group-prepend">
-								  <span class="input-group-text">
-									<i class="far fa-calendar-alt"></i>
-								  </span>
+						  <span class="input-group-text">
+							<i class="far fa-calendar-alt"></i>
+						  </span>
 										</div>
 										<input type="text" name="endDate" class="form-control float-right endDate">
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="col-2">
-							<div class="form-group">
-								<label>고장모드</label>
-								<select multiple class="form-control anal_flag" name="fmode">
-									<?php if(@$kgcodList) {
-										foreach ($kgcodList as $row) {
-											?>
-											<option value="<?php echo $row->num_cd; ?>"><?php echo $row->num_nm; ?></option>
-
-											<?php
-										}
-									}
-									?>
-								</select>
+							<div class="form-group row">
+								<label class="col-2" >관심시간 입력 </label>
+								<div class="col-10">
+									<input class="form-control" name="wvalue" placeholder="" value="1000,5000,10000,50000,100000 ">
+								</div>
 							</div>
 							<div class="form-group">
-								<input class="form-control" name="wvalue" placeholder="관심시간 : ex) 숫자,숫자" value="1000,5000,10000,50000,100000 ">
-							</div>
-						</div>
-
-						<div class="col-2">
-							<div class="form-group">
-								<label>검정모드 플랜트</label>
-
-								<select multiple disabled name='smode' class="form-control anal_flag">
-									<?php if(@$listKey1) {
-										foreach ($listKey1 as $row) {
-											?>
-											<option value="<?php echo $row->key1_cd; ?>"><?php echo $row->key1_nm; ?></option>
-
-											<?php
-										}
-									}
-									?>
-								</select>
-
-							</div>
-							<div class="form-group">
+								<label></label>
 								<button class="btn btn-success btn-block">분석 요청</button>
 							</div>
 						</div>
-						<!--						<div class="col-2">-->
-						<!--							<div class="form-group">-->
-						<!--								<label>검정모드 위치</label>-->
-						<!--								<select multiple disabled class="form-control anal_flag" name="check_mode_key2_cd">-->
-						<!--								</select>-->
-						<!--							</div>-->
-						<!--							<div class="form-group">-->
-						<!--								<button class="btn btn-success btn-block">분석 요청</button>-->
-						<!--							</div>-->
-						<!--						</div>-->
-
-
-
 					</div>
 				</div>
-
-			</div>
-			<div class="card">
-				<!--				<div class="card-header"></div>-->
-				<div class="card-blue">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-2">
-								<!-- Select multiple-->
-								<div class="form-group">
-									<label>플랜트</label>
-									<select multiple name='key1_cd' class="form-control  kgpbtMultiSelect">
-										<?php if(@$listKey1) {
-											foreach ($listKey1 as $row) {
-												?>
-												<option value="<?php echo $row->key1_cd; ?>"><?php echo $row->key1_nm; ?></option>
-
-												<?php
-											}
-										}
-										?>
-									</select>
-								</div>
-							</div>
-							<div class="col-2 hidden kgpbtLocale">
-								<div class="form-group">
-									<label>위치</label>
-									<select multiple name='key2_cd' class="form-control  kgpbtMultiSelect ">
-									</select>
-								</div>
-							</div>
-							<div class="col-2">
-								<!-- Select multiple-->
-								<div class="form-group">
-									<label>생산설비 신뢰도 분석 1차분류</label>
-									<select multiple name='key3_cd' class="form-control  kgpbtMultiSelect" data-max-options="1">
-										<?php if(@$kgpbtClass1) {
-											foreach ($kgpbtClass1 as $row) {
-												?>
-												<option value="<?php echo $row->key3_cd; ?>"><?php echo $row->key3_nm; ?></option>
-
-												<?php
-											}
-										}
-										?>
-									</select>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="form-group">
-									<label>생산설비 신뢰도 분석 2차분류</label>
-									<select multiple name='key4_cd' class="form-control  kgpbtMultiSelect ">
-									</select>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="form-group">
-									<label>생산설비 신뢰도 분석 3차분류</label>
-									<select multiple name='key5_cd' class="form-control  kgpbtMultiSelect ">
-									</select>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="form-group">
-									<label>생산설비 신뢰도 분석 4차분류</label>
-									<select multiple name='key6_cd' class="form-control  kgpbtMultiSelect ">
-									</select>
-								</div>
+				<div class="col-2">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_fmode" name='checkAll' value="fmode">
+								<label for="checkAll_fmode">
+									고장모드
+								</label>
 							</div>
 						</div>
+						<div class="card-body scroll-300 fmode_view">
+							<?php if(@$kgcodList) {
+								foreach ($kgcodList as $key=>$row) {
+									?>
+							<div class="form-group clearfix">
+								<div class="icheck-primary d-inline">
+									<input type="checkbox" id="fmode_<?php echo $key; ?>" name="fmode" value="<?php echo $row->num_cd; ?>">
+									<label for="fmode_<?php echo $key; ?>">
+										<?php echo $row->num_nm; ?>
+									</label>
+								</div>
+							</div>
+									<?php
+								}
+							}
+							?>
+						</div>
+						<div class="fmodeOverlay overlay">
+							<i class="fas fa-2x fa-sync-alt"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-2">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_smode" name='checkAll' value="smode">
+								<label for="checkAll_smode">
+									검정모드 플랜트
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300">
+					<?php if(@$listKey1) {
+						foreach ($listKey1 as $key=>$row) {
+							?>
+							<div class="form-group clearfix">
+								<div class="icheck-primary d-inline">
+									<input type="checkbox" id="smode_<?=$key?>" name='smode' value="<?php echo $row->key1_cd; ?>">
+									<label for="smode_<?=$key?>">
+										<?php echo $row->key1_nm; ?>
+									</label>
+								</div>
+							</div>
+							<?php
+						}
+					}
+					?>
+						</div>
+						<div class="smodeOverlay overlay">
+							<i class="fas fa-2x fa-sync-alt"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-2 hidden">
+					<div class="form-group">
+						<label>검정모드 플랜트</label>
 
+						<select multiple disabled name='smode' class="form-control anal_flag">
+							<?php if(@$listKey1) {
+								foreach ($listKey1 as $row) {
+									?>
+									<option value="<?php echo $row->key1_cd; ?>"><?php echo $row->key1_nm; ?></option>
 
-						<!--					<div class="form-group row">-->
-						<!--						<label for="anal_type" class="col-2 col-form-label">분석타입선택</label>-->
-						<!--						<div class="col-10">-->
-						<!--							<input name="anal_type" id="anal_type" class="form-control">-->
-						<!--						</div>-->
-						<!--					</div>-->
+									<?php
+								}
+							}
+							?>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="selectListCard row">
+				<div class="col-2">
+					<div class="card">
+						<div class="card-header">
+
+							<div class="icheck-primary d-inline text-truncate">
+								<input type="checkbox" id="checkAll_key_1" name='checkAll' value="key1_cd">
+								<label for="checkAll_key_1">
+									플랜트
+								</label>
+							</div>
+
+						</div>
+						<div class="card-body scroll-300">
+							<?php if(@$listKey1) {
+								foreach ($listKey1 as $key=>$row) {
+									?>
+									<div class="form-group clearfix">
+										<div class="icheck-primary d-inline">
+											<input type="checkbox" id="key1_cd_<?=$key?>" name='key1_cd' value="<?php echo $row->key1_cd; ?>">
+											<label for="key1_cd_<?=$key?>">
+												<?php echo $row->key1_nm; ?>
+											</label>
+										</div>
+									</div>
+									<?php
+								}
+							}
+							?>
+						</div>
+					</div>
+				</div>
+				<div class="col-2 hidden kgpbtLocale ">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_key_2" name='checkAll' value="key2_cd">
+								<label for="checkAll_key_2">
+									위치
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300 key2_cd_view">
+
+						</div>
+					</div>
+				</div>
+				<div class="col-2 ">
+					<!-- Select multiple-->
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline ">
+								<input type="checkbox" id="checkAll_key_3" name='checkAll' value="key3_cd" disabled>
+								<label for="checkAll_key_3">
+									1차
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300 ">
+							<?php if(@$kgpbtClass1) {
+								foreach ($kgpbtClass1 as $key=>$row) {
+									?>
+									<div class="form-group clearfix">
+										<div class="icheck-primary d-inline text-truncate">
+											<input type="checkbox" id="key3_cd_<?=$key?>" name='key3_cd' value="<?php echo $row->key3_cd; ?>">
+											<label for="key3_cd_<?=$key?>" class="">
+												<?php echo $row->key3_nm; ?>
+											</label>
+										</div>
+									</div>
+									<?php
+								}
+							}
+							?>
+							<!--					<div class="form-group">-->
+							<!--						<label>생산설비 신뢰도 분석 1차분류</label>-->
+							<!--						<select multiple name='key3_cd' class="form-control  kgpbtMultiSelect" data-max-options="1">-->
+							<!--						</select>-->
+							<!--					</div>-->
+						</div>
+					</div>
+				</div>
+				<div class="col-2">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_key_3_1" name='checkAll' value="key3_1_cd">
+								<label for="checkAll_key_3_1">
+									1-1차
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300 key3_1_cd_view ">
+
+						</div>
+					</div>
+				</div>
+				<div class="col-2">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_key_4" name='checkAll' value="key4_cd">
+								<label for="checkAll_key_4">
+									2차
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300 key4_cd_view">
+
+						</div>
+					</div>
+				</div>
+				<div class="col-2">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_key_5" name='checkAll' value="key5_cd">
+								<label for="checkAll_key_5">
+									3차
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300 key5_cd_view">
+
+						</div>
+					</div>
+				</div>
+				<div class="col-2">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_key_6" name='checkAll' value="key6_cd">
+								<label for="checkAll_key_6">
+									4차
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300 key6_cd_view">
+
+						</div>
 					</div>
 				</div>
 			</div>

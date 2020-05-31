@@ -112,7 +112,12 @@ class Kgpbt  extends CI_Controller
 			$data["alerts_icon"]="error";
 			$data["alerts_title"]="&nbsp;1차 분류는 1개만 선택 가능";
 		}else{
-			$data["list"]= $result = $this->common->select_list_table_result('kgpbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+
+			if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
+				$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			}else{
+				$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			}
 		}
 		echo json_encode($data);
 	}

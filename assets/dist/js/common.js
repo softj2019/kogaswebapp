@@ -5,9 +5,12 @@ $('input[name=anal_type]').on('change',function(){
 	if(anal_type_value=='B'){
 		$('.select_mode_s').addClass('hidden');
 		$('.kgpbtLocale').addClass('hidden');
+
+		$('input:radio[name="select_mode"]').filter('[value="none"]').click();
 	}else{
 		$('.select_mode_s').removeClass('hidden');
 		$('.kgpbtLocale').removeClass('hidden');
+		$('input:radio[name="select_mode"]').filter('[value="none"]').click();
 	}
 })
 //모드 선택
@@ -17,19 +20,20 @@ $('input[name=select_mode]').on('change',function () {
 	$('.anal_flag').attr('disabled','disabled');
 	if(select_mode == 'fmode'){
 		//고장모드
-		$('select[name=fmode]').removeAttr('disabled');
+		$('.fmodeOverlay').addClass('hidden')
 		//검정모드
-		$('select[name=smode]').attr('disabled','disabled');
-		//고장모드 input
-		$('input[name=wvalue]').removeAttr('disabled');
+		$('.smodeOverlay').removeClass('hidden')
+
 	}else if(select_mode == 'smode'){
-		$('select[name=smode]').removeAttr('disabled');
-		$('input[name=wvalue]').attr('disabled','disabled');
-		$('select[name=fmode]').attr('disabled','disabled');
+		//고장모드
+		$('.fmodeOverlay').removeClass('hidden')
+		//검정모드
+		$('.smodeOverlay').addClass('hidden')
 	}else{
-		$('select[name=fmode]').attr('disabled','disabled');
-		$('select[name=smode]').attr('disabled','disabled');
-		$('input[name=wvalue]').attr('disabled','disabled');
+		//고장모드
+		$('.fmodeOverlay').removeClass('hidden')
+		//검정모드
+		$('.smodeOverlay').removeClass('hidden')
 	}
 })
 // $('.sdate').datetimepicker({"format":"YYYY-MM-DD","locale":"ko"});
@@ -50,108 +54,175 @@ $('.endDate').daterangepicker({
 		format: 'YYYY-MM-DD',
 	}
 });
-//플랜트 선택
-$('select[name=key1_cd]').on('change',function () {
+// 전체 선택
+$('input[name=checkAll]').on("change",function () {
+	var target = $(this).val();
+	//값을 변경후 트리거 해준다
+	if($(this).is(":checked")){
+		$('input:checkbox[name='+target+']').prop("checked",true).trigger('change');;
+	}else{
+		$('input:checkbox[name='+target+']').prop("checked",false).trigger('change');
+		$('.'+target+'_view').html()
+	}
+
+})
+//플랜트 선택 위치 표시
+$('input[name=key1_cd]').on('change',function () {
 	var html='';
 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
+	var key1_cd=[];
+	//다중셀렉트 체크된 결과값 반환
+	$.each($('input[name=key1_cd]'),function () {
+		if($(this).is(":checked")){
+			key1_cd.push($(this).val());
+		}
+	})
 	if($('.kgpbtLocale').length > 0 ){
 		$.ajax({
 			type: "POST",
 			url: base_url+"kgpbt/ajaxMultiSelect",
-			data:{"key1arr":$(this).val()},
+			data:{"key1arr":key1_cd},
 			dataType: "json",
 			success: function (data) {
 				$.each(data.localeList,function (key,value) {
-					html+='<option value="'+value.key2_cd+'">'+value.key2_nm+'</option>\n';
+					html+='' +
+						'<div class="form-group clearfix">\n' +
+							'<div class="icheck-primary d-inline text-truncate">' +
+								'<input type="checkbox" name="key2_cd" id="key2_cd_'+key+'" value="'+value.key2_cd+'">\n' +
+								'<label for="key2_cd_'+key+'">'+value.key2_nm+'</label>\n' +
+							'</div>' +
+						'</div>';
 				})
-				$('select[name=key2_cd]').html(html);
+				$('.key2_cd_view').html(html);
 			}
 		});
 	}
 })
-//검정모드 플랜트 선택
-// $('select[name=check_mode_key1_cd]').on('change',function () {
-// 	var html='';
-// 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
-// 	if($('.kgpbtLocale').length > 0 ){
-// 		$.ajax({
-// 			type: "POST",
-// 			url: base_url+"kgpbt/ajaxMultiSelect",
-// 			data:{"key1arr":$(this).val()},
-// 			dataType: "json",
-// 			success: function (data) {
-// 				$.each(data.localeList,function (key,value) {
-// 					html+='<option value="'+value.key2_cd+'">'+value.key2_nm+'</option>\n';
-// 				})
-// 				$('select[name=check_mode_key2_cd]').html(html);
-// 			}
-// 		});
-// 	}
-// })
 // 1차 분류 선택 2차 표시
-$('select[name=key3_cd]').on('change',function () {
-	var html ='';
+$('input[name=key3_cd]').on('change',function () {
+	var html='';
+	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
+	var key3_cd=[];
+	//단일선택처리
+	var oneSelect = $('input[name=key3_cd]').not(this).prop("checked", false);
+	// oneSelect.change();
+	//다중셀렉트 체크된 결과값 반환
+	$.each($('input[name=key3_cd]'),function () {
+		if($(this).is(":checked")){
+			key3_cd.push($(this).val());
+		}
+	})
 	$.ajax({
 		type: "POST",
 		url: base_url+"kgpbt/ajaxMultiSelectKgpbtFirst",
-		data:{"key3_cd":$(this).val()},
+		data:{"key3_cd":key3_cd},
 		dataType: "json",
 		success: function (data) {
 			console.log(data)
-			if(!data.alerts_title){
-				$.each(data.list,function (key,value) {
-					html+='<option value="'+value.key4_cd+'">'+value.key4_nm+'</option>\n';
-				})
-				$('select[name=key4_cd]').html(html);
-			}else{
-				Toast.fire({
-					icon: data.alerts_icon,
-					title: data.alerts_title,
-				})
-			}
+			$.each(data.list,function (key,value) {
+				html+='' +
+					'<div class="form-group clearfix">\n' +
+					'<div class="icheck-primary d-inline text-truncate">' +
+					'<input type="checkbox" name="key4_cd" id="key4_cd_'+key+'" value="'+value.key4_cd+'">\n' +
+					'<label for="key4_cd_'+key+'">'+value.key4_nm+'</label>\n' +
+					'</div>' +
+					'</div>';
+			})
+			$('.key4_cd_view').html(html);
 		}
 	});
-});
+})
 //2차 분류 선택 3차 표시
-$('select[name=key4_cd]').on('change',function () {
-	var html ='';
+$(document).on('change','input[name=key4_cd]',function () {
+	var html='';
+	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
+	var key3_cd=[];
+	var key4_cd=[];
+	//다중셀렉트 체크된 결과값 반환
+	$.each($('input[name=key3_cd]'),function () {
+		if($(this).is(":checked")){
+			key3_cd.push($(this).val());
+		}
+	})
+	$.each($('input[name=key4_cd]'),function () {
+		if($(this).is(":checked")){
+			key4_cd.push($(this).val());
+		}
+	})
+
 	$.ajax({
 		type: "POST",
 		url: base_url+"kgpbt/ajaxMultiSelectKgpbtSecond",
 		data:{
-			"key3_cd":$('select[name=key3_cd]').val(),
-			"key4_cd":$(this).val(),
+			"key3_cd":key3_cd,
+			"key4_cd":key4_cd,
 		},
 		dataType: "json",
 		success: function (data) {
+			console.log(data)
 			$.each(data.list,function (key,value) {
-				html+='<option value="'+value.key5_cd+'">'+value.key5_nm+'</option>\n';
+				html+='' +
+					'<div class="form-group clearfix">\n' +
+					'<div class="icheck-primary d-inline text-truncate">' +
+					'<input type="checkbox" name="key5_cd" id="key5_cd_'+key+'" value="'+value.key5_cd+'">\n' +
+					'<label for="key5_cd_'+key+'">'+value.key5_nm+'</label>\n' +
+					'</div>' +
+					'</div>';
 			})
-			$('select[name=key5_cd]').html(html);
+			$('.key5_cd_view').html(html);
 		}
 	});
+
 });
 //3차분류 선택 4차 표시
-$('select[name=key5_cd]').on('change',function () {
-	var html ='';
+
+$(document).on('change','input[name=key5_cd]',function () {
+	var html='';
+	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
+	var key3_cd=[];
+	var key4_cd=[];
+	var key5_cd=[];
+	//다중셀렉트 체크된 결과값 반환
+	$.each($('input[name=key3_cd]'),function () {
+		if($(this).is(":checked")){
+			key3_cd.push($(this).val());
+		}
+	})
+	$.each($('input[name=key4_cd]'),function () {
+		if($(this).is(":checked")){
+			key4_cd.push($(this).val());
+		}
+	})
+	$.each($('input[name=key5_cd]'),function () {
+		if($(this).is(":checked")){
+			key5_cd.push($(this).val());
+		}
+	})
+
 	$.ajax({
 		type: "POST",
 		url: base_url+"kgpbt/ajaxMultiSelectKgpbtThird",
 		data:{
-			"key3_cd":$('select[name=key3_cd]').val(),
-			"key4_cd":$('select[name=key4_cd]').val(),
-			"key5_cd":$(this).val(),
+			"key3_cd":key3_cd,
+			"key4_cd":key4_cd,
+			"key5_cd":key5_cd,
 		},
 		dataType: "json",
 		success: function (data) {
+			console.log(data)
 			$.each(data.list,function (key,value) {
-				html+='<option value="'+value.key6_cd+'">'+value.key6_nm+'</option>\n';
+				html+='' +
+					'<div class="form-group clearfix">\n' +
+					'<div class="icheck-primary d-inline text-truncate">' +
+					'<input type="checkbox" name="key6_cd" id="key6_cd_'+key+'" value="'+value.key6_cd+'">\n' +
+					'<label for="key6_cd_'+key+'">'+value.key6_nm+'</label>\n' +
+					'</div>' +
+					'</div>';
 			})
-			$('select[name=key6_cd]').html(html);
+			$('.key6_cd_view').html(html);
 		}
 	});
 });
-
 //모달 뷰어
 $('#modal-default').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal
