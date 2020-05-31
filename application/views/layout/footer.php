@@ -27,6 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+
 <!-- PAGE SCRIPTS -->
 
 <!-- jQuery -->

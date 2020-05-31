@@ -22,9 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<link rel="stylesheet" href="/assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 	<!-- iCheck for checkboxes and radio inputs -->
 	<link rel="stylesheet" href="/assets/plugins/icheck-bootstrap/icheck-bootstrap.css">
-
 	<link rel="stylesheet" type="text/css" href="/assets/plugins/daterangepicker/daterangepicker.css" />
-
 	<!-- Toastr -->
 	<link rel="stylesheet" href="/assets/plugins/toastr/toastr.min.css">
 	<!-- SweetAlert2 -->
