@@ -29,7 +29,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- REQUIRED SCRIPTS -->
 
 <!-- PAGE SCRIPTS -->
-
+<div class="loading-bar-wrap hidden">
+	<div class="loading-bar"></div>
+</div>
 <!-- jQuery -->
 <script src="/assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -42,10 +44,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="/assets/plugins/moment/moment.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/moment/locale/ko.js"></script>
 <script type="text/javascript" src="/assets/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- SweetAlert2 -->
-<script src="/assets/plugins/sweetalert2/sweetalert2.min.js"></script>
-<!-- Toastr -->
-<script src="/assets/plugins/toastr/toastr.min.js"></script>
+
+<!-- Toast -->
+<script src="/assets/plugins/toast/jquery.toast.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/assets/dist/js/adminlte.min.js"></script>
 <!-- OPTIONAL SCRIPTS -->
@@ -55,30 +56,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script>
 		//sweet toast init https://sweetalert2.github.io/
-		const Toast = Swal.mixin({
-			toast: true,
-			position: 'top-end',
-			showConfirmButton: false,
-			timer: 3000
-		});
+		// const Toast = Swal.mixin({
+		// 	toast: true,
+		// 	position: 'top-end',
+		// 	showConfirmButton: false,
+		// 	timer: 3000
+		// });
 		//toastr https://codeseven.github.io/toastr/demo.html
-		toastr.options = {
-			// "closeButton": false,
-			// "debug": false,
-			// "newestOnTop": false,
-			"progressBar": true,
-			"positionClass": "toast-top-right",
-			// "preventDuplicates": false,
-			// "onclick": null,
-			// "showDuration": "300",
-			// "hideDuration": "1000",
-			// "timeOut": "5000",
-			// "extendedTimeOut": "1000",
-			// "showEasing": "swing",
-			// "hideEasing": "linear",
-			// "showMethod": "fadeIn",
-			// "hideMethod": "fadeOut"
-		}
+		// toastr.options = {
+		// 	// "closeButton": false,
+		// 	// "debug": false,
+		// 	// "newestOnTop": false,
+		// 	"progressBar": true,
+		// 	"positionClass": "toast-top-right",
+		// 	// "preventDuplicates": false,
+		// 	// "onclick": null,
+		// 	// "showDuration": "300",
+		// 	// "hideDuration": "1000",
+		// 	// "timeOut": "5000",
+		// 	// "extendedTimeOut": "1000",
+		// 	// "showEasing": "swing",
+		// 	// "hideEasing": "linear",
+		// 	// "showMethod": "fadeIn",
+		// 	// "hideMethod": "fadeOut"
+		// }
+		$.toast.option={
+			showHideTransition: 'fade', // fade, slide or plain
+			allowToastClose: true, // Boolean value true or false
+			hideAfter: 3000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+			stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+			position: 'mid-center', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+			textAlign: 'left',  // Text alignment i.e. left, right or center
+			loader: true,  // Whether to show loader or not. True by default
+			loaderBg: '#ffffff',  // Background color of the toast loader
+			beforeShow: function () {}, // will be triggered before the toast is shown
+			afterShown: function () {}, // will be triggered after the toat has been shown
+			beforeHide: function () {}, // will be triggered before the toast gets hidden
+			afterHidden: function () {}  // will be triggered after the toast has been hidden
+		};
 </script>
 
 
