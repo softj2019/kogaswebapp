@@ -184,6 +184,7 @@ class Kgpbt  extends CI_Controller
 		);
 		$row =  $this->common->select_row($table='kgrct','htm3, htm4',$where,$coding=false,$order_by='',$group_by='' );
 		$content="";
+
 		if($row->htm3) $content .= file_get_contents('file:///'.$row->htm3);
 		if($row->htm4) $content .= file_get_contents('file:///'.$row->htm4);
 		echo $content;
@@ -356,6 +357,8 @@ class Kgpbt  extends CI_Controller
 				);
 				$this->common->insert("kgart",$updateData);
 				$data['alerts_title'] = array("분석요청 완료");
+				//윈도우 파일 실행
+				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
 			}
 			else
 			{

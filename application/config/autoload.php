@@ -104,7 +104,7 @@ $autoload['helper'] = array('url','file','utility');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array();
+$autoload['config'] = array("env");
 
 /*
 | -------------------------------------------------------------------
