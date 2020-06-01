@@ -328,20 +328,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						foreach ($list as $row) {
 							?>
 							<tr>
-								<td><?php echo $row->AR_CD; ?></td>
-								<td><?php echo $row->RC_time; ?></td>
-								<td class="text-truncate"><?php echo $row->key1_cd; ?></td>
-								<td class="text-truncate"><?php echo $row->key2_cd; ?></td>
+								<td><?php echo $row->ar_cd; ?></td>
+								<td><?php echo $row->ar_time; ?></td>
+								<td class="text-truncate"><?php echo $row->key1_nm; ?></td>
+								<td class="text-truncate"><?php echo $row->key2_nm; ?></td>
 								<td><?php echo $row->key1_nm; ?></td>
-								<td class="text-truncate"><?php echo $row->key4_cd; ?></td>
-								<td class="text-truncate"><?php echo $row->key5_cd; ?></td>
-								<td class="text-truncate"><?php echo $row->key6_cd; ?></td>
-								<td class="text-truncate"><?php echo $row->key3_1_cd; ?></td>
+								<td class="text-truncate"><?php echo $row->key4_nm; ?></td>
+								<td class="text-truncate"><?php echo $row->key5_nm; ?></td>
+								<td class="text-truncate"><?php echo $row->key6_nm; ?></td>
+								<td class="text-truncate"><?php echo $row->key3_1_nm; ?></td>
 								<td>
-									<button class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default" data-whatever="http://58.181.55.191/<?php echo $row->htm4; ?>"><i class="fas fa-search"></i> </button>
+									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
-									<button class="btn btn-info btn-block" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->AR_CD; ?>"><i class="fas fa-search"></i> </button>
+									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
 								<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->

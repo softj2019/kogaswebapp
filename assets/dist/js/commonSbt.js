@@ -126,17 +126,23 @@ $('#modal-default').on('show.bs.modal', function (event) {
 	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 	var modal = $(this)
-
-
-	$.ajax({
-		type: "POST",
-		url: base_url+"kgpbt/htmlViewer",
-		// dataType:"html",
-		data:{"url":recipient},
-		// async: false
-	}).done(function(data){
-		modal.find('.modal-body p').html(data)
-	});
+	console.log(recipient)
+	//ar_cd 로 kgrct 를 조회해서 html3,html4를 가져온다
+	if(!recipient){
+		//알림 타입 error,info,success,warning,question
+		$data["alerts_icon"]="error";
+		$data['alerts_title'] = Array("리포팅 파일이 없습니다.");
+	}else{
+		// $.ajax({
+		// 	type: "POST",
+		// 	url: base_url+"kgpbt/htmlViewer",
+		// 	// dataType:"html",
+		// 	data:{"url":recipient},
+		// 	// async: false
+		// }).done(function(data){
+		// 	modal.find('.modal-body p').html(data)
+		// });
+	}
 
 })
 //모달 뷰어
