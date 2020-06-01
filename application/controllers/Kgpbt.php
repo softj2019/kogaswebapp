@@ -177,18 +177,22 @@ class Kgpbt  extends CI_Controller
 
 		echo json_encode($data);
 	}
+	//생산 기본/심화 분석 뷰어
 	public function htmlViewer(){
+		header('Content-type: application/json');
 		$arcd = $this->input->post("arcd");
 		$where = array(
 			"ar_cd"=>$arcd,
 		);
 		$row =  $this->common->select_row($table='kgrct','htm3, htm4',$where,$coding=false,$order_by='',$group_by='' );
-		$content="";
-
-		if($row->htm3) $content .= file_get_contents('file:///'.$row->htm3);
-		if($row->htm4) $content .= file_get_contents('file:///'.$row->htm4);
-		echo $content;
+		$data['viewArtDetail']  =  $this->common->select_row($table='kgartpbtview','',$where,$coding=false,$order_by='',$group_by='' );
+		$data['viewRctDetail']  =  $this->common->select_row($table='kgrct','',$where,$coding=false,$order_by='',$group_by='' );
+		$data['content']="";
+		if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
+		if($row->htm4) $data['content'] .= file_get_contents('file:///'.$row->htm4);
+		echo json_encode($data);
 	}
+	//기초분석 뷰어
 	public function htmlDefaultViewer(){
     	$arcd = $this->input->post("arcd");
     	$selectKey = $this->input->post("htmlNum")." as htmNum ";

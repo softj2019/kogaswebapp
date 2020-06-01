@@ -23,10 +23,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<!-- iCheck for checkboxes and radio inputs -->
 	<link rel="stylesheet" href="/assets/plugins/icheck-bootstrap/icheck-bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="/assets/plugins/daterangepicker/daterangepicker.css" />
-	<!-- Toastr -->
-	<link rel="stylesheet" href="/assets/plugins/toastr/toastr.min.css">
-	<!-- SweetAlert2 -->
-	<link rel="stylesheet" href="/assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+	<!-- Toast -->
+	<link rel="stylesheet" href="/assets/plugins/toast/jquery.toast.min.css">
 	<!-- Theme style -->
 	<link rel="stylesheet" href="/assets/dist/css/adminlte.min.css">
 	<!-- Google Font: Source Sans Pro -->

@@ -258,6 +258,15 @@ $(document).on('change','.key5_cd',function () {
 	});
 });
 $('.submitKgArt').on("click",function () {
+	$('.loading-bar-wrap').removeClass("hidden");
+	// var insertToast =$.toast({
+	// 	heading: "Info",
+	// 	text: "분석요청 데이터 생성중입니다.",
+	// 	icon: "info",
+	// 	position: 'top-center',
+	// 	hideAfter: 8000,
+	// 	loaderBg: '#ffffff',  // Background color of the toast loader
+	// });
 	$.ajax({
 		type: "POST",
 		url: base_url+"kgpbt/insertKgArt",
@@ -266,24 +275,36 @@ $('.submitKgArt').on("click",function () {
 		success: function (data) {
 			console.log(data)
 			if(data.alerts_title){
-				$.each(data.alerts_title,function (key,value) {
-					// Toast.fire({
-					// 	icon: data.alerts_icon,
-					// 	title: value,
-					// })
-					if(data.alerts_icon=='error'){
-						toastr.error(value)
-					}
-					if(data.alerts_icon=='success'){
-						toastr.success(value)
-					}
-					if(data.alerts_icon=='primary'){
-						toastr.primary(value)
-					}
-
-				})
+				// $.each(data.alerts_title,function (key,value) {
+				// 	$.toast({
+				// 		heading: data.alerts_icon,
+				// 		text: value,
+				// 		icon: data.alerts_icon,
+				// 		// hideAfter: false
+				// 		loaderBg: '#ffffff',  // Background color of the toast loader
+				// 	});
+				// })
 
 			}
+
+		},
+		beforeSend: function(data){
+			//진행중
+			// insertToast;
+
+		},
+		complete: function(data){
+			// insertToast.update({
+			// 	heading: "Info",
+			// 	text: "분석요청 완료.",
+			// 	icon: "info",
+			// 	hideAfter: 2000,
+			// });
+			// TODO
+			$('.loading-bar-wrap').addClass("hidden");
+		},
+		error: function (xhr, status, error) {
+			console.log(error,xhr,status );
 		}
 	});
 });
@@ -291,6 +312,8 @@ $('.submitKgArt').on("click",function () {
 $('#modal-default').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal
 	var recipient = button.data('whatever') // Extract info from data-* attributes
+	var inHtml ='';
+	var inContent = '';
 	console.log(recipient);
 	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -298,14 +321,41 @@ $('#modal-default').on('show.bs.modal', function (event) {
 	$.ajax({
 		type: "POST",
 		url: base_url+"kgpbt/htmlViewer",
-		// dataType:"html",
+		dataType:"json",
 		data:{"arcd":recipient},
 		// async: false
 	}).done(function(data){
-		modal.find('.modal-body p').html(data)
+		inHtml ='';
+		inContent = '조회된 데이터가 없습니다.';
+		console.log(data)
+		if(data.content) {
+			inContent = data.content;
+			inHtml += '' +
+				'<div class="modal-body">' +
+				'<table class="table table-striped">' +
+
+				'	<tbody>' +
+				'	<tr>' +
+				'		<tr>' +
+				'			<th rowspan="2" class="table-valign-middle">고장률</th><th>하안</th><th>고장률</th><th>상한</th>' +
+				'		</tr>' +
+				'		<td>' + data.viewRctDetail.value11 + '</td>' +
+				'		<td>' + data.viewRctDetail.value12 + '</td>' +
+				'		<td>' + data.viewRctDetail.value13 + '</td>' +
+				'	</tr>' +
+				'	</tbody' +
+				'</table>' +
+				'</div> ';
+		}
+		modal.find('.modal-body .inHtml').html(inHtml)
+		modal.find('.modal-body .inContent').html(inContent)
 	});
 
-})
+});
+//모달을 닫을떼
+// $('#modal-default').on('hidden.bs.modal', function (event) {
+//
+// });
 //모달 뷰어
 $('#modal-default2').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal

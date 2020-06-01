@@ -382,8 +382,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>
-				</p>
+				<div class="card">
+					<div class="card-body inHtml">
+
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body inContent">
+
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer justify-content-between">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
