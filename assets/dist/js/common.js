@@ -111,7 +111,8 @@ $('.key3_cd').on('change',function () {
 		if($(this).is(":checked")){
 			key3_cd.push($(this).val());
 		}
-	})
+	});
+
 	$.ajax({
 		type: "POST",
 		url: base_url+"kgpbt/ajaxMultiSelectKgpbtFirstB",
@@ -146,9 +147,16 @@ $('.key3_cd').on('change',function () {
 			key3_cd.push($(this).val());
 		}
 	})
+	var url='';
+	var type=$(this).attr("data-id");
+	if(type=="kgsbt"){
+		url = base_url+"kgsbt/ajaxMultiSelectKgsbtFirst";
+	}else{
+		url = base_url+"kgpbt/ajaxMultiSelectKgpbtFirst";
+	}
 	$.ajax({
 		type: "POST",
-		url: base_url+"kgpbt/ajaxMultiSelectKgpbtFirst",
+		url: url,
 		data:{"key3_cd":key3_cd},
 		dataType: "json",
 		success: function (data) {
@@ -157,7 +165,7 @@ $('.key3_cd').on('change',function () {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
 					'<div class="icheck-primary d-inline text-truncate">' +
-					'<input type="checkbox" class="key4_cd" name="key4_cd[]" id="key4_cd_'+key+'" value="'+value.key4_cd+'">\n' +
+					'<input type="checkbox" class="key4_cd" name="key4_cd[]" id="key4_cd_'+key+'" value="'+value.key4_cd+'" data-id="'+type+'">\n' +
 					'<label for="key4_cd_'+key+'">'+value.key4_nm+'</label>\n' +
 					'</div>' +
 					'</div>';
@@ -183,10 +191,16 @@ $(document).on('change','.key4_cd',function () {
 			key4_cd.push($(this).val());
 		}
 	})
-
+	var url='';
+	var type=$(this).attr("data-id");
+	if(type=="kgsbt"){
+		url = base_url+"kgsbt/ajaxMultiSelectKgsbtSecond";
+	}else{
+		url = base_url+"kgpbt/ajaxMultiSelectKgpbtSecond";
+	}
 	$.ajax({
 		type: "POST",
-		url: base_url+"kgpbt/ajaxMultiSelectKgpbtSecond",
+		url: url,
 		data:{
 			"key3_cd":key3_cd,
 			"key4_cd":key4_cd,
@@ -198,7 +212,7 @@ $(document).on('change','.key4_cd',function () {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
 					'<div class="icheck-primary d-inline text-truncate">' +
-					'<input type="checkbox" class="key5_cd" name="key5_cd[]" id="key5_cd_'+key+'" value="'+value.key5_cd+'">\n' +
+					'<input type="checkbox" class="key5_cd" name="key5_cd[]" id="key5_cd_'+key+'" value="'+value.key5_cd+'" data-id="'+type+'">\n' +
 					'<label for="key5_cd_'+key+'">'+value.key5_nm+'</label>\n' +
 					'</div>' +
 					'</div>';

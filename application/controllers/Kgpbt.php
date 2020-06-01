@@ -357,7 +357,7 @@ class Kgpbt  extends CI_Controller
 					"fmode"=>$fmode,
 					"smode"=>$smode,
 					"wvalue"=>$wvalue,
-					"user_id"=>1123123123,
+					"user_id"=>@$this->session->userdata('id'),
 				);
 				$this->common->insert("kgart",$updateData);
 				$data['alerts_title'] = array("분석요청 완료");

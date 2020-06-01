@@ -83,3 +83,21 @@ body {
 	border-top: none !important;
 	text-align: center;
 }
+.join {
+	float: right;
+	text-decoration: underline;
+	font-weight: 900;
+	color: #444444;
+}
+.pw_find {
+	float: left;
+	text-decoration: underline;
+	font-weight: 900;
+	color: #444444;
+}
+.login_title {
+	/*float: left;*/
+	/*text-decoration: underline;*/
+	font-weight: 900;
+	color: #444444;
+}
