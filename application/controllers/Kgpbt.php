@@ -178,7 +178,14 @@ class Kgpbt  extends CI_Controller
 		echo json_encode($data);
 	}
 	public function htmlViewer(){
-		$content = file_get_contents($this->input->post("url"));
+		$arcd = $this->input->post("arcd");
+		$where = array(
+			"ar_cd"=>$arcd,
+		);
+		$row =  $this->common->select_row($table='kgrct','htm3, htm4',$where,$coding=false,$order_by='',$group_by='' );
+		$content="";
+		if($row->htm3) $content .= file_get_contents('file:///'.$row->htm3);
+		if($row->htm4) $content .= file_get_contents('file:///'.$row->htm4);
 		echo $content;
 	}
 	public function htmlDefaultViewer(){
@@ -188,7 +195,7 @@ class Kgpbt  extends CI_Controller
     		"ar_cd"=>$arcd,
 		);
     	$row =  $this->common->select_row($table='kgrct',$selectKey,$where,$coding=false,$order_by='',$group_by='' );
-		$content = file_get_contents('http://58.181.55.191/'.$row->htmNum);
+		$content = file_get_contents($row->htmNum);
 		echo $content;
 	}
 	//make where in
