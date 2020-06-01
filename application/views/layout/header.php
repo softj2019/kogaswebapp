@@ -11,8 +11,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-
-	<title>도시가스공사</title>
+	<meta property="og:image" content="/assets/img/ci/kogas_ci.png">
+	<title>한국가스공사</title>
 
 	<!-- Font Awesome Icons -->
 	<link rel="stylesheet" href="/assets/plugins/fontawesome-free/css/all.min.css">
