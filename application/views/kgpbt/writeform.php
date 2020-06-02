@@ -310,7 +310,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="table table-hover table-striped">
 					<thead>
 					<tr>
-						<th class="text-success">ID</th>
+						<th>요청코드</th>
 						<th>분석일자</th>
 						<th>플랜트</th>
 						<th>위치내역</th>
