@@ -77,7 +77,7 @@ class Kgpbt  extends CI_Controller
 //		$data['footerScript']="/assets/dist/js/chart/defaultChart.js";
 
 		$data["kgpbtClass1"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
-		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
+		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',array('num_cd','1','after'),$joina='',$joinb='','');
 
 		$this->load->view('layout/header',$data);
         $this->load->view('kgpbt/writeform',$data);
@@ -255,6 +255,11 @@ class Kgpbt  extends CI_Controller
 		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
 		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
 		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
+		$fmode = $this->whereInArrayInsert($this->input->post("fmode"));
+		$smode = $this->whereInArrayInsert($this->input->post("smode"));
+
+//		$smode=$this->whereInArray($this->input->post("smode"));
+//		$fmode=$this->whereInArray($this->input->post("fmode"));
 
 		$better_date = date('Ymd');
 		//AR_CD 값
@@ -267,8 +272,6 @@ class Kgpbt  extends CI_Controller
 		$ar_cd = $arCdRow->ar_cd;
 		$anal_type =$this->input->post("anal_type");
 
-		$smode=$this->whereInArray($this->input->post("smode"));
-		$fmode=$this->whereInArray($this->input->post("fmode"));
 		$wvalue=$this->input->post("wvalue");
 		$sdate=$this->input->post("startDate");
 		$edate=$this->input->post("endDate");

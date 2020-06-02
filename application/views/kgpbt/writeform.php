@@ -310,7 +310,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="table table-hover table-striped">
 					<thead>
 					<tr>
-						<th>Request No</th>
+						<th>요청코드</th>
 						<th>분석일자</th>
 						<th>플랜트</th>
 						<th>위치내역</th>
@@ -328,7 +328,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						foreach ($list as $row) {
 							?>
 							<tr>
-								<td><?php echo $row->ar_cd; ?></td>
+								<td class="text"><?php echo $row->ar_cd; ?></td>
 								<td><?php echo $row->ar_time; ?></td>
 								<td class="text-truncate"><?php echo $row->key1_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key2_nm; ?></td>
