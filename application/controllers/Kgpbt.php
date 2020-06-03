@@ -369,10 +369,10 @@ class Kgpbt  extends CI_Controller
 						"wvalue" => $wvalue,
 						"user_id" => @$this->session->userdata('id'),
 					);
-//				$this->common->insert("kgart",$updateData);
+				$this->common->insert("kgart",$updateData);
 					$data['alerts_title'] = array("분석요청 완료");
 					//윈도우 파일 실행
-//				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
 				}else{
 					$data["alerts_icon"]="error";
 					$data['alerts_title']= array("요청에 해당하는 DATA 가 없습니다.");

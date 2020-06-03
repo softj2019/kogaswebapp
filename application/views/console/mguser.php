@@ -15,6 +15,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="table table-hover table-striped">
 					<thead>
 					<tr>
+						<th class="text-center w-5">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_fmode" name='checkAll' value="list_chk">
+								<label for="checkAll_fmode">
+								</label>
+							</div>
+						</th>
 						<th>이메일</th>
 						<th>권한</th>
 						<th>이름</th>
@@ -26,9 +33,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</thead>
 					<tbody>
 					<?php if(@$list) {
-						foreach ($list as $row) {
+						foreach ($list as $key=>$row) {
 							?>
 							<tr>
+								<td class="text-center">
+									<div class="icheck-primary d-inline">
+										<input type="checkbox" id="chk_<?php echo $key; ?>" name="chk[]" value="<?php echo $row->id; ?>" class="list_chk">
+										<label for="chk_<?php echo $key; ?>">
+										</label>
+									</div>
+								</td>
 								<td><?php echo $row->email; ?></td>
 								<td><?php echo $row->role; ?></td>
 								<td><?php echo $row->name; ?></td>
