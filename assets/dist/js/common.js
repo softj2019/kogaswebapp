@@ -82,12 +82,14 @@ $('.key1_cd').on('change',function () {
 
 	$('.smode').prop("checked",false).trigger('change');
 
+	var selectModeValue =$('input[name=select_mode]:checked').val();
+	console.log(selectModeValue);
 	//다중셀렉트 체크된 결과값 반환
 	$.each($('.key1_cd'),function () {
 		if($(this).is(":checked")){
 			key1_cd.push($(this).val());
 			// 검정모드자동선택전
-			$('.smode').filter('[value="'+$(this).val()+'"]').prop("checked",true).trigger('change');
+			if(selectModeValue=="smode")$('.smode').filter('[value="'+$(this).val()+'"]').prop("checked",true).trigger('change');
 		}
 	})
 	var url='';

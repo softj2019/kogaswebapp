@@ -45,6 +45,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				<a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
 			</li>
 		</ul>
+		<!-- Right navbar links -->
+		<ul class="navbar-nav ml-auto">
+			<!-- Messages Dropdown Menu -->
+
+			<li class="nav-item">
+				<a class="nav-link" href="/member/logout">
+					<i class="fas fa-power-off"></i>로그아웃
+			</a>
+			</li>
+		</ul>
 	</nav>
 	<!-- /.navbar -->
 
@@ -60,11 +70,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		<div class="sidebar">
 			<!-- Sidebar user panel (optional) -->
 			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-				<div class="image">
-					<img src="/assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-				</div>
+<!--				<div class="image">-->
+<!--					<img src="/assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">-->
+<!--				</div>-->
+
 				<div class="info">
-					<a href="#" class="d-block">user name</a>
+					<a href="#" class="d-block text-right"><i class="fas fa-user"></i> <?=@$this->session->userdata('name')?></a>
 				</div>
 			</div>
 
@@ -96,6 +107,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!--							</li>-->
 <!--						</ul>`-->
 <!--					</li>-->
+
 					<li class="nav-item">
 						<a href="/" class="nav-link <?=$menu_code=='001'?'active':''?>">
 							<i class="nav-icon fas fa-tachometer-alt"></i>
@@ -107,7 +119,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					</li>
 					<li class="nav-item">
 						<a href="/kgbasicpbt/writeform" class="nav-link <?=$menu_code=='005'?'active':''?>">
-							<i class="fas fa-chart-area"></i>
+							<i class="nav-icon fas fa-chart-area"></i>
 							<p>
 								기초 통계 분석(생산)
 								<!--								<span class="right badge badge-danger">New</span>-->
@@ -116,7 +128,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					</li>
 					<li class="nav-item">
 						<a href="/kgbasicsbt/writeform" class="nav-link <?=$menu_code=='006'?'active':''?>">
-							<i class="fas fa-chart-area"></i>
+							<i class="nav-icon fas fa-chart-area"></i>
 							<p>
 								기초 통계 분석(공급)
 								<!--								<span class="right badge badge-danger">New</span>-->
@@ -125,7 +137,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					</li>
 					<li class="nav-item">
 						<a href="/kgpbt/writeform" class="nav-link <?=$menu_code=='003'?'active':''?>">
-							<i class="fas fa-chart-line"></i>
+							<i class=" nav-icon fas fa-chart-line"></i>
 							<p>
 								신뢰도 분석(생산)
 								<!--								<span class="right badge badge-danger">New</span>-->
@@ -134,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					</li>
 					<li class="nav-item">
 						<a href="/kgsbt/writeform" class="nav-link <?=$menu_code=='004'?'active':''?>">
-							<i class="fas fa-chart-line"></i>
+							<i class="nav-icon fas fa-chart-line"></i>
 							<p>
 								신뢰도 분석(공급)
 								<!--								<span class="right badge badge-danger">New</span>-->
@@ -144,26 +156,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 					<li class="nav-item">
 						<a href="/kgrct/kgrctlist" class="nav-link <?=$menu_code=='008'?'active':''?>">
-							<i class="far fa-list-alt"></i>
+							<i class="nav-icon far fa-list-alt"></i>
 							<p>
 								분석 결과 조회
 								<!--								<span class="right badge badge-danger">New</span>-->
 							</p>
 						</a>
 					</li>
-
+					<?php if(@$this->session->userdata('is_admin')) {?>
 					<li class="nav-item">
 						<a href="/console/mguser" class="nav-link <?=$menu_code=='009'?'active':''?>">
-							<i class="fas fa-cogs"></i>
+							<i class="nav-icon fas fa-cogs"></i>
 							<p>
 								관리자 메뉴
 								<!--								<span class="right badge badge-danger">New</span>-->
 							</p>
 						</a>
 					</li>
+					<?php } ?>
 					<li class="nav-item">
 						<a href="/board/boardlist" class="nav-link <?=$menu_code=='010'?'active':''?>">
-							<i class="fab fa-hire-a-helper"></i>
+							<i class="nav-icon fab fa-hire-a-helper"></i>
 							<p>
 								도움말
 								<!--								<span class="right badge badge-danger">New</span>-->

@@ -44,8 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-3">
+			<div class="selectListCard row">
+				<div class="col-2">
 					<div class="card">
 						<div class="card-header">
 
@@ -76,8 +76,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
+				<div class="col-2 hidden kgpbtLocale ">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_key_2" name='checkAll' value="key2_cd">
+								<label for="checkAll_key_2">
+									위치
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300 key2_cd_view">
 
-				<div class="col-3 ">
+						</div>
+					</div>
+				</div>
+				<div class="col-2 ">
 					<!-- Select multiple-->
 					<div class="card">
 						<div class="card-header">
@@ -112,8 +126,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
+				<div class="col-2">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_key_3_1" name='checkAll' value="key3_1_cd">
+								<label for="checkAll_key_3_1">
+									1-1차
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300 key3_1_cd_view ">
 
-				<div class="col-3">
+						</div>
+					</div>
+				</div>
+				<div class="col-2">
 					<div class="card">
 						<div class="card-header">
 							<div class="icheck-primary d-inline">
@@ -128,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
-				<div class="col-3">
+				<div class="col-2">
 					<div class="card">
 						<div class="card-header">
 							<div class="icheck-primary d-inline">
@@ -143,7 +171,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
+				<div class="col-2">
+					<div class="card">
+						<div class="card-header">
+							<div class="icheck-primary d-inline">
+								<input type="checkbox" id="checkAll_key_6" name='checkAll' value="key6_cd">
+								<label for="checkAll_key_6">
+									4차
+								</label>
+							</div>
+						</div>
+						<div class="card-body scroll-300 key6_cd_view">
 
+						</div>
+					</div>
+				</div>
 			</div>
 		<?php form_close();?>
 		<div class="card">
