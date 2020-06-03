@@ -54,5 +54,6 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['assets/(:any)'] = 'assets/$1';
+$route['download/(:any)'] = 'file:///D:\\uploaddocument\\2020\\0603\\AR2020060300001\\$1';
 $route['my-stripe'] = "StripeController";
 $route['stripePost']['post'] = "StripeController/stripePost";

@@ -13,8 +13,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="card">
 						<div class="card-body">
 							<div class="form-group row">
-								<label class="col-2">기간선택</label>
-								<div class="col-4">
+								<label class="col-1">기간선택</label>
+								<div class="col-2">
 									<div class="input-group">
 										<div class="input-group-prepend">
 										  <span class="input-group-text">
@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<input type="text" name="startDate" class="form-control float-right startDate">
 									</div>
 								</div>
-								<div class="col-4">
+								<div class="col-2">
 									<div class="input-group">
 										<div class="input-group-prepend">
 										  <span class="input-group-text">
@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-2">
+				<div class="col-3">
 					<div class="card">
 						<div class="card-header">
 
@@ -76,22 +76,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
-				<div class="col-2 hidden kgpbtLocale ">
-					<div class="card">
-						<div class="card-header">
-							<div class="icheck-primary d-inline">
-								<input type="checkbox" id="checkAll_key_2" name='checkAll' value="key2_cd">
-								<label for="checkAll_key_2">
-									위치
-								</label>
-							</div>
-						</div>
-						<div class="card-body scroll-300 key2_cd_view">
 
-						</div>
-					</div>
-				</div>
-				<div class="col-2 ">
+				<div class="col-3 ">
 					<!-- Select multiple-->
 					<div class="card">
 						<div class="card-header">
@@ -126,22 +112,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
-				<div class="col-2">
-					<div class="card">
-						<div class="card-header">
-							<div class="icheck-primary d-inline">
-								<input type="checkbox" id="checkAll_key_3_1" name='checkAll' value="key3_1_cd">
-								<label for="checkAll_key_3_1">
-									1-1차
-								</label>
-							</div>
-						</div>
-						<div class="card-body scroll-300 key3_1_cd_view ">
 
-						</div>
-					</div>
-				</div>
-				<div class="col-2">
+				<div class="col-3">
 					<div class="card">
 						<div class="card-header">
 							<div class="icheck-primary d-inline">
@@ -156,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 					<div class="card">
 						<div class="card-header">
 							<div class="icheck-primary d-inline">
@@ -171,21 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
-				<div class="col-2">
-					<div class="card">
-						<div class="card-header">
-							<div class="icheck-primary d-inline">
-								<input type="checkbox" id="checkAll_key_6" name='checkAll' value="key6_cd">
-								<label for="checkAll_key_6">
-									4차
-								</label>
-							</div>
-						</div>
-						<div class="card-body scroll-300 key6_cd_view">
 
-						</div>
-					</div>
-				</div>
 			</div>
 		<?php form_close();?>
 		<div class="card">
@@ -205,6 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>4차분류</th>
 						<th>신뢰도분석결과</th>
 						<th>기초통계분석결과</th>
+						<th>데이터 파일</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -227,19 +186,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td>
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
-								<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
-
-								<!--								<td class="text-truncate">--><?php //echo $row->sdate; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->edate; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->distri; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->fmode; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->smode; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->wvalue; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->AR_time; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->user_id; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->created_at; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->updated_at; ?><!--</td>-->
+								<td>
+									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>">download</button>
+								</td>
 							</tr>
 							<?php
 						}

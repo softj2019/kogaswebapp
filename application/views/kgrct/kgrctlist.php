@@ -26,6 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>4차분류</th>
 						<th>신뢰도분석결과</th>
 						<th>기초통계분석결과</th>
+						<th>데이터 파일</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -48,19 +49,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td>
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
-								<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
-
-								<!--								<td class="text-truncate">--><?php //echo $row->sdate; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->edate; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->distri; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->fmode; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->smode; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->wvalue; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->AR_time; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->user_id; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->created_at; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->updated_at; ?><!--</td>-->
+								<td>
+									<a class="btn btn-info btn-block" href="/download/AR2020060300001_file.csv">download</a>
+								</td>
 							</tr>
 							<?php
 						}

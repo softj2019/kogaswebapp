@@ -10,14 +10,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		?>
 			<div class="selectListCard row">
 				<div class="col-6">
-					<div class="card">
-						<div class="card-body">
+					<div class="card border-0">
+						<div class="card-header">
+							&nbsp;
+						</div>
+						<div class="card-body scroll-300">
 							<!-- radio -->
 							<div class="form-group row">
 								<label class="col-2">
 									분석타입
 								</label>
-								<div class="col-10">
+								<div class="col-8">
 									<div class="icheck-primary d-inline">
 										<input type="radio" id="anal_type_b" name="anal_type" value="B" checked>
 										<label for="anal_type_b">
@@ -30,6 +33,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											심화분석
 										</label>
 									</div>
+								</div>
+								<div class="col-2">
+
+										<button type="button" class="btn btn-success btn-block submitKgArt" >분석 요청</button>
+
 								</div>
 							</div>
 							<!-- radio -->
@@ -88,10 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<input class="form-control" name="wvalue" placeholder="" value="1000,5000,10000,50000,100000 ">
 								</div>
 							</div>
-							<div class="form-group">
-								<label></label>
-								<button type="button" class="btn btn-success btn-block submitKgArt" >분석 요청</button>
-							</div>
+
 						</div>
 					</div>
 				</div>
@@ -321,6 +326,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>4차분류</th>
 						<th>신뢰도분석결과</th>
 						<th>기초통계분석결과</th>
+						<th>데이터 파일</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -343,19 +349,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td>
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
-								<!--								<td class="text-truncate">--><?php //echo $row->analysis_type; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
-
-								<!--								<td class="text-truncate">--><?php //echo $row->sdate; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->edate; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->distri; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->fmode; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->smode; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->wvalue; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->AR_time; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->user_id; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->created_at; ?><!--</td>-->
-								<!--								<td class="text-truncate">--><?php //echo $row->updated_at; ?><!--</td>-->
+								<td>
+									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>">download</button>
+								</td>
 							</tr>
 							<?php
 						}
