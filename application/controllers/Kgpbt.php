@@ -343,38 +343,40 @@ class Kgpbt  extends CI_Controller
 				$row =  $this->common->select_row(
 					$table,
 					$sql,
-					$where=Array(
-//						"!(ptp < '2009-01-01 00:00:00' AND pr_rank = '1')",
-//						"bhour > 0;",
-					),
+					"  !(ptp < '2009-01-01 00:00:00' AND pr_rank = '1') and bhour > 0 ",
 					$coding=false,
 					$order_by='',
 					$group_by='' );
 				$data["alerts_icon"]="success";
 				$data["rowCnt"]=$row->cnt;
-				$updateData = Array(
-					//data 없으면 ALL
-					"AR_CD"=>$ar_cd,
-					"analysis_type"=>$anal_type,
-					"analysis_flg"=>'S',
-					"key1_cd"=>$key1_cd_arr?$key1_cd_arr:'ALL',
-					"key2_cd"=>$key2_cd_arr?$key2_cd_arr:'ALL',
-					"key3_cd"=>$key3_cd_arr?$key3_cd_arr:'ALL',
-					"key4_cd"=>$key4_cd_arr?$key4_cd_arr:'ALL',
-					"key5_cd"=>$key5_cd_arr?$key5_cd_arr:'ALL',
-					"key6_cd"=>$key6_cd_arr?$key6_cd_arr:'ALL',
-					"key3_1_cd"=>$key3_1_cd_arr?$key3_1_cd_arr:'ALL',
-					"sdate"=>$sdate,
-					"edate"=>$edate,
-					"fmode"=>$fmode,
-					"smode"=>$smode,
-					"wvalue"=>$wvalue,
-					"user_id"=>@$this->session->userdata('id'),
-				);
-				$this->common->insert("kgart",$updateData);
-				$data['alerts_title'] = array("분석요청 완료");
-				//윈도우 파일 실행
-				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+				if($data["rowCnt"] > 0) {
+					$updateData = Array(
+						//data 없으면 ALL
+						"AR_CD" => $ar_cd,
+						"analysis_type" => $anal_type,
+						"analysis_flg" => 'S',
+						"key1_cd" => $key1_cd_arr ? $key1_cd_arr : 'ALL',
+						"key2_cd" => $key2_cd_arr ? $key2_cd_arr : 'ALL',
+						"key3_cd" => $key3_cd_arr ? $key3_cd_arr : 'ALL',
+						"key4_cd" => $key4_cd_arr ? $key4_cd_arr : 'ALL',
+						"key5_cd" => $key5_cd_arr ? $key5_cd_arr : 'ALL',
+						"key6_cd" => $key6_cd_arr ? $key6_cd_arr : 'ALL',
+						"key3_1_cd" => $key3_1_cd_arr ? $key3_1_cd_arr : 'ALL',
+						"sdate" => $sdate,
+						"edate" => $edate,
+						"fmode" => $fmode,
+						"smode" => $smode,
+						"wvalue" => $wvalue,
+						"user_id" => @$this->session->userdata('id'),
+					);
+//				$this->common->insert("kgart",$updateData);
+					$data['alerts_title'] = array("분석요청 완료");
+					//윈도우 파일 실행
+//				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+				}else{
+					$data["alerts_icon"]="error";
+					$data['alerts_title']= array("요청에 해당하는 DATA 가 없습니다.");
+				}
 			}
 			else
 			{

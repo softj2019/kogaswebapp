@@ -6,7 +6,7 @@
  * Time: 오후 5:58
  */
 
-class Kgsbt  extends CI_Controller
+class Kgbasicsbt  extends CI_Controller
 {
     function __construct()
     {
@@ -47,9 +47,9 @@ class Kgsbt  extends CI_Controller
 		//사용자 정보
 
 
-		$data['page_title']="신뢰도 분석 (공급)";
+		$data['page_title']="기초통계분석(공급)";
 		$data['page_sub_title']="";
-		$data['menu_code']="004";
+		$data['menu_code']="006";
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
@@ -86,7 +86,7 @@ class Kgsbt  extends CI_Controller
 		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
 		$this->load->view('layout/header',$data);
-		$this->load->view('kgsbt/writeform',$data);
+		$this->load->view('kgbasicsbt/writeform',$data);
 		$this->load->view('layout/footer',$data);
 	}
 	//플랜트 선택 위치 조회
@@ -339,8 +339,8 @@ class Kgsbt  extends CI_Controller
 				"wvalue"=>$wvalue,
 				"user_id"=>@$this->session->userdata('id'),
 			);
-//			$this->common->insert("kgart",$updateData);
-			$data['alerts_title'] = array("분석요청 완료");
+			$this->common->insert("kgart",$updateData);
+//			$data['alerts_title'] = array("분석요청 완료");
 			//윈도우 파일 실행
 //			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
 		}

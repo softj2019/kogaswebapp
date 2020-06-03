@@ -309,16 +309,16 @@ $('.submitKgArt').on("click",function () {
 		success: function (data) {
 			console.log(data)
 			if(data.alerts_title){
-				// $.each(data.alerts_title,function (key,value) {
-				// 	$.toast({
-				// 		heading: data.alerts_icon,
-				// 		text: value,
-				// 		icon: data.alerts_icon,
-				// 		// hideAfter: false
-				// 		loaderBg: '#ffffff',  // Background color of the toast loader
-				// 	});
-				// })
-
+				$.each(data.alerts_title,function (key,value) {
+					$.toast({
+						position: 'bottom-right',
+						heading: data.alerts_icon,
+						text: value,
+						icon: data.alerts_icon,
+						// hideAfter: false
+						loaderBg: '#ffffff',  // Background color of the toast loader
+					});
+				})
 			}
 
 		},
@@ -401,23 +401,23 @@ $('#modal-default2').on('show.bs.modal', function (event) {
 
 	var html='';
 	html='<div class="col-3">\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm5\')"><i class="fas fa-chart-pie""></i> 고장모드</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm6\')"><i class="fas fa-chart-pie" ></i> 고장원인</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm7\')"><i class="fas fa-chart-pie" ></i> 고장조치사항 별 파</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm8\')"><i class="fas fa-chart-pie" ></i> 플랜트 구분 고장모드</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm9\')"><i class="fas fa-chart-pie" ></i> 플랜트 구분 고장원인</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm10\')"><i class="fas fa-chart-pie" ></i> 플랜트 구분 고장조치사항</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm11\')"><i class="fas fa-chart-line "></i> 고장모드 별 고장시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm12\')"><i class="fas fa-chart-line "></i> 고장원인 별 고장시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm13\')"><i class="fas fa-chart-line "></i> 고장조치사항 별 고장시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm14\')"><i class="fas fa-chart-line"></i> 설비 별 고장시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm15\')"><i class="fas fa-chart-line"></i> 설비 구분 고장모드별 고장시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm16\')"><i class="fas fa-chart-line"></i> 설비 구분 고장원일별 고장시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm17\')"><i class="fas fa-chart-line"></i> 구분 고장조치사항별 고장시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm18\')"><i class="fas fa-chart-line"></i> 고장모드 별 보수시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm19\')"><i class="fas fa-chart-line"></i> 고장원인 별 보수시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm20\')"><i class="fas fa-chart-line"></i> 고장조치사항 별 보수시간</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left" onclick="callChart(\''+recipient+'\',\'htm21\')"><i class="fas fa-chart-line"></i> 설비 별 보수시간</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm5\')"> 고장모드 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm6\')"> 고장원인 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm7\')"> 고장조치사항 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm8\')"> 플랜트 구분 고장모드 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm9\')"> 플랜트 구분 고장원인 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm10\')"> 플랜트 구분 고장조치사항 별 파이차트</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm11\')"> 고장모드 별 작동시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm12\')"> 고장원인 별 운용시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm13\')"> 고장조치사항 별 고장시간</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm14\')"> 설비 별 작동시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm15\')"> 설비 구분 고장모드 별<br> 작동시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm16\')"> 설비 구분 고장원일 별<br> 작동시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm17\')"> 설비 구분 고장조치사항 별<br> 작동시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm18\')"> 고장모드 별 보수시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm19\')"> 고장원인 별 보수시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm20\')"> 고장조치사항 별 보수시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm21\')"> 설비 별 보수시간 히스토그램</button>\n' +
 		'\t\t\t\t</div>\n' +
 		'\t\t\t\t<div class="col-9 chartViewer">\n' +
 

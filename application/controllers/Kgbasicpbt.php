@@ -6,7 +6,7 @@
  * Time: 오후 5:58
  */
 
-class Kgdbt  extends CI_Controller
+class Kgbasicpbt  extends CI_Controller
 {
     function __construct()
     {
@@ -47,7 +47,7 @@ class Kgdbt  extends CI_Controller
 		//사용자 정보
 
 
-		$data['page_title']="기초통계분석";
+		$data['page_title']="기초통계분석(생산)";
 		$data['page_sub_title']="";
 		$data['menu_code']="005";
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
@@ -73,7 +73,8 @@ class Kgdbt  extends CI_Controller
 //			"(select Z.key3_cd from kgpbt Z where Z.key3_cd = TB.key3_cd) as key3_nm," .
 //			"(select Z.htm4 from kgrct Z where Z.ar_cd = TB.ar_cd) as htm4" .
 			"";
-		$data["list"]= $this->common->select_list_table_result('kgartpbtview TB',$sql,$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$order_by=array('key'=>'ar_time','value'=>'desc');
+		$data["list"]= $this->common->select_list_table_result('kgartpbtview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		$like=array(
 			'key1_cd','3','after'
 		);
@@ -85,7 +86,7 @@ class Kgdbt  extends CI_Controller
 		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
 		$this->load->view('layout/header',$data);
-		$this->load->view('kgdbt/writeform',$data);
+		$this->load->view('kgbasicpbt/writeform',$data);
 		$this->load->view('layout/footer',$data);
 	}
 	//플랜트 선택 위치 조회
@@ -339,9 +340,9 @@ class Kgdbt  extends CI_Controller
 				"user_id"=>@$this->session->userdata('id'),
 			);
 			$this->common->insert("kgart",$updateData);
-			$data['alerts_title'] = array("분석요청 완료");
+//			$data['alerts_title'] = array("분석요청 완료");
 			//윈도우 파일 실행
-			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
+//			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
 		}
 		else
 		{
