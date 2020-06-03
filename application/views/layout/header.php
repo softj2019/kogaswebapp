@@ -105,25 +105,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							</p>
 						</a>
 					</li>
-
-					<li class="nav-item">
-						<a href="/kgpbt/writeform" class="nav-link <?=$menu_code=='003'?'active':''?>">
-							<i class="fas fa-chart-line"></i>
-							<p>
-								신뢰도 분석(생산)
-								<!--								<span class="right badge badge-danger">New</span>-->
-							</p>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a href="/kgsbt/writeform" class="nav-link <?=$menu_code=='004'?'active':''?>">
-							<i class="far fa-chart-bar"></i>
-							<p>
-								신뢰도 분석(공급)
-								<!--								<span class="right badge badge-danger">New</span>-->
-							</p>
-						</a>
-					</li>
 					<li class="nav-item">
 						<a href="/kgbasicpbt/writeform" class="nav-link <?=$menu_code=='005'?'active':''?>">
 							<i class="fas fa-chart-area"></i>
@@ -142,6 +123,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							</p>
 						</a>
 					</li>
+					<li class="nav-item">
+						<a href="/kgpbt/writeform" class="nav-link <?=$menu_code=='003'?'active':''?>">
+							<i class="fas fa-chart-line"></i>
+							<p>
+								신뢰도 분석(생산)
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/kgsbt/writeform" class="nav-link <?=$menu_code=='004'?'active':''?>">
+							<i class="fas fa-chart-line"></i>
+							<p>
+								신뢰도 분석(공급)
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+
 					<li class="nav-item">
 						<a href="/kgrct/kgrctlist" class="nav-link <?=$menu_code=='008'?'active':''?>">
 							<i class="far fa-list-alt"></i>
