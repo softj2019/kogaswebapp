@@ -81,7 +81,7 @@ body {
 	padding: .75rem;
 	vertical-align: middle;
 	border-top: none !important;
-	text-align: center;
+	/*text-align: center;*/
 }
 .join {
 	float: right;
@@ -100,4 +100,7 @@ body {
 	/*text-decoration: underline;*/
 	font-weight: 900;
 	color: #444444;
+}
+.w-5{
+	width: 5% !important;
 }
