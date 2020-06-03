@@ -125,10 +125,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="/kgdbt/writeform" class="nav-link <?=$menu_code=='005'?'active':''?>">
+						<a href="/kgbasicpbt/writeform" class="nav-link <?=$menu_code=='005'?'active':''?>">
 							<i class="fas fa-chart-area"></i>
 							<p>
-								기초 통계 분석
+								기초 통계 분석(생산)
+								<!--								<span class="right badge badge-danger">New</span>-->
+							</p>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a href="/kgbasicsbt/writeform" class="nav-link <?=$menu_code=='006'?'active':''?>">
+							<i class="fas fa-chart-area"></i>
+							<p>
+								기초 통계 분석(공급)
 								<!--								<span class="right badge badge-danger">New</span>-->
 							</p>
 						</a>
