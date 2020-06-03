@@ -55,7 +55,7 @@ class Kgrct  extends CI_Controller
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
 		$config['base_url'] =base_url('kgrct/kgrctlist');
 		$config['total_rows'] = $this->common->select_count('kgartpbtview','','');
-		$config['per_page'] = 5;
+		$config['per_page'] = 10;
 
 		$this->pagination->initialize($config);
 		$page = $this->uri->segment(3,0);
@@ -72,7 +72,7 @@ class Kgrct  extends CI_Controller
 //			"(select Z.htm4 from kgrct Z where Z.ar_cd = TB.ar_cd) as htm4" .
 			"";
 		$order_by=array('key'=>'ar_time','value'=>'desc');
-		$data["list"]= $this->common->select_list_table_result('kgartpbtview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('kgartview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('kgrct/kgrctlist',$data);
