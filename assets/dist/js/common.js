@@ -376,8 +376,8 @@ $('#modal-default').on('show.bs.modal', function (event) {
 				'			<th rowspan="2" class="table-valign-middle">고장률</th><th>하안</th><th>고장률</th><th>상한</th>' +
 				'		</tr>' +
 				'		<td>' + data.viewRctDetail.value11 + '</td>' +
+				'		<td>' + data.viewRctDetail.value10 + '</td>' +
 				'		<td>' + data.viewRctDetail.value12 + '</td>' +
-				'		<td>' + data.viewRctDetail.value13 + '</td>' +
 				'	</tr>' +
 				'	</tbody' +
 				'</table>' +

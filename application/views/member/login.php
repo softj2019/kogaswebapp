@@ -103,9 +103,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			<!-- /.social-auth-links -->
 			<p>&nbsp;</p>
 			<p class="mb-1">
-				<a href="/member/passwordfind" class="pw_find">비밀번호 찾기</a>
+<!--				<a href="/member/passwordfind" class="pw_find">비밀번호 찾기</a>-->
 				<a href="/member/join" class="join">회원가입</a>
+
 			</p>
+<!--			<p class="mb-1">-->
+<!--				계정 승인은 관리자에게 문의 주십시오.-->
+<!--				기술기반연구소  단승규 연구원-->
+<!--				031-400-7505 skdan@kogas.or.kr-->
+<!--			</p>-->
 		</div>
 		<!-- /.login-card-body -->
 	</div>
