@@ -68,7 +68,8 @@ class Kgpbt  extends CI_Controller
 //			"(select Z.key3_cd from kgpbt Z where Z.key3_cd = TB.key3_cd) as key3_nm," .
 //			"(select Z.htm4 from kgrct Z where Z.ar_cd = TB.ar_cd) as htm4" .
 			"";
-		$data["list"]= $this->common->select_list_table_result('kgartpbtview TB',$sql,$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$order_by=array('key'=>'ar_time','value'=>'desc');
+		$data["list"]= $this->common->select_list_table_result('kgartpbtview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		$like=array(
 			'key1_cd','2','after'
 		);
