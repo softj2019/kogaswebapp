@@ -115,7 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							foreach ($kgcodList as $key=>$row) {
 								?>
 								<div class="form-group clearfix">
-									<div class="icheck-primary d-inline">
+									<div class="icheck-primary d-inline text-truncate">
 										<input type="checkbox" id="fmode_<?php echo $key; ?>" name="fmode[]" value="<?php echo $row->num_cd; ?>" class="fmode">
 										<label for="fmode_<?php echo $key; ?>">
 											<?php echo $row->num_nm; ?>
@@ -147,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							foreach ($listKey1 as $key=>$row) {
 								?>
 								<div class="form-group clearfix">
-									<div class="icheck-primary d-inline">
+									<div class="icheck-primary d-inline text-truncate">
 										<input type="checkbox" id="smode_<?=$key?>" name='smode[]' value="<?php echo $row->key1_cd; ?>" class="smode">
 										<label for="smode_<?=$key?>">
 											<?php echo $row->key1_nm; ?>
@@ -183,7 +183,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							foreach ($listKey1 as $key=>$row) {
 								?>
 								<div class="form-group clearfix">
-									<div class="icheck-primary d-inline">
+									<div class="icheck-primary d-inline text-truncate">
 										<input type="checkbox" id="key1_cd_<?=$key?>" name='key1_cd[]' value="<?php echo $row->key1_cd; ?>" class="key1_cd" data-id="kgsbt">
 										<label for="key1_cd_<?=$key?>">
 											<?php echo $row->key1_nm; ?>
@@ -251,7 +251,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-2">
 				<div class="card">
 					<div class="card-header">
-						<div class="icheck-primary d-inline">
+						<div class="icheck-primary d-inline ">
 							<input type="checkbox" id="checkAll_key_4" name='checkAll' value="key4_cd">
 							<label for="checkAll_key_4">
 								2차
@@ -281,7 +281,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		</div>
 		<?php form_close();?>
-		<div class="card">
+		<div class="clearfix card">
 			<div class="card-body table-responsive">
 
 				<table class="table table-hover table-striped">
@@ -319,7 +319,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
-									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>">download</button>
+									<a class="btn btn-info btn-block" href="/download/getfile/<?php echo $row->ar_cd;?>">download</a>
 								</td>
 							</tr>
 							<?php

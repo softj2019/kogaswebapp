@@ -187,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
-									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>">download</button>
+									<a class="btn btn-info btn-block" href="/download/getfile/<?php echo $row->ar_cd;?>">download</a>
 								</td>
 							</tr>
 							<?php
