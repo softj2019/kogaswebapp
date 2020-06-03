@@ -332,7 +332,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?php echo $row->ar_time; ?></td>
 								<td class="text-truncate"><?php echo $row->key1_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key2_nm; ?></td>
-								<td><?php echo $row->key1_nm; ?></td>
+								<td><?php echo $row->key3_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key4_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key5_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key6_nm; ?></td>

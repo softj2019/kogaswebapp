@@ -77,6 +77,13 @@ $('.key1_cd').on('change',function () {
 			key1_cd.push($(this).val());
 		}
 	})
+	var url='';
+	var type=$(this).attr("data-id");
+	if(type=="kgsbt"){
+		url = base_url+"kgsbt/ajaxMultiSelect";
+	}else{
+		url = base_url+"kgpbt/ajaxMultiSelect";
+	}
 	if($('.kgpbtLocale').length > 0 ){
 		$.ajax({
 			type: "POST",
