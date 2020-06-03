@@ -64,7 +64,7 @@ class Kgbasicsbt  extends CI_Controller
 		$limit[0]=$config['per_page'];
 
 		$where=array(
-			"analysis_type"=>"B",
+			"analysis_type"=>"A",
 		);
 		//기본목록
 		$sql="" .
