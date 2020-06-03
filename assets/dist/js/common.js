@@ -6,11 +6,11 @@ $('input[name=anal_type]').on('change',function(){
 		$('.select_mode_s').addClass('hidden');
 		$('.kgpbtLocale').addClass('hidden');
 
-		$('input:radio[name="select_mode"]').filter('[value=""]').click();
+		$('input:radio[name="select_mode"]').eq(0).click();
 	}else{
 		$('.select_mode_s').removeClass('hidden');
 		$('.kgpbtLocale').removeClass('hidden');
-		$('input:radio[name="select_mode"]').filter('[value=""]').click();
+		$('input:radio[name="select_mode"]').eq(0).click();
 	}
 })
 //모드 선택
@@ -18,22 +18,29 @@ $('input[name=select_mode]').on('change',function () {
 	console.log($(this).val());
 	var select_mode = $(this).val();
 	$('.anal_flag').attr('disabled','disabled');
+	//고장모드
 	if(select_mode == 'fmode'){
 		//고장모드
 		$('.fmodeOverlay').addClass('hidden')
 		//검정모드
 		$('.smodeOverlay').removeClass('hidden')
-
+		$('.smode').prop("checked",false).trigger('change');
+	//검정모드
 	}else if(select_mode == 'smode'){
 		//고장모드
 		$('.fmodeOverlay').removeClass('hidden')
 		//검정모드
-		$('.smodeOverlay').addClass('hidden')
+		$('.smodeOverlay').addClass('hidden');
+		$('.fmode').prop("checked",false).trigger('change');
+
+	//선택안함
 	}else{
 		//고장모드
 		$('.fmodeOverlay').removeClass('hidden')
 		//검정모드
 		$('.smodeOverlay').removeClass('hidden')
+		$('.fmode').prop("checked",false).trigger('change');
+		$('.smode').prop("checked",false).trigger('change');
 	}
 })
 // $('.sdate').datetimepicker({"format":"YYYY-MM-DD","locale":"ko"});
@@ -68,13 +75,19 @@ $('input[name=checkAll]').on("change",function () {
 })
 //플랜트 선택 위치 표시
 $('.key1_cd').on('change',function () {
+
 	var html='';
 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
 	var key1_cd=[];
+
+	$('.smode').prop("checked",false).trigger('change');
+
 	//다중셀렉트 체크된 결과값 반환
 	$.each($('.key1_cd'),function () {
 		if($(this).is(":checked")){
 			key1_cd.push($(this).val());
+			// 검정모드자동선택전
+			$('.smode').filter('[value="'+$(this).val()+'"]').prop("checked",true).trigger('change');
 		}
 	})
 	var url='';
@@ -87,7 +100,7 @@ $('.key1_cd').on('change',function () {
 	if($('.kgpbtLocale').length > 0 ){
 		$.ajax({
 			type: "POST",
-			url: base_url+"kgpbt/ajaxMultiSelect",
+			url: url,
 			data:{"key1arr":key1_cd},
 			dataType: "json",
 			success: function (data) {

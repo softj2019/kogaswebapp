@@ -105,15 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							</p>
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
-							<i class="far fa-newspaper"></i>
-							<p>
-								게시판
-								<!--								<span class="right badge badge-danger">New</span>-->
-							</p>
-						</a>
-					</li>
+
 					<li class="nav-item">
 						<a href="/kgpbt/writeform" class="nav-link <?=$menu_code=='003'?'active':''?>">
 							<i class="fas fa-chart-line"></i>
@@ -133,7 +125,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+						<a href="/kgdbt/writeform" class="nav-link <?=$menu_code=='005'?'active':''?>">
 							<i class="fas fa-chart-area"></i>
 							<p>
 								기초 통계 분석
@@ -142,7 +134,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+						<a href="/kgrct/kgrctlist" class="nav-link <?=$menu_code=='008'?'active':''?>">
 							<i class="far fa-list-alt"></i>
 							<p>
 								분석 결과 조회
@@ -150,26 +142,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							</p>
 						</a>
 					</li>
+
 					<li class="nav-item">
-						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
-							<i class="fas fa-clipboard-list"></i>
-							<p>
-								기초 통계 분석
-								<!--								<span class="right badge badge-danger">New</span>-->
-							</p>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
-							<i class="far fa-clipboard"></i>
-							<p>
-								분석결과 비교
-								<!--								<span class="right badge badge-danger">New</span>-->
-							</p>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+						<a href="/console/mguser" class="nav-link <?=$menu_code=='009'?'active':''?>">
 							<i class="fas fa-cogs"></i>
 							<p>
 								관리자 메뉴
@@ -178,7 +153,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="/" class="nav-link <?=$menu_code=='002'?'active':''?>">
+						<a href="/board/boardlist" class="nav-link <?=$menu_code=='010'?'active':''?>">
 							<i class="fab fa-hire-a-helper"></i>
 							<p>
 								도움말
