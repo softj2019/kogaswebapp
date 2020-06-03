@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
-									<a class="btn btn-info btn-block" href="/download/AR2020060300001_file.csv">download</a>
+									<a class="btn btn-info btn-block" href="/download/getfile/<?php echo $row->ar_cd;?>">download</a>
 								</td>
 							</tr>
 							<?php
