@@ -8,29 +8,32 @@
 
 class Kgbasicpbt  extends CI_Controller
 {
-    function __construct()
-    {
-        parent::__construct();
-        //모델로드
+	function __construct()
+	{
+		parent::__construct();
+		//모델로드
 //        $this->load->model('admin_plan');
 //        $this->load->model('admin_member');
 //        $this->load->model('kgart_model');
 		$this->load->model('common');
-        //CSRF 방지
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->load->helper('date');
-        $this->load->helper('array');
+		//CSRF 방지
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$this->load->helper('date');
+		$this->load->helper('array');
 		$this->load->helper('alert');
 		$this->load->library('pagination');
-    }
-    public function _remap($method)
-    {
+
+
+
+	}
+	public function _remap($method)
+	{
 		$data=Array();
-//		if(!@$this->session->userdata('logged_in')) {
+		if(!@$this->session->userdata('logged_in')) {
 //            modal_alert('로그인 후 이용가능합니다.','member/login',$this);
-//			redirect('member/login');
-//		}else{
+			redirect('member/login');
+		}else{
 //			if(!@$this->session->userdata('is_admin')) {
 //				modal_alert('접근권한이 없습니다..','main',$this);
 //			}else{
@@ -38,22 +41,22 @@ class Kgbasicpbt  extends CI_Controller
 				$this->{"{$method}"}();
 			}
 //			}
-//		}
+		}
 
-    }
+	}
 	public function writeform()
 	{
 		$data=Array();
 		//사용자 정보
 
 
-		$data['page_title']="기초통계분석(생산)";
+		$data['page_title']="기초 통계 분석 (생산)";
 		$data['page_sub_title']="";
 		$data['menu_code']="005";
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
-		$config['base_url'] =base_url('kgpbt/writeform');
+		$config['base_url'] =base_url('kgbasicpbt/writeform');
 		$config['total_rows'] = $this->common->select_count('kgartpbtview','','');
 		$config['per_page'] = 5;
 
@@ -76,14 +79,14 @@ class Kgbasicpbt  extends CI_Controller
 		$order_by=array('key'=>'ar_time','value'=>'desc');
 		$data["list"]= $this->common->select_list_table_result('kgartpbtview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		$like=array(
-			'key1_cd','3','after'
+			'key1_cd','2','after'
 		);
 		//플랜트 조회
 		$data["listKey1"]= $this->common->select_list_table_result('kgloc',$sql='distinct key1_cd,key1_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like,$joina='',$joinb='','');
 //		$data['footerScript']="/assets/dist/js/chart/defaultChart.js";
 
-		$data["kgpbtClass1"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
-		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
+		$data["kgpbtClass1"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
+		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',array('num_cd','1','after'),$joina='',$joinb='','');
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('kgbasicpbt/writeform',$data);
@@ -94,7 +97,7 @@ class Kgbasicpbt  extends CI_Controller
 		header('Content-type: application/json');
 		$keyArr = $this->input->post("key1arr");
 		$like=array(
-			'key1_cd','3','after'
+			'key1_cd','2','after'
 		);
 		$where_in = array(
 			"key1_cd"=>$keyArr
@@ -104,7 +107,7 @@ class Kgbasicpbt  extends CI_Controller
 		echo json_encode($data);
 	}
 	//1차 분류 선택 2차 조회
-	public function ajaxMultiSelectKgsbtFirst(){
+	public function ajaxMultiSelectKgpbtFirst(){
 		header('Content-type: application/json');
 		$keyArr = $this->input->post("key3_cd");
 
@@ -118,12 +121,17 @@ class Kgbasicpbt  extends CI_Controller
 			$data["alerts_icon"]="error";
 			$data["alerts_title"]="&nbsp;1차 분류는 1개만 선택 가능";
 		}else{
-			$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+
+			if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
+				$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			}else{
+				$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			}
 		}
 		echo json_encode($data);
 	}
 	//1차 분류 선택 1-1 차 조회
-	public function ajaxMultiSelectKgsbtFirstB(){
+	public function ajaxMultiSelectKgpbtFirstB(){
 		header('Content-type: application/json');
 		$keyArr = $this->input->post("key3_cd");
 
@@ -137,12 +145,12 @@ class Kgbasicpbt  extends CI_Controller
 			$data["alerts_icon"]="error";
 			$data["alerts_title"]="&nbsp;1차 분류는 1개만 선택 가능";
 		}else{
-			$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key3_1_cd,key3_1_nm',$where="key3_1_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key3_1_cd,key3_1_nm',$where="key3_1_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}
 		echo json_encode($data);
 	}
 	//2차 분류 선택 3차 조회
-	public function ajaxMultiSelectKgsbtSecond(){
+	public function ajaxMultiSelectKgpbtSecond(){
 		header('Content-type: application/json');
 
 		$keyArr = $this->input->post("key3_cd");
@@ -151,12 +159,33 @@ class Kgbasicpbt  extends CI_Controller
 			"key3_cd"=>	$keyArr,
 			"key4_cd"=>	$keyArr2,
 		);
+		if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
+			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+		}else{
+			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+		}
+		echo json_encode($data);
+	}
+	//3차 분류 선택 4차 조회
+	public function ajaxMultiSelectKgpbtThird(){
+		header('Content-type: application/json');
+		$keyArr = $this->input->post("key3_cd");
+		$keyArr2 = $this->input->post("key4_cd");
+		$keyArr3 = $this->input->post("key5_cd");
+		$where_in =array(
+			"key3_cd"=>	$keyArr,
+			"key4_cd"=>	$keyArr2,
+			"key5_cd"=>	$keyArr3,
+		);
+		if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
+			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key6_cd,key6_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+		}else{
+			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key6_cd,key6_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+		}
 
-		$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 
 		echo json_encode($data);
 	}
-
 	//생산 기본/심화 분석 뷰어
 	public function htmlViewer(){
 		header('Content-type: application/json');
@@ -235,6 +264,11 @@ class Kgbasicpbt  extends CI_Controller
 		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
 		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
 		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
+		$fmode = $this->whereInArrayInsert($this->input->post("fmode"));
+		$smode = $this->whereInArrayInsert($this->input->post("smode"));
+
+//		$smode=$this->whereInArray($this->input->post("smode"));
+//		$fmode=$this->whereInArray($this->input->post("fmode"));
 
 		$better_date = date('Ymd');
 		//AR_CD 값
@@ -247,8 +281,6 @@ class Kgbasicpbt  extends CI_Controller
 		$ar_cd = $arCdRow->ar_cd;
 		$anal_type =$this->input->post("anal_type");
 
-		$smode=$this->whereInArray($this->input->post("smode"));
-		$fmode=$this->whereInArray($this->input->post("fmode"));
 		$wvalue=$this->input->post("wvalue");
 		$sdate=$this->input->post("startDate");
 		$edate=$this->input->post("endDate");
@@ -311,38 +343,40 @@ class Kgbasicpbt  extends CI_Controller
 			$row =  $this->common->select_row(
 				$table,
 				$sql,
-				$where=Array(
-//						"!(ptp < '2009-01-01 00:00:00' AND pr_rank = '1')",
-//						"bhour > 0;",
-				),
+				"  !(ptp < '2009-01-01 00:00:00' AND pr_rank = '1') and bhour > 0 ",
 				$coding=false,
 				$order_by='',
 				$group_by='' );
 			$data["alerts_icon"]="success";
 			$data["rowCnt"]=$row->cnt;
-			$updateData = Array(
-				//data 없으면 ALL
-				"AR_CD"=>$ar_cd,
-				"analysis_type"=>$anal_type,
-				"analysis_flg"=>'S',
-				"key1_cd"=>$key1_cd_arr?$key1_cd_arr:'ALL',
-				"key2_cd"=>$key2_cd_arr?$key2_cd_arr:'ALL',
-				"key3_cd"=>$key3_cd_arr?$key3_cd_arr:'ALL',
-				"key4_cd"=>$key4_cd_arr?$key4_cd_arr:'ALL',
-				"key5_cd"=>$key5_cd_arr?$key5_cd_arr:'ALL',
-				"key6_cd"=>$key6_cd_arr?$key6_cd_arr:'ALL',
-				"key3_1_cd"=>$key3_1_cd_arr?$key3_1_cd_arr:'ALL',
-				"sdate"=>$sdate,
-				"edate"=>$edate,
-				"fmode"=>$fmode,
-				"smode"=>$smode,
-				"wvalue"=>$wvalue,
-				"user_id"=>@$this->session->userdata('id'),
-			);
-			$this->common->insert("kgart",$updateData);
-//			$data['alerts_title'] = array("분석요청 완료");
-			//윈도우 파일 실행
-//			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
+			if($data["rowCnt"] > 0) {
+				$updateData = Array(
+					//data 없으면 ALL
+					"AR_CD" => $ar_cd,
+					"analysis_type" => $anal_type,
+					"analysis_flg" => 'S',
+					"key1_cd" => $key1_cd_arr ? $key1_cd_arr : 'ALL',
+					"key2_cd" => $key2_cd_arr ? $key2_cd_arr : 'ALL',
+					"key3_cd" => $key3_cd_arr ? $key3_cd_arr : 'ALL',
+					"key4_cd" => $key4_cd_arr ? $key4_cd_arr : 'ALL',
+					"key5_cd" => $key5_cd_arr ? $key5_cd_arr : 'ALL',
+					"key6_cd" => $key6_cd_arr ? $key6_cd_arr : 'ALL',
+					"key3_1_cd" => $key3_1_cd_arr ? $key3_1_cd_arr : 'ALL',
+					"sdate" => $sdate,
+					"edate" => $edate,
+					"fmode" => $fmode,
+					"smode" => $smode,
+					"wvalue" => $wvalue,
+					"user_id" => @$this->session->userdata('id'),
+				);
+				$this->common->insert("kgart",$updateData);
+				$data['alerts_title'] = array("분석요청 완료");
+				//윈도우 파일 실행
+				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+			}else{
+				$data["alerts_icon"]="error";
+				$data['alerts_title']= array("요청에 해당하는 DATA 가 없습니다.");
+			}
 		}
 		else
 		{

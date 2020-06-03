@@ -88,12 +88,16 @@ class Member extends CI_Controller {
 			//세션 생성
 			$newdata = array(
 //                        'username' => $result->username,
-				'user_email' => $result->email,
+				'name' => $result->name,
 				'user_id'=> $result->id,
 				'logged_in' => TRUE,
-//					'is_admin'=>FALSE,
+				'is_admin'=>FALSE,
 //					'lang_cd'=>$this->input->post('lang_cd'),
 			);
+			if($result->role =="admin"){
+				$newdata['is_admin']=TRUE;
+			}
+
 			$this->session->set_userdata($newdata);
 			redirect(site_url('/'));
 		}else{
