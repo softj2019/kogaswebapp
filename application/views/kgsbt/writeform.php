@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								?>
 								<div class="form-group clearfix">
 									<div class="icheck-primary d-inline">
-										<input type="checkbox" id="key1_cd_<?=$key?>" name='key1_cd[]' value="<?php echo $row->key1_cd; ?>" class="key1_cd">
+										<input type="checkbox" id="key1_cd_<?=$key?>" name='key1_cd[]' value="<?php echo $row->key1_cd; ?>" class="key1_cd" data-id="kgsbt">
 										<label for="key1_cd_<?=$key?>">
 											<?php echo $row->key1_nm; ?>
 										</label>
@@ -304,7 +304,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?php echo $row->ar_time; ?></td>
 								<td class="text-truncate"><?php echo $row->key1_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key2_nm; ?></td>
-								<td><?php echo $row->key1_nm; ?></td>
+								<td><?php echo $row->key3_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key4_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key5_nm; ?></td>
 								<td class="text-truncate"><?php echo $row->key6_nm; ?></td>
