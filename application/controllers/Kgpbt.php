@@ -238,6 +238,25 @@ class Kgpbt  extends CI_Controller
 				if($arrayLast != $value) $arrString.=",";
 			}
 		}else{
+			if($array==null){
+				$arrString='ALL';
+			}else{
+				$arrString=$array;
+			}
+		}
+		return $arrString;
+	}
+	//make where in
+	public function whereInArrayInsertForMode($array){
+		if(is_array($array)){
+			$arrString ="";
+			$arrayLast = array_pop($array);
+			array_push($array,$arrayLast);
+			foreach($array as $key=>$value){
+				$arrString.=$value;
+				if($arrayLast != $value) $arrString.=",";
+			}
+		}else{
 			$arrString=$array;
 		}
 		return $arrString;
@@ -264,8 +283,8 @@ class Kgpbt  extends CI_Controller
 		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
 		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
 		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
-		$fmode = $this->whereInArrayInsert($this->input->post("fmode"));
-		$smode = $this->whereInArrayInsert($this->input->post("smode"));
+		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"));
+		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"));
 
 //		$smode=$this->whereInArray($this->input->post("smode"));
 //		$fmode=$this->whereInArray($this->input->post("fmode"));

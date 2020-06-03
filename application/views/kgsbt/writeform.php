@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="col-2">
 
-								<button type="button" class="btn btn-success btn-block submitKgArt" >분석 요청</button>
+								<button type="button" class="btn btn-success btn-block submitKgArt" data-id="kgsbt">분석 요청</button>
 
 							</div>
 						</div>

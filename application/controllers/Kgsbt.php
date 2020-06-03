@@ -219,6 +219,7 @@ class Kgsbt  extends CI_Controller
 		header('Content-type: application/json');
 		$this->form_validation->set_rules('key1_cd[]', '플랜트 ', 'required');
 		$this->form_validation->set_rules('key3_cd[]', '1차 ', 'required');
+
 		$key1_cd = $this->whereInArray($this->input->post("key1_cd"));
 		$key2_cd = $this->whereInArray($this->input->post("key2_cd"));
 		$key3_cd = $this->whereInArray($this->input->post("key3_cd"));
@@ -259,67 +260,15 @@ class Kgsbt  extends CI_Controller
 		($key5_cd)? $key5_cd_query="AND key4_cd in ($key5_cd)  \n" :$key5_cd_query='';
 		($key3_1_cd)? $key3_1_cd_query="AND key3_1_cd in ($key3_1_cd)  \n" :$key3_1_cd_query='';
 		($key6_cd)? $key6_cd_query="AND key6_cd in ($key6_cd)  \n" :$key6_cd_query='';
-		$subQuery ="";
-		$topSubQuery="";
-		if ($key3_cd=="1" || $key3_cd=="2" || $key3_cd=="3") {
-			$subQuery = "".
-				"AND fl_tag REGEXP (SELECT CONCAT('^',group_CONCAT(FL_TAG SEPARATOR '-|^'),'-') \n" .
-				"FROM KGTAG \n".
-				"WHERE 1=1 \n".
-				$key3_cd_query.
-				$key4_cd_query.
-				$key5_cd_query.
-				$key6_cd_query.
-				")\n";
-		}else{
-			$topSubQuery=$key4_cd_query.$key5_cd_query.$key3_1_cd_query;
 
-		}
 
 
 
 		if ($this->form_validation->run() == true)
 		{
-			$sql='' .
-				'COUNT(*) as cnt ';
-			$table= "" .
-				"(SELECT RANK() OVER(PARTITION BY pr_cd ORDER BY pr_num) pr_rank,\n" .
-				"IFNULL(CONCAT(prfdate,' ',TIME('00:00:00')), '2008-12-31 00:00:00') ptp,\n" .
-				"TIMESTAMPDIFF(hour, IFNULL(CONCAT(DATE(LAG(edate, 1) OVER (PARTITION BY pr_cd ORDER BY pr_num)),' ',TIME(LAG(etime, 1) OVER (PARTITION BY pr_cd ORDER BY pr_num))),IFNULL(CONCAT(prfdate,' ',TIME('00:00:00')), '2008-12-31 00:00:00')), IF(bstat = 'C', NOW(), CONCAT(sdate,' ',stime))) bhour \n" .
-				"FROM KGDATA WHERE 1 = 1\n" .
-				"AND plant like '2%' \n" .
-				"AND !(edate IS NULL AND bstat = 'F') \n" .
-//					"AND prloc in (SELECT key2_cd_old FROM kgloc WHERE key2_cd IN ('3010','3100','3200')) -- key2_cd 변수 if all이면 해당쿼리 사용x \n" .
-				"AND fl_cd IN (SELECT DISTINCT CONCAT(key1_cd,'-', fl_cd) \n" .
-				"FROM KGLOC INNER JOIN KGPBT \n" .
-				"WHERE 1=1\n" .
-				$key1_cd_query.
-				$key2_cd_query.
-				$topSubQuery.
 
-				")\n" .
-
-				"AND fl_tag REGEXP (SELECT CONCAT('^',group_CONCAT(FL_TAG SEPARATOR '-|^'),'-') \n" .
-				"FROM KGTAG \n".
-				"WHERE 1=1 \n".
-				"AND key3_cd in ('2') \n".
-				$subQuery.
-				")\n".
-				" AND (sdate >= '2009-01-01' or bstat = 'C') \n".
-				" AND (sdate <= '2020-05-24' or bstat = 'C') \n".
-				" ORDER BY pr_cd, pr_num) A \n";
-			$row =  $this->common->select_row(
-				$table,
-				$sql,
-				$where=Array(
-//						"!(ptp < '2009-01-01 00:00:00' AND pr_rank = '1')",
-//						"bhour > 0;",
-				),
-				$coding=false,
-				$order_by='',
-				$group_by='' );
 			$data["alerts_icon"]="success";
-			$data["rowCnt"]=$row->cnt;
+
 			$updateData = Array(
 				//data 없으면 ALL
 				"AR_CD"=>$ar_cd,
@@ -339,10 +288,10 @@ class Kgsbt  extends CI_Controller
 				"wvalue"=>$wvalue,
 				"user_id"=>@$this->session->userdata('id'),
 			);
-//			$this->common->insert("kgart",$updateData);
+			$this->common->insert("kgart",$updateData);
 			$data['alerts_title'] = array("분석요청 완료");
 			//윈도우 파일 실행
-//			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
+			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
 		}
 		else
 		{

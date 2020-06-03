@@ -320,10 +320,11 @@ class Kgbasicsbt  extends CI_Controller
 				$group_by='' );
 			$data["alerts_icon"]="success";
 			$data["rowCnt"]=$row->cnt;
+
 			$updateData = Array(
 				//data 없으면 ALL
 				"AR_CD"=>$ar_cd,
-				"analysis_type"=>$anal_type,
+				"analysis_type"=>'A',
 				"analysis_flg"=>'S',
 				"key1_cd"=>$key1_cd_arr?$key1_cd_arr:'ALL',
 				"key2_cd"=>$key2_cd_arr?$key2_cd_arr:'ALL',
@@ -342,7 +343,7 @@ class Kgbasicsbt  extends CI_Controller
 			$this->common->insert("kgart",$updateData);
 //			$data['alerts_title'] = array("분석요청 완료");
 			//윈도우 파일 실행
-//			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
+			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
 		}
 		else
 		{
