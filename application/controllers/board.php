@@ -30,26 +30,23 @@ class Board  extends CI_Controller
 	public function _remap($method)
 	{
 		$data=Array();
-//		if(!@$this->session->userdata('logged_in')) {
-//            modal_alert('로그인 후 이용가능합니다.','member/login',$this);
-//			redirect('member/login');
-//		}else{
-//			if(!@$this->session->userdata('is_admin')) {
-//				modal_alert('접근권한이 없습니다..','main',$this);
-//			}else{
-		if (method_exists($this, $method)) {
-			$this->{"{$method}"}();
+		if(!@$this->session->userdata('logged_in')) {
+			redirect('member/login');
+		}else{
+			if (method_exists($this, $method)) {
+				$this->{"{$method}"}();
+			}
 		}
-//			}
-//		}
-
 	}
     public function boardlist()
     {
         $data=Array();
 		//사용자 정보
 
-
+		$type = $this->input->get("board_type");
+		if(!$type){
+			$type = "A";
+		}
 		$data['page_title']="도움말";
 //		$data['page_sub_title']="";
 //        $data['page_css_style']="fee.css";
@@ -57,8 +54,8 @@ class Board  extends CI_Controller
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
-		$config['base_url'] =base_url('console/mguser');
-		$config['total_rows'] = $this->common->select_count('kguse','','');
+		$config['base_url'] =base_url('board/boardlist');
+		$config['total_rows'] = $this->common->select_count('board','',array('type'>$type));
 		$config['per_page'] = 10;
 
 		$this->pagination->initialize($config);
@@ -68,7 +65,7 @@ class Board  extends CI_Controller
 		$limit[0]=$config['per_page'];
 
 		//기본목록
-//		$data["list"]= $this->common->select_list_table_result('kguse',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('board',$sql='',array('type'=>$type),$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
         $this->load->view('board/boardlist',$data);
