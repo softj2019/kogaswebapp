@@ -293,6 +293,18 @@ $(document).on('change','.key5_cd',function () {
 		}
 	});
 });
+
+function callDebugToast(text) {
+	$.toast({
+		position: 'bottom-right',
+		heading: "Debug",
+		text: text,
+		icon: "info",
+		// hideAfter: false
+		loaderBg: '#ffffff',  // Background color of the toast loader
+		hideAfter: false,
+	});
+}
 $('.submitKgArt').on("click",function () {
 	$('.loading-bar-wrap').removeClass("hidden");
 	// var insertToast =$.toast({
@@ -303,9 +315,20 @@ $('.submitKgArt').on("click",function () {
 	// 	hideAfter: 8000,
 	// 	loaderBg: '#ffffff',  // Background color of the toast loader
 	// });
+	var url='';
+	var type=$(this).attr("data-id");
+	if(type=="kgsbt"){
+		url = base_url+"kgsbt/insertKgArt";
+	}else if(type=="kgbasicpbt"){
+		url = base_url+"kgbasicpbt/insertKgArt";
+	}else if(type=="kgbasicsbt"){
+		url = base_url+"kgbasicsbt/insertKgArt";
+	}else{
+		url = base_url+"kgpbt/insertKgArt";
+	}
 	$.ajax({
 		type: "POST",
-		url: base_url+"kgpbt/insertKgArt",
+		url: url,
 		data:$('#defaultForm').serialize(),
 		dataType: "json",
 		success: function (data) {
@@ -319,10 +342,16 @@ $('.submitKgArt').on("click",function () {
 						icon: data.alerts_icon,
 						// hideAfter: false
 						loaderBg: '#ffffff',  // Background color of the toast loader
+						hideAfter: 2000,
+						afterHidden: function () {
+							if(data.alerts_status=="success"){
+								location.reload();
+							}
+							// callDebugToast(data.debug);
+						}
 					});
 				})
 			}
-
 		},
 		beforeSend: function(data){
 			//진행중
@@ -368,12 +397,13 @@ $('#modal-default').on('show.bs.modal', function (event) {
 			inContent = data.content;
 			inHtml += '' +
 				'<div class="modal-body">' +
+				'<div class="text-right">(95% CI)</div>' +
 				'<table class="table table-striped">' +
 
 				'	<tbody>' +
 				'	<tr>' +
 				'		<tr>' +
-				'			<th rowspan="2" class="table-valign-middle">고장률</th><th>하안</th><th>고장률</th><th>상한</th>' +
+				'			<th rowspan="2" class="table-valign-middle">고장률</th><th>하한</th><th>고장률</th><th>상한</th>' +
 				'		</tr>' +
 				'		<td>' + data.viewRctDetail.value11 + '</td>' +
 				'		<td>' + data.viewRctDetail.value10 + '</td>' +

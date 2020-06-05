@@ -94,5 +94,75 @@ class Common extends CI_Model
         $this->db->where($where);
         return $this->db->delete($table);
     }
+	/**
+	 * 프로시져 호출
+	 * @author Jongwon Byun <codeigniterk@gmail.com>
+	 */
+	function use_procedure($proc_name, $arg_arr=array())
+	{
+		if($arg_arr)
+		{
+			$arg = '\'';
+			$arg .= implode('\',\'', $arg_arr);
+			$arg .= '\'' .
+//				',@return_value' .
+				'';
 
+			$sql = "CALL {$proc_name}({$arg});";
+		}
+		else
+		{
+			$sql = "CALL {$proc_name}(@return_value)";
+		}
+
+//		$this->mysqli = $this->load->database('mysqli', TRUE);
+
+
+//		$sql = $this->db->query($sql);
+		$result = $this->db->query($sql);
+
+		$returns = $result->row();
+
+		//로깅
+//		$this->procedure_log($proc_name, implode('|', $arg_arr), implode('|', $returns[0]));
+
+		return $returns;
+
+	}
+	/**
+	 * 프로시져 호출
+	 * 멀티 리턴
+	 * @author Jongwon Byun <codeigniterk@gmail.com>
+	 */
+	function use_procedure_multi($proc_name, $arg_arr=array())
+	{
+		if($arg_arr)
+		{
+			$arg = '\'';
+			$arg .= implode('\',\'', $arg_arr);
+//			$arg .= '\'';
+			$arg .= '\'' .
+//				',@return_value' .
+				'';
+
+			$sql = "CALL {$proc_name}({$arg});";
+		}
+		else
+		{
+			$sql = "CALL {$proc_name}(@return_value)";
+		}
+
+//		$this->mysqli = $this->load->database('mysqli', TRUE);
+
+
+		$result = $this->db->query($sql);
+
+		$returns = $result->row();
+
+		//로깅
+//		$this->procedure_log($proc_name, implode('|', $arg_arr), @implode('|', $returns[0]));
+
+		return $returns;
+
+	}
 }

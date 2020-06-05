@@ -67,7 +67,7 @@ class Kgbasicpbt  extends CI_Controller
 		$limit[0]=$config['per_page'];
 
 		$where=array(
-			"analysis_type"=>"A",
+			"analysis_type"=>"B",
 		);
 		//기본목록
 		$sql="" .
@@ -348,12 +348,14 @@ class Kgbasicpbt  extends CI_Controller
 				$order_by='',
 				$group_by='' );
 			$data["alerts_icon"]="success";
-			$data["rowCnt"]=$row->cnt;
+			//임시조치 복원 필요
+//			$data["rowCnt"]=$row->cnt;
+			$data["rowCnt"]=1;
 			if($data["rowCnt"] > 0) {
 				$updateData = Array(
 					//data 없으면 ALL
 					"AR_CD" => $ar_cd,
-					"analysis_type" => $anal_type,
+					"analysis_type" => 'A',
 					"analysis_flg" => 'S',
 					"key1_cd" => $key1_cd_arr ? $key1_cd_arr : 'ALL',
 					"key2_cd" => $key2_cd_arr ? $key2_cd_arr : 'ALL',

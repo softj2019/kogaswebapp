@@ -104,3 +104,6 @@ body {
 .w-5{
 	width: 5% !important;
 }
+.card{
+	overflow:hidden;
+}
