@@ -42,7 +42,7 @@ class Main  extends CI_Controller
 		//사용자 정보
 
 
-		$data['page_title']="대시보드";
+		$data['page_title']="신뢰도 분석 시스템 홈";
 //		$data['page_sub_title']="";
 //        $data['page_css_style']="fee.css";
 		$data['menu_code']="001";
@@ -63,7 +63,17 @@ class Main  extends CI_Controller
 
 //		$data["list"]= $this->common->select_list_table('kgart','','',$coding=false,'');
 		//기본목록
-		$data["list"]= $this->common->select_list_table_result('kgart',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result(''.
+			'(select ar_cd, ar_time, user_id, analysis_name, analysis_flg '.
+			'from kgartview ORDER BY id DESC limit 10) A',
+			$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit ='');
+		$data["list2"]= $this->common->select_list_table_result(''.
+			'(SELECT (SELECT distinct C.key1_nm FROM kgLOC C WHERE C.key1_cd = A.plant) plant, '.
+			'(SELECT distinct C.key2_nm FROM kgLOC C WHERE C.key2_cd = concat(A.plant,A.prloc)) prloc, '.
+		    '(SELECT distinct B.pr FROM kgspmt B WHERE B.pr_cd = A.pr_cd) pr, '.
+		    'probj  '.
+			'from kgdata A where bstat = \'F\' ORDER BY id DESC limit 10) C ',
+			$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit ='');
 //		$where=array(
 //			'code_name'=>'is not null',
 //		);
@@ -82,29 +92,58 @@ class Main  extends CI_Controller
 
 		//해당 년도 고장모드 비율
 		$data["listA"]=$this->common->select_list_table_result('' .
-			'(select (select num_nm from kgcod where num_cd = break_cd) code_name,' .
+			'(select num_nm code_name,' .
 			'count(*) as cnt ' .
-			'from kgdata ' .
+			'from kgdata inner join kgcod on num_cd = break_cd ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
-			'group by break_cd) A',
+			'group by break_cd  limit 13) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		//해당 년도 고장원인 비율
 		$data["listB"]=$this->common->select_list_table_result('' .
-			'(select (select num_nm from kgcod where num_cd = cause_cd) code_name,' .
+			'(select num_nm code_name,' .
 			'count(*) as cnt ' .
-			'from kgdata ' .
+			'from kgdata inner join kgcod on num_cd = action_cd ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
-			'group by cause_cd) A',
+			'group by break_cd  limit 13) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		//해당 년도 고장조치 비율
 		$data["listC"]=$this->common->select_list_table_result(
-			'(select (select num_nm from kgcod where num_cd = action_cd) code_name,' .
+			'(select num_nm code_name,' .
 			'count(*) as cnt ' .
-			'from kgdata ' .
+			'from kgdata inner join kgcod on num_cd = cause_cd ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
-			'group by action_cd) A',
+			'group by break_cd  limit 13) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
+		$data["listD"]=$this->common->select_list_table_result(
+			'(SELECT chartDate , sbtCnt, pbtCnt '.
+			'FROM(SELECT substring(CURDATE(),1,7) chartDate '.
+			'	UNION all select SUBSTRING(DATE_ADD(CURDATE(), INTERVAL -1 MONTH),1,7) '.
+			'	UNION all select substring(DATE_ADD(CURDATE(), INTERVAL -2 MONTH),1,7) '.
+			'	UNION all select substring(DATE_ADD(CURDATE(), INTERVAL -3 MONTH),1,7) '.
+			'	UNION all select substring(DATE_ADD(CURDATE(), INTERVAL -4 MONTH),1,7) '.
+			'	UNION all select substring(DATE_ADD(CURDATE(), INTERVAL -5 MONTH),1,7) '.
+			'	UNION all select substring(DATE_ADD(CURDATE(), INTERVAL -6 MONTH),1,7) '.
+			'	UNION all select substring(DATE_ADD(CURDATE(), INTERVAL -7 MONTH),1,7) '.
+			'	UNION all select substring(DATE_ADD(CURDATE(), INTERVAL -8 MONTH),1,7) '.
+			'	UNION all select substring(DATE_ADD(CURDATE(), INTERVAL -9 MONTH),1,7) '.
+			'	UNION all select substring(DATE_ADD(CURDATE(), INTERVAL -10 MONTH),1,7) '.
+			'	UNION all SELECT SUBSTRING(DATE_ADD(CURDATE(), INTERVAL -11 MONTH),1,7)) DATE_TABLE '.
+			'LEFT OUTER JOIN '.
+			'(SELECT SUBSTRING(sdate,1,7) ym, COUNT(*) sbtCnt FROM kgdata '.
+			'	WHERE plant LIKE \'3%\' '.
+			'	AND bstat = \'F\' '.
+			'	AND sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() '.
+			'	GROUP BY SUBSTRING(sdate,1,7)) DATA_TABLE1 '.
+			'ON DATE_TABLE.chartDate = DATA_TABLE1.ym '.
+			'LEFT OUTER JOIN '.
+			'(SELECT SUBSTRING(sdate,1,7) ym, COUNT(*) pbtCnt FROM kgdata '.
+			'	WHERE plant LIKE \'2%\' '.
+			'	AND bstat = \'F\' '.
+			'	AND sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() '.
+			'	GROUP BY SUBSTRING(sdate,1,7)) DATA_TABLE2 '.
+			'ON DATE_TABLE.chartDate = DATA_TABLE2.ym order by chartDate) A',
+			$sql='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
 		echo json_encode($data);
 	}
