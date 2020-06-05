@@ -1,7 +1,47 @@
+//차트 시작
+//차트 시작
+function barChartCall(objectId,labelArr,dataArrSbt,dataArrPbt) {
+	var barChartCanvas = $('#'+objectId).get(0).getContext('2d');
+
+	var bardata = {
+		labels : labelArr.reverse(),
+		datasets : [
+			{
+				label : '생산 설비',
+				backgroundColor: "#FFB1C1",
+				borderColor: "#FF7B97",
+				borderWidth: 1,
+				data : dataArrPbt.reverse()
+			},
+			{
+				label : '공급 설비',
+				backgroundColor: "#87CDFD",
+				borderColor: "#099CFD",
+				borderWidth: 1,
+				data : dataArrSbt.reverse()
+			}
+		]
+	};
+
+	var barOptions = {
+		responsive: true,
+		legend: {
+			position: 'top',
+		},
+		title: {
+			display: true,
+		}
+	};
+
+	var myChart = new Chart(barChartCanvas, {
+		type: 'bar',
+		data: bardata,
+		options: barOptions
+	});
+}
 
 //차트 시작
 	function pieChartCall(objectId,labelArr,dataArr) {
-	console.log(labelArr)
 		var pieChartCanvas = $('#'+objectId).get(0).getContext('2d')
 		var pieData = {
 			labels: labelArr,
@@ -14,7 +54,9 @@
 		}
 		var pieOptions = {
 			legend: {
-				display: true
+				labels: {
+					usePointStyle: true  //<-- set this
+				}
 			}
 		}
 		//Create pie or douhnut chart
@@ -49,11 +91,14 @@
 	}
 
 	var listAlabelsArr = [];
-	var listAarr=[]
+	var listAarr=[];
 	var listBlabelsArr = [];
-	var listBarr=[]
+	var listBarr=[];
 	var listClabelsArr = [];
-	var listCarr=[]
+	var listCarr=[];
+	var listDlabelsArr = [];
+	var listSbtArr=[];
+	var listPbtArr=[];
 	$.ajax({
 		type: "POST",
 		url: base_url+"main/mainAjaxCall",
@@ -67,13 +112,20 @@
 			$.each(data.listB,function (key,value) {
 				listBlabelsArr.push(value.code_name);
 				listBarr.push(value.cnt);
-			})
+			});
 			$.each(data.listC,function (key,value) {
 				listClabelsArr.push(value.code_name);
 				listCarr.push(value.cnt);
-			})
+			});
+			console.log(data.listD);
+			$.each(data.listD,function (key,value) {
+				listDlabelsArr.push(value.chartDate);
+				listSbtArr.push(value.sbtCnt);
+				listPbtArr.push(value.pbtCnt);
+			});
 			pieChartCall('pieChart',listAlabelsArr,listAarr);
 			pieChartCall('pieChart2',listBlabelsArr,listBarr);
 			pieChartCall('pieChart3',listClabelsArr,listCarr);
+			barChartCall('barChart',listDlabelsArr,listSbtArr,listPbtArr);
 		}
 	});
