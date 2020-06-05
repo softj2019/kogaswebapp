@@ -68,11 +68,42 @@ class Console  extends CI_Controller
 		$limit[0]=$config['per_page'];
 
 		//기본목록
-		$data["list"]= $this->common->select_list_table_result('kguse',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('kguse',
+			$sql='kguse.*, (select Z.typename from kgref Z where Z.typetable = \'kguse\' and Z.typecolumn = \'role\' and Z.typecode = kguse.role) as role_name',
+			$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
         $this->load->view('console/mguser',$data);
 		$this->load->view('layout/footer',$data);
     }
+	public function loginhistory()
+	{
+		$data=Array();
+		//사용자 정보
 
+
+		$data['page_title']="로그인이력";
+//		$data['page_sub_title']="";
+//        $data['page_css_style']="fee.css";
+		$data['menu_code']="011";
+//		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
+
+		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
+		$config['base_url'] =base_url('console/mguser');
+		$config['total_rows'] = $this->common->select_count('kguse','','');
+		$config['per_page'] = 10;
+
+		$this->pagination->initialize($config);
+		$page = $this->uri->segment(3,0);
+		$data['pagination']= $this->pagination->create_links();
+		$limit[1]=$page;
+		$limit[0]=$config['per_page'];
+
+		//기본목록
+		$data["list"]= $this->common->select_list_table_result('kguse',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+
+		$this->load->view('layout/header',$data);
+		$this->load->view('console/loginhistory',$data);
+		$this->load->view('layout/footer',$data);
+	}
 }

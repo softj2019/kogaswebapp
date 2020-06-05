@@ -55,7 +55,7 @@ class Member extends CI_Controller {
 			'password' => $password,
 		);
 		$result = $this->common->select_row('kguse',$sql='',$where );
-		$this->form_validation->set_message('login_check', '아이디 페스워드를 확인하세요.');
+		$this->form_validation->set_message('login_check', '아이디 패스워드를 확인하세요.');
 		if($result==null){
 			return false;
 		}else{
@@ -255,19 +255,38 @@ class Member extends CI_Controller {
     }
     public function resetpasswordproc()
     {
+		header('Content-type: application/json');
         // password field with confirmation field matching
-        $this->form_validation->set_rules('password', 'password', 'required');
-        $this->form_validation->set_rules('password_proc', 'password_proc', 'required|matches[password]');
+		$result = $this->common->select_row('kguse','',Array('id'=>$this->input->post('user_id')));
+
+		$this->form_validation->set_rules('password', '비밀번호','required|callback_login_check['.$result->email.']');
+		$this->form_validation->set_rules('new_password', '신규 비밀번호', 'required');
+        $this->form_validation->set_rules('new_password_proc', '신규 비밀번호', 'required|matches[new_password]');
+
         if ($this->form_validation->run() == TRUE) {
             $param=Array(
-                'password'=>$this->input->post('password'),
+				'password' => do_hash($this->input->post('new_password', TRUE),'sha1'),
             );
-            $result = $this->common->update_row('member',$param,'email',$this->input->post('email'));
-            redirect('member/login');
+             $this->common->update_row('kguse',$param,'id',$result->id);
+             $data["alerts_status"]="success";
         }else{
-            $data['email']=$this->input->post('email');
-            $data['target_url']='member/login';
-            $this->load->view('member/resetpassword',$data);
+			$data['alerts_title'] = $this->form_validation->error_array();
+			$data['alerts_icon'] ="error";
         }
+        echo json_encode($data);
     }
+	public function joinapply()
+	{
+		header('Content-type: application/json');
+
+		$param=Array(
+			'role' => "user",
+		);
+		foreach ($this->input->post("chk") as $key=>$value){
+			$this->common->update_row('kguse',$param,'id',$value);
+		}
+		$data["alerts_status"]="success";
+
+		echo json_encode($data);
+	}
 }

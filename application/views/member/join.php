@@ -128,6 +128,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 				<a href="/member/login" class="join">로그인</a>
 			</p>
+			<p class="mb-1">
+
+				관리자에 연락 하세요 or
+			</p>
 		</div>
 		<!-- /.login-card-body -->
 	</div>

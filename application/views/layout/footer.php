@@ -23,6 +23,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<strong>KOGAS 설비 신뢰도 분석 시스템 by Minitab </strong>
 	</footer>
 </div>
+<div class="modal fade" id="modal-user">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">비밀번호변경</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<?php
+				$attributes = array('class' => 'form-horizonatal', 'id' => 'passwordChange','name' => 'passwordChange');
+				echo form_open('',$attributes);
+				?>
+				<input type="hidden" name="user_id" value="<?php echo @$this->session->userdata('user_id') ?>">
+				<div class="form-group">
+					<div>
+						<input type="password" name="password" placeholder="기존 비밀번호" class="form-control">
+					</div>
+					<p class="text-danger password">
+						&nbsp;
+					</p>
+				</div>
+				<div class="form-group">
+					<div>
+						<input type="password" name="new_password" placeholder="신규 비밀번호" class="form-control">
+					</div>
+					<p class="text-danger new_password">
+						&nbsp;
+					</p>
+
+				</div>
+				<div class="form-group">
+					<div>
+						<input type="password" name="new_password_proc" placeholder="신규 비밀번호 확인" class="form-control">
+					</div>
+					<p class="text-danger new_password_proc">
+						&nbsp;
+					</p>
+				</div>
+				<?php form_close();?>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-primary passwordChange">변경 요청</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
@@ -93,6 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			beforeHide: function () {}, // will be triggered before the toast gets hidden
 			afterHidden: function () {}  // will be triggered after the toast has been hidden
 		};
+
 </script>
 
 

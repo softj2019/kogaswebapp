@@ -305,6 +305,16 @@ function callDebugToast(text) {
 		hideAfter: false,
 	});
 }
+function callToast(text,icon,heading) {
+	$.toast({
+		position: 'bottom-right',
+		heading: "Debug",
+		text: text,
+		icon: "info",
+		loaderBg: '#ffffff',  // Background color of the toast loader
+	});
+}
+
 $('.submitKgArt').on("click",function () {
 	$('.loading-bar-wrap').removeClass("hidden");
 	// var insertToast =$.toast({
@@ -469,3 +479,45 @@ function callChart(arcd,htmlNum) {
 	});
 
 }
+
+	$(document).on('click','.passwordChange',function () {
+		$.ajax({
+			type: "POST",
+			url: base_url+"member/resetpasswordproc",
+			// dataType:"html",
+			data:$('#passwordChange').serialize(),
+			// async: false
+		}).done(function(data){
+			console.log(data);
+			if(data.alerts_title){
+				// $('#modal-user').modal('toggle');
+				$.each(data.alerts_title,function (key,value) {
+					$('.'+key).html(value);
+				});
+			}
+			if(data.alerts_status=="success"){
+				console.log(11111);
+				$('#modal-user').modal('toggle');
+			}
+		});
+	})
+$(document).on("click",".joinApply",function () {
+	if(!$('.list_chk').is(":checked")){
+		callToast('변경 대상을 선택하세요','error','Error');
+	}else{
+		$.ajax({
+			type: "POST",
+			url: base_url+"member/joinapply",
+			data:$('#defaultForm').serialize(),
+
+		}).done(function(data){
+
+			if(data.alerts_title){
+
+			}
+			if(data.alerts_status=="success"){
+
+			}
+		});
+	}
+})

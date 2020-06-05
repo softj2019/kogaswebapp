@@ -34,7 +34,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		var base_url ='<?=base_url()?>';
 	</script>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="sidebar-mini layout-fixed">
 <div class="wrapper">
 
 	<!-- Navbar -->
@@ -69,19 +69,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		<!-- Sidebar -->
 		<div class="sidebar">
 			<!-- Sidebar user panel (optional) -->
-			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+<!--			<div class="user-panel mt-3 pb-3 mb-3 d-flex">-->
 <!--				<div class="image">-->
 <!--					<img src="/assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">-->
 <!--				</div>-->
 
-				<div class="info">
-					<a href="#" class="d-block text-right"><i class="fas fa-user"></i> <?=@$this->session->userdata('name')?></a>
-				</div>
-			</div>
+
+<!--			</div>-->
 
 			<!-- Sidebar Menu -->
 			<nav class="mt-2">
-				<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+				<ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
 					<!-- Add icons to the links using the .nav-icon class
 						 with font-awesome or any other icon font library -->
 <!--					<li class="nav-item has-treeview menu-open">-->
@@ -108,6 +106,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!--						</ul>`-->
 <!--					</li>-->
 
+					<li class="nav-item">
+
+						<a href="javascript:void(0);" class="nav-link" data-toggle="modal" data-target="#modal-user">
+							<p>
+								<?=@$this->session->userdata('name')?>
+								<span class="badge badge-info right">
+								<i class="fas fa-user"></i> &nbsp;MyPage
+						</span>
+							</p>
+						</a>
+
+					</li>
 					<li class="nav-item">
 						<a href="/" class="nav-link <?=$menu_code=='001'?'active':''?>">
 							<i class="nav-icon fas fa-tachometer-alt"></i>
@@ -164,14 +174,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</a>
 					</li>
 					<?php if(@$this->session->userdata('is_admin')) {?>
-					<li class="nav-item">
-						<a href="/console/mguser" class="nav-link <?=$menu_code=='009'?'active':''?>">
+					<li class="nav-item <?=$menu_code=='009' || $menu_code=='011'?'menu-open':''?>"">
+						<a href="" class="nav-link <?=$menu_code=='009' || $menu_code=='011'?'active':''?>">
 							<i class="nav-icon fas fa-cogs"></i>
 							<p>
 								관리자 메뉴
 								<!--								<span class="right badge badge-danger">New</span>-->
 							</p>
 						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<a href="/console/mguser" class="nav-link <?=$menu_code=='009'?'active':''?>">
+									<i class="far fa-circle nav-icon"></i>
+									<p>사용자관리</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="/console/loginhistory" class="nav-link <?=$menu_code=='011'?'active':''?>" >
+									<i class="far fa-circle nav-icon"></i>
+									<p>로그인 이력</p>
+								</a>
+							</li>
+						</ul>
 					</li>
 					<?php } ?>
 					<li class="nav-item">
