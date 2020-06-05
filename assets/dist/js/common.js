@@ -293,6 +293,18 @@ $(document).on('change','.key5_cd',function () {
 		}
 	});
 });
+
+function callDebugToast(text) {
+	$.toast({
+		position: 'bottom-right',
+		heading: "Debug",
+		text: text,
+		icon: "info",
+		// hideAfter: false
+		loaderBg: '#ffffff',  // Background color of the toast loader
+		hideAfter: false,
+	});
+}
 $('.submitKgArt').on("click",function () {
 	$('.loading-bar-wrap').removeClass("hidden");
 	// var insertToast =$.toast({
@@ -332,7 +344,10 @@ $('.submitKgArt').on("click",function () {
 						loaderBg: '#ffffff',  // Background color of the toast loader
 						hideAfter: 2000,
 						afterHidden: function () {
-							location.reload();
+							if(data.alerts_status=="success"){
+								location.reload();
+							}
+							// callDebugToast(data.debug);
 						}
 					});
 				})

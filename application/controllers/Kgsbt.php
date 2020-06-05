@@ -291,7 +291,7 @@ class Kgsbt  extends CI_Controller
 			$this->common->insert("kgart",$updateData);
 			$data['alerts_title'] = array("분석요청 완료");
 			//윈도우 파일 실행
-			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe");
+			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
 		}
 		else
 		{
