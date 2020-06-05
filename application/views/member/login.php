@@ -51,7 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 				<div class="input-group mb-3">
-					<input type="email" class="form-control" name="email" placeholder="이메일" value="<?php echo set_value('email'); ?>">
+					<input type="email" class="form-control" name="email" placeholder="회사 이메일" value="<?php echo set_value('email'); ?>">
 					<div class="input-group-append">
 						<div class="input-group-text">
 							<span class="fas fa-envelope"></span>
@@ -107,11 +107,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				<a href="/member/join" class="join">회원가입</a>
 
 			</p>
-<!--			<p class="mb-1">-->
-<!--				계정 승인은 관리자에게 문의 주십시오.-->
-<!--				기술기반연구소  단승규 연구원-->
-<!--				031-400-7505 skdan@kogas.or.kr-->
-<!--			</p>-->
+			<p class="mb-1">
+				처음 방문시 회원가입을 해주세요.
+			</p>
 		</div>
 		<!-- /.login-card-body -->
 	</div>

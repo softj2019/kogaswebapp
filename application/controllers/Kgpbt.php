@@ -77,7 +77,7 @@ class Kgpbt  extends CI_Controller
 //			"(select Z.htm4 from kgrct Z where Z.ar_cd = TB.ar_cd) as htm4" .
 			"";
 		$order_by=array('key'=>'ar_time','value'=>'desc');
-		$data["list"]= $this->common->select_list_table_result('kgartpbtview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('kgartview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		$like=array(
 			'key1_cd','2','after'
 		);
@@ -212,21 +212,7 @@ class Kgpbt  extends CI_Controller
 		$content = file_get_contents($row->htmNum);
 		echo $content;
 	}
-	//make where in
-	public function whereInArray($array){
-    	if(is_array($array)){
-			$arrString ="";
-			$arrayLast = array_pop($array);
-			array_push($array,$arrayLast);
-			foreach($array as $key=>$value){
-				$arrString.="'".$value."'";
-				if($arrayLast != $value) $arrString.=",";
-			}
-		}else{
-			$arrString=$array;
-		}
-    	return $arrString;
-	}
+
 	//make where in
 	public function whereInArrayInsert($array){
 		if(is_array($array)){
@@ -246,7 +232,7 @@ class Kgpbt  extends CI_Controller
 		}
 		return $arrString;
 	}
-	//make where in
+	//make where in mode
 	public function whereInArrayInsertForMode($array){
 		if(is_array($array)){
 			$arrString ="";
@@ -275,8 +261,8 @@ class Kgpbt  extends CI_Controller
 		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
 		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
 		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
-		$fmode = $this->whereInArrayInsert($this->input->post("fmode"),true);
-		$smode = $this->whereInArrayInsert($this->input->post("smode"),true);
+		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
+		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
 
 
 		$better_date = date('Ymd');

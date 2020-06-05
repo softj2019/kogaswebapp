@@ -313,17 +313,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="card-body table-responsive">
 
 				<table class="table table-hover table-striped">
+					<colgroup>
+						<col class="w-5">
+						<col>
+						<col>
+						<col>
+						<col class="w-5">
+						<col class="w-5">
+						<col class="w-5">
+
+					</colgroup>
+
 					<thead>
 					<tr>
 						<th>요청코드</th>
 						<th>분석일자</th>
-						<th>플랜트</th>
-						<th>위치내역</th>
-						<th>1차분류</th>
-						<th>1-1차분류</th>
-						<th>2차분류</th>
-						<th>3차분류</th>
-						<th>4차분류</th>
+<!--						<th>플랜트</th>-->
+<!--						<th>위치내역</th>-->
+<!--						<th>1차분류</th>-->
+<!--						<th>1-1차분류</th>-->
+<!--						<th>distri</th>-->
+						<th>요청구분</th>
+						<th>요청실행상태</th>
 						<th>신뢰도분석결과</th>
 						<th>기초통계분석결과</th>
 						<th>데이터 파일</th>
@@ -336,13 +347,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<tr>
 								<td class="text"><?php echo $row->ar_cd; ?></td>
 								<td><?php echo $row->ar_time; ?></td>
-								<td class="text-truncate"><?php echo $row->key1_nm; ?></td>
-								<td class="text-truncate"><?php echo $row->key2_nm; ?></td>
-								<td><?php echo $row->key3_nm; ?></td>
-								<td class="text-truncate"><?php echo $row->key4_nm; ?></td>
-								<td class="text-truncate"><?php echo $row->key5_nm; ?></td>
-								<td class="text-truncate"><?php echo $row->key6_nm; ?></td>
-								<td class="text-truncate"><?php echo $row->key3_1_nm; ?></td>
+<!--								<td class="text-truncate">--><?php //echo $row->key1_nm; ?><!--</td>-->
+<!--								<td class="text-truncate">--><?php //echo $row->key2_nm; ?><!--</td>-->
+<!--								<td>--><?php //echo $row->key3_nm; ?><!--</td>-->
+<!--								<td class="text-truncate">--><?php //echo $row->key4_nm; ?><!--</td>-->
+<!--								<td class="text-truncate">--><?php //echo $row->key5_nm; ?><!--</td>-->
+<!--								<td class="text-truncate">--><?php //echo $row->distri; ?><!--</td>-->
+								<td class="text-truncate"><?php echo $row->analysis_name; ?></td>
+								<td class="text-truncate"><?php echo $row->analysis_flg; ?></td>
 								<td>
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>

@@ -147,4 +147,9 @@ class Main  extends CI_Controller
 
 		echo json_encode($data);
 	}
+	public function menu(){
+		$data["list"] = $this->common->select_list_table_result($table='menu',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit='');
+
+		$this->load->view('layout/menu',$data);
+	}
 }
