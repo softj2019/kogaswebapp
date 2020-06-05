@@ -183,23 +183,28 @@ class Kgsbt  extends CI_Controller
 		$content = file_get_contents($row->htmNum);
 		echo $content;
 	}
+
 	//make where in
-	public function whereInArray($array){
+	public function whereInArrayInsert($array){
 		if(is_array($array)){
 			$arrString ="";
 			$arrayLast = array_pop($array);
 			array_push($array,$arrayLast);
 			foreach($array as $key=>$value){
-				$arrString.="'".$value."'";
+				$arrString.=$value;
 				if($arrayLast != $value) $arrString.=",";
 			}
 		}else{
-			$arrString=$array;
+			if($array==null){
+				$arrString='ALL';
+			}else{
+				$arrString=$array;
+			}
 		}
 		return $arrString;
 	}
-	//make where in
-	public function whereInArrayInsert($array){
+	//make where in mode
+	public function whereInArrayInsertForMode($array){
 		if(is_array($array)){
 			$arrString ="";
 			$arrayLast = array_pop($array);
@@ -220,15 +225,6 @@ class Kgsbt  extends CI_Controller
 		$this->form_validation->set_rules('key1_cd[]', '플랜트 ', 'required');
 		$this->form_validation->set_rules('key3_cd[]', '1차 ', 'required');
 
-		$key1_cd = $this->whereInArray($this->input->post("key1_cd"));
-		$key2_cd = $this->whereInArray($this->input->post("key2_cd"));
-		$key3_cd = $this->whereInArray($this->input->post("key3_cd"));
-		$key4_cd = $this->whereInArray($this->input->post("key4_cd"));
-		$key5_cd = $this->whereInArray($this->input->post("key5_cd"));
-		$key6_cd = $this->whereInArray($this->input->post("key6_cd"));
-		$key3_1_cd = $this->whereInArray($this->input->post("key3_cd_1"));
-
-
 		$key1_cd_arr = $this->whereInArrayInsert($this->input->post("key1_cd"));
 		$key2_cd_arr = $this->whereInArrayInsert($this->input->post("key2_cd"));
 		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd"));
@@ -236,6 +232,9 @@ class Kgsbt  extends CI_Controller
 		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
 		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
 		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
+		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
+		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
+
 
 		$better_date = date('Ymd');
 		//AR_CD 값
@@ -247,51 +246,58 @@ class Kgsbt  extends CI_Controller
 		$arCdRow=$this->common->select_row($table='kgart',$arcdMakeSql,$where='',$coding=false,$order_by='',$group_by='',$like);
 		$ar_cd = $arCdRow->ar_cd;
 		$anal_type =$this->input->post("anal_type");
-
-		$smode=$this->whereInArray($this->input->post("smode"));
-		$fmode=$this->whereInArray($this->input->post("fmode"));
 		$wvalue=$this->input->post("wvalue");
 		$sdate=$this->input->post("startDate");
 		$edate=$this->input->post("endDate");
-		($key1_cd)? $key1_cd_query="AND key1_cd in ($key1_cd)  \n" :$key1_cd_query='';
-		($key2_cd)? $key2_cd_query="AND key2_cd in ($key2_cd)  \n" :$key2_cd_query='';
-		($key3_cd)? $key3_cd_query="AND key3_cd in ($key3_cd)  \n" :$key3_cd_query='';
-		($key4_cd)? $key4_cd_query="AND key3_cd in ($key4_cd)  \n" :$key4_cd_query='';
-		($key5_cd)? $key5_cd_query="AND key4_cd in ($key5_cd)  \n" :$key5_cd_query='';
-		($key3_1_cd)? $key3_1_cd_query="AND key3_1_cd in ($key3_1_cd)  \n" :$key3_1_cd_query='';
-		($key6_cd)? $key6_cd_query="AND key6_cd in ($key6_cd)  \n" :$key6_cd_query='';
-
-
 
 
 		if ($this->form_validation->run() == true)
 		{
 
-			$data["alerts_icon"]="success";
-
-			$updateData = Array(
-				//data 없으면 ALL
-				"AR_CD"=>$ar_cd,
-				"analysis_type"=>$anal_type,
-				"analysis_flg"=>'S',
-				"key1_cd"=>$key1_cd_arr?$key1_cd_arr:'ALL',
-				"key2_cd"=>$key2_cd_arr?$key2_cd_arr:'ALL',
-				"key3_cd"=>$key3_cd_arr?$key3_cd_arr:'ALL',
-				"key4_cd"=>$key4_cd_arr?$key4_cd_arr:'ALL',
-				"key5_cd"=>$key5_cd_arr?$key5_cd_arr:'ALL',
-				"key6_cd"=>$key6_cd_arr?$key6_cd_arr:'ALL',
-				"key3_1_cd"=>$key3_1_cd_arr?$key3_1_cd_arr:'ALL',
-				"sdate"=>$sdate,
-				"edate"=>$edate,
-				"fmode"=>$fmode,
-				"smode"=>$smode,
-				"wvalue"=>$wvalue,
-				"user_id"=>@$this->session->userdata('id'),
+			$call_row = $this->common->use_procedure('selectSBTDataCount',
+				array(
+					$key1_cd_arr,
+					$key2_cd_arr,
+					$key3_cd_arr,
+					$key4_cd_arr,
+					$key5_cd_arr,
+					$sdate,
+					$edate
+				)
 			);
-			$this->common->insert("kgart",$updateData);
-			$data['alerts_title'] = array("분석요청 완료");
-			//윈도우 파일 실행
-			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+			//프로시저 호출 후 DB 다시연결
+			mysqli_next_result( $this->db->conn_id );
+
+			$data["rowCnt"]=$call_row->cnt;
+			if($data["rowCnt"] > 0) {
+				$updateData = array(
+					//data 없으면 ALL
+					"AR_CD" => $ar_cd,
+					"analysis_type" => $anal_type,
+					"analysis_flg" => 'S',
+					"key1_cd" => $key1_cd_arr,
+					"key2_cd" => $key2_cd_arr,
+					"key3_cd" => $key3_cd_arr,
+					"key4_cd" => $key4_cd_arr,
+					"key5_cd" => $key5_cd_arr,
+					"key6_cd" => $key6_cd_arr,
+					"key3_1_cd" => $key3_1_cd_arr,
+					"sdate" => $sdate,
+					"edate" => $edate,
+					"fmode" => $fmode,
+					"smode" => $smode,
+					"wvalue" => $wvalue,
+					"user_id" => @$this->session->userdata('id'),
+				);
+				$this->common->insert("kgart",$updateData);
+				$data['alerts_title'] = array("분석요청 완료");
+				$data['alerts_status'] = "success";
+				//윈도우 파일 실행
+				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+			}else{
+				$data["alerts_icon"]="error";
+				$data['alerts_title']= array("요청에 해당하는 DATA 가 없습니다.");
+			}
 		}
 		else
 		{
