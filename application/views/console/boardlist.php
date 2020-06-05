@@ -23,6 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</ul>
 					<div class="tab-content" id="custom-content-below-tabContent">
 						<div class="tab-pane fade show active" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
+
+							<button class="btn btn-primary">글쓰기</button>
+
 							<table class="table table-hover table-striped">
 								<thead>
 								<tr>
