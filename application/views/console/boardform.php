@@ -45,8 +45,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="col-2">
 						<button type="button" class="btn btn-default btn-block" onclick="location.href='/console/boardlist?board_type=<?=$board_type?>'">목록</button>
 					</div>
-					<div class="offset-8 col-2">
+					<div class="offset-6 col-2">
 						<button type="submit" class="btn btn-primary btn-block" >저장</button>
+					</div>
+					<div class="col-2">
+						<button type="button" class="btn btn-danger btn-block" onclick="location.href='/console/boarddelete/<?=$br_cd?>'">삭제</button>
 					</div>
 				</div>
 			</div>

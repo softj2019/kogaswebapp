@@ -23,7 +23,7 @@ class Console  extends CI_Controller
         $this->load->helper('array');
 		$this->load->helper('alert');
 		$this->load->library('pagination');
-
+		$this->load->library('user_agent');
 
 
     }
@@ -122,8 +122,8 @@ class Console  extends CI_Controller
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
-		$config['base_url'] =base_url('board/boardlist');
-		$config['total_rows'] = $this->common->select_count('board','',array('type'>$type));
+		$config['base_url'] =base_url('console/boardlist');
+		$config['total_rows'] = $this->common->select_count('board','',array('type'=>$type));
 		$config['per_page'] = 10;
 
 		$this->pagination->initialize($config);
@@ -138,6 +138,15 @@ class Console  extends CI_Controller
 		$this->load->view('layout/header',$data);
 		$this->load->view('console/boardlist',$data);
 		$this->load->view('layout/footer',$data);
+	}
+	public function boarddelete(){
+		$where=array(
+			"br_cd"=> $this->uri->segment(3,0),
+		);
+		$boardRow =$this->common->select_row($table='board','',$where,$coding=false,$order_by='',$group_by='' );
+		$this->common->delete_row($table='board',array('br_cd'=>$boardRow->br_cd));
+
+		redirect(base_url()."console/boardlist?board_type=$boardRow->type");
 	}
 	public function boardform()
 	{
