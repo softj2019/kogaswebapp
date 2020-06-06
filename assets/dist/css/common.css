@@ -83,6 +83,11 @@ body {
 	border-top: none !important;
 	/*text-align: center;*/
 }
+.card .table a{
+	text-decoration: underline;
+	font-weight: 900;
+	color: #444444;
+}
 .join {
 	float: right;
 	text-decoration: underline;
@@ -95,6 +100,7 @@ body {
 	font-weight: 900;
 	color: #444444;
 }
+
 .login_title {
 	/*float: left;*/
 	/*text-decoration: underline;*/
