@@ -28,6 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<tr>
 									<th style="width: 5%">no</th>
 									<th style="width: 85%">제목</th>
+									<th style="width: 85%">작성자</th>
 									<th style="width: 10%">등록일</th>
 								</tr>
 								</thead>
@@ -37,7 +38,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										?>
 										<tr>
 											<td class="text"><?php echo $row->id; ?></td>
-											<td class="text-truncate"><?php echo $row->title; ?></td>
+											<td><a href="/board/boardread/<?php echo $row->id; ?>"><?php echo $row->title; ?></a></td>
+											<td class="text-truncate"><?php echo $row->name; ?></td>
 											<td class="text-truncate"><?php echo $row->created_at; ?></td>
 										</tr>
 										<?php
@@ -53,6 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<tr>
 									<th style="width: 5%">no</th>
 									<th style="width: 85%">제목</th>
+									<th style="width: 85%">작성자</th>
 									<th style="width: 10%">등록일</th>
 								</tr>
 								</thead>
@@ -62,7 +65,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										?>
 										<tr>
 											<td class="text"><?php echo $row->id; ?></td>
-											<td class="text-truncate"><?php echo $row->title; ?></td>
+											<td><a href="/board/boardread/<?php echo $row->id; ?>"><?php echo $row->title; ?></a></td>
+											<td class="text-truncate"><?php echo $row->name; ?></td>
 											<td class="text-truncate"><?php echo $row->created_at; ?></td>
 										</tr>
 										<?php

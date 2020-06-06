@@ -84,6 +84,24 @@ class Common extends CI_Model
     {
         return $this->db->insert($table,$param);
     }
+
+    //배열의 마지막요소를 sdtArray 로로
+	function array_end($array)
+	{
+		$val = end($array);
+		return array(array_search($val, $array) => $val);
+	}
+    function insert_on_dup($table,$param){
+		$dupValue='';
+		foreach($param as $key=>$value){
+			$dupValue .=$key."='".$value."'";
+			if('br_cd' != $key) $dupValue.=", ";
+		}
+
+		$sql = $this->db->insert_string($table, $param) . ' ON DUPLICATE KEY UPDATE ' .$dupValue;
+
+		$this->db->query($sql);
+	}
     function update_row($table='',$param='',$pid_key='',$pid_value='')
     {
         $this->db->where($pid_key, $pid_value);

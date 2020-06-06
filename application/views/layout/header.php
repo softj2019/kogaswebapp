@@ -29,6 +29,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<link rel="stylesheet" href="/assets/dist/css/adminlte.min.css">
 	<!-- Google Font: Source Sans Pro -->
 <!--	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">-->
+	<!-- summernote -->
+	<link rel="stylesheet" href="/assets/plugins/summernote/summernote-bs4.css">
+
 	<link rel="stylesheet" href="/assets/dist/css/common.css">
 	<script>
 		var base_url ='<?=base_url()?>';

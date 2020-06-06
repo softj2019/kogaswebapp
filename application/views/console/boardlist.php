@@ -15,22 +15,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--					<h4>Custom Content Below</h4>-->
 					<ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link <?=$this->input->get("board_type")=="A"?"active":""?> " id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true" onclick="location.href='/board/boardlist?board_type=A'">사용방법</a>
+							<a class="nav-link <?=$this->input->get("board_type")=="A"?"active":""?> " id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true" onclick="location.href='/console/boardlist?board_type=A'">사용방법</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link <?=$this->input->get("board_type")=="B"?"active":""?>" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false" onclick="location.href='/board/boardlist?board_type=B'">신뢰성분석</a>
+							<a class="nav-link <?=$this->input->get("board_type")=="B"?"active":""?>" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false" onclick="location.href='/console/boardlist?board_type=B'">신뢰성분석</a>
 						</li>
 					</ul>
 					<div class="tab-content" id="custom-content-below-tabContent">
 						<div class="tab-pane fade show active" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
-
-							<button class="btn btn-primary">글쓰기</button>
 
 							<table class="table table-hover table-striped">
 								<thead>
 								<tr>
 									<th style="width: 5%">no</th>
 									<th style="width: 85%">제목</th>
+									<th style="width: 85%">작성자</th>
 									<th style="width: 10%">등록일</th>
 								</tr>
 								</thead>
@@ -39,9 +38,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									foreach ($list as $row) {
 										?>
 										<tr>
-											<td class="text"><?php echo $row->id; ?></td>
-											<td class="text-truncate"><?php echo $row->title; ?></td>
-											<td class="text-truncate"><?php echo $row->created_at; ?></td>
+											<td><?php echo $row->id; ?></td>
+											<td><a href="/console/boardread/<?php echo $row->id; ?>"><?php echo $row->title; ?></a></td>
+											<td><?php echo $row->title; ?></td>
+											<td><?php echo $row->created_at; ?></td>
 										</tr>
 										<?php
 									}
@@ -49,6 +49,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								?>
 								</tbody>
 							</table>
+
+
+
 						</div>
 						<div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
 							<table class="table table-hover table-striped">
@@ -56,6 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<tr>
 									<th style="width: 5%">no</th>
 									<th style="width: 85%">제목</th>
+									<th style="width: 85%">작성자</th>
 									<th style="width: 10%">등록일</th>
 								</tr>
 								</thead>
@@ -64,9 +68,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									foreach ($list as $row) {
 										?>
 										<tr>
-											<td class="text"><?php echo $row->id; ?></td>
-											<td class="text-truncate"><?php echo $row->title; ?></td>
-											<td class="text-truncate"><?php echo $row->created_at; ?></td>
+											<td><?php echo $row->id; ?></td>
+											<td><a href="/console/boardread/<?php echo $row->id; ?>"><?php echo $row->title; ?></a></td>
+											<td><?php echo $row->name; ?></td>
+											<td><?php echo $row->created_at; ?></td>
 										</tr>
 										<?php
 									}
@@ -80,9 +85,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				</div>
 
-
+				<div class="row"><a class="btn btn-primary" href="/console/boardform?board_type=<?=$this->input->get("board_type")?>">글쓰기</a></div>
 			</div>
 			<div class="card-footer">
+
 				<?php echo $pagination?>
 			</div>
 		</div>

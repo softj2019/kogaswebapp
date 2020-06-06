@@ -30,4 +30,20 @@ class download extends CI_Controller
 			}
 		}
 	}
+	public function getBoardFile($fileName = NULL)
+	{
+		if ($fileName) {
+			$file = realpath($this->config->item("uploads")) . "\\board\\" . $fileName;
+//			// check file exists
+			if (file_exists($file)) {
+//				// get file content
+				$data = file_get_contents('file:///'.$file);
+//				//force download
+				force_download($fileName, $data);
+			} else {
+//				// Redirect to base url
+				redirect($this->agent->referrer());;
+			}
+		}
+	}
 }

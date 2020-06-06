@@ -86,6 +86,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="/assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- ChartJS -->
 <script src="/assets/plugins/chart.js/Chart.min.js"></script>
 <!-- Select2 -->
@@ -95,6 +97,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="/assets/plugins/moment/locale/ko.js"></script>
 <script type="text/javascript" src="/assets/plugins/daterangepicker/daterangepicker.js"></script>
 
+<script src="/assets/plugins/summernote/summernote-bs4.js"></script>
+<script src="/assets/dist/js/summernote-ko-KR.js"></script>
+
 <!-- Toast -->
 <script src="/assets/plugins/toast/jquery.toast.min.js"></script>
 <!-- AdminLTE App -->
@@ -103,7 +108,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="/assets/dist/js/demo.js"></script>
 
 <script src="/assets/dist/js/common.js"></script>
-
+<?php
+if(@$footerScript){
+	?>
+	<script src="<?=$footerScript?>"></script>
+	<?php
+}
+?>
 <script>
 		//sweet toast init https://sweetalert2.github.io/
 		// const Toast = Swal.mixin({
@@ -144,17 +155,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			beforeHide: function () {}, // will be triggered before the toast gets hidden
 			afterHidden: function () {}  // will be triggered after the toast has been hidden
 		};
-
-</script>
-
-
-<?php
-if(@$footerScript){
-	?>
-	<script src="<?=$footerScript?>"></script>
 	<?php
-}
-?>
+	if(@$insertEditorCode){
+		echo $insertEditorCode;
+	}
+	?>
+</script>
 
 </body>
 </html>

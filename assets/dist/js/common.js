@@ -521,3 +521,20 @@ $(document).on("click",".joinApply",function () {
 		});
 	}
 })
+function uploadSummernoteImageFile(file, editor) {
+	data = new FormData();
+	data.append("file", file);
+	$.ajax({
+		data : data,
+		type : "POST",
+		// enctype: 'multipart/form-data',
+		url : "/fileupload/do_upload",
+		contentType : false,
+		processData : false,
+		success : function(data) {
+			console.log(data)
+			//항상 업로드된 파일의 url이 있어야 한다.
+			$(editor).summernote('insertImage', base_url+'assets/editor/'+data.imgData.file_name);
+		}
+	});
+}

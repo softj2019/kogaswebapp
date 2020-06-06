@@ -63,13 +63,38 @@ class Board  extends CI_Controller
 		$data['pagination']= $this->pagination->create_links();
 		$limit[1]=$page;
 		$limit[0]=$config['per_page'];
-
+		$order_by=array('key'=>'id','value'=>'desc');
 		//기본목록
-		$data["list"]= $this->common->select_list_table_result('board',$sql='',array('type'=>$type),$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('board',$sql='board.*,(select kguse.name from kguse where kguse.id = board.user_id) as name',array('type'=>$type),$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
         $this->load->view('board/boardlist',$data);
 		$this->load->view('layout/footer',$data);
     }
 
+	public function boardread()
+	{
+		$data=Array();
+		$data['page_title']="도움말";
+		$data['menu_code']="010";
+
+		$where=array(
+			"id"=> $this->uri->segment(3,0),
+		);
+		$boardRow =$this->common->select_row($table='board',
+			'board.*,(select kguse.name from kguse where kguse.id = board.user_id) as name',
+			$where,$coding=false,$order_by='',$group_by='' );
+
+		$data['boardRow']=$boardRow;
+		$data['board_type']=$boardRow->type;
+		$data['title']=$boardRow->title;
+		$data['content']=$boardRow->content;
+		$data['br_cd']=$boardRow->br_cd;
+
+		$data['boardFileList']=$this->common->select_list_table_result('boardfile','',array('br_cd'=>$boardRow->br_cd),$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit='');
+		//에디터 에 내용전달
+		$this->load->view('layout/header',$data);
+		$this->load->view('board/boardform',$data);
+		$this->load->view('layout/footer',$data);
+	}
 }
