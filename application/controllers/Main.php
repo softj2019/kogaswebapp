@@ -69,7 +69,7 @@ class Main  extends CI_Controller
 			$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit ='');
 		$data["list2"]= $this->common->select_list_table_result(''.
 			'(SELECT (SELECT distinct C.key1_nm FROM kgLOC C WHERE C.key1_cd = A.plant) plant, '.
-			'(SELECT distinct C.key2_nm FROM kgLOC C WHERE C.key2_cd = concat(A.plant,A.prloc)) prloc, '.
+			'(SELECT distinct C.key2_nm FROM kgLOC C WHERE C.key2_cd_old = A.prloc and C.key1_cd = A.plant) prloc, '.
 		    '(SELECT distinct B.pr FROM kgspmt B WHERE B.pr_cd = A.pr_cd) pr, '.
 		    'probj  '.
 			'from kgdata A where bstat = \'F\' ORDER BY id DESC limit 10) C ',
@@ -96,7 +96,7 @@ class Main  extends CI_Controller
 			'count(*) as cnt ' .
 			'from kgdata inner join kgcod on num_cd = break_cd ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
-			'group by break_cd  limit 13) A',
+			'group by break_cd ORDER BY cnt DESC limit 10) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		//해당 년도 고장원인 비율
 		$data["listB"]=$this->common->select_list_table_result('' .
@@ -104,7 +104,7 @@ class Main  extends CI_Controller
 			'count(*) as cnt ' .
 			'from kgdata inner join kgcod on num_cd = action_cd ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
-			'group by break_cd  limit 13) A',
+			'group by break_cd ORDER BY cnt DESC limit 10) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		//해당 년도 고장조치 비율
 		$data["listC"]=$this->common->select_list_table_result(
@@ -112,7 +112,7 @@ class Main  extends CI_Controller
 			'count(*) as cnt ' .
 			'from kgdata inner join kgcod on num_cd = cause_cd ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
-			'group by break_cd  limit 13) A',
+			'group by break_cd ORDER BY cnt DESC limit 10) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
 		$data["listD"]=$this->common->select_list_table_result(
