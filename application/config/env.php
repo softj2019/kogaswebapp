@@ -11,3 +11,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['exe_path'] = 'D:\\KOGAS\\';
 //리포트파일 업로드 경로
 $config['report_path'] = 'D:\\uploaddocument\\';
+//파일 업로드 경로
+$config['uploads'] = 'D:\\uploads\\';
