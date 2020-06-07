@@ -74,7 +74,7 @@ class Kgbasicsbt  extends CI_Controller
 //			"(select Z.htm4 from kgrct Z where Z.ar_cd = TB.ar_cd) as htm4" .
 			"";
 		$order_by=array('key'=>'ar_time','value'=>'desc');
-		$data["list"]= $this->common->select_list_table_result('kgartsbtview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('kgartview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		$like=array(
 			'key1_cd','3','after'
 		);
@@ -157,49 +157,28 @@ class Kgbasicsbt  extends CI_Controller
 		echo json_encode($data);
 	}
 
-	//생산 기본/심화 분석 뷰어
-	public function htmlViewer(){
-		header('Content-type: application/json');
-		$arcd = $this->input->post("arcd");
-		$where = array(
-			"ar_cd"=>$arcd,
-		);
-		$row =  $this->common->select_row($table='kgrct','htm3, htm4',$where,$coding=false,$order_by='',$group_by='' );
-		$data['viewArtDetail']  =  $this->common->select_row($table='kgartpbtview','',$where,$coding=false,$order_by='',$group_by='' );
-		$data['viewRctDetail']  =  $this->common->select_row($table='kgrct','',$where,$coding=false,$order_by='',$group_by='' );
-		$data['content']="";
-		if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
-		if($row->htm4) $data['content'] .= file_get_contents('file:///'.$row->htm4);
-		echo json_encode($data);
-	}
-	//기초분석 뷰어
-	public function htmlDefaultViewer(){
-		$arcd = $this->input->post("arcd");
-		$selectKey = $this->input->post("htmlNum")." as htmNum ";
-		$where = array(
-			"ar_cd"=>$arcd,
-		);
-		$row =  $this->common->select_row($table='kgrct',$selectKey,$where,$coding=false,$order_by='',$group_by='' );
-		$content = file_get_contents($row->htmNum);
-		echo $content;
-	}
+
 	//make where in
-	public function whereInArray($array){
+	public function whereInArrayInsert($array){
 		if(is_array($array)){
 			$arrString ="";
 			$arrayLast = array_pop($array);
 			array_push($array,$arrayLast);
 			foreach($array as $key=>$value){
-				$arrString.="'".$value."'";
+				$arrString.=$value;
 				if($arrayLast != $value) $arrString.=",";
 			}
 		}else{
-			$arrString=$array;
+			if($array==null){
+				$arrString='ALL';
+			}else{
+				$arrString=$array;
+			}
 		}
 		return $arrString;
 	}
-	//make where in
-	public function whereInArrayInsert($array){
+	//make where in mode
+	public function whereInArrayInsertForMode($array){
 		if(is_array($array)){
 			$arrString ="";
 			$arrayLast = array_pop($array);
@@ -219,15 +198,6 @@ class Kgbasicsbt  extends CI_Controller
 		header('Content-type: application/json');
 		$this->form_validation->set_rules('key1_cd[]', '플랜트 ', 'required');
 		$this->form_validation->set_rules('key3_cd[]', '1차 ', 'required');
-		$key1_cd = $this->whereInArray($this->input->post("key1_cd"));
-		$key2_cd = $this->whereInArray($this->input->post("key2_cd"));
-		$key3_cd = $this->whereInArray($this->input->post("key3_cd"));
-		$key4_cd = $this->whereInArray($this->input->post("key4_cd"));
-		$key5_cd = $this->whereInArray($this->input->post("key5_cd"));
-		$key6_cd = $this->whereInArray($this->input->post("key6_cd"));
-		$key3_1_cd = $this->whereInArray($this->input->post("key3_cd_1"));
-
-
 		$key1_cd_arr = $this->whereInArrayInsert($this->input->post("key1_cd"));
 		$key2_cd_arr = $this->whereInArrayInsert($this->input->post("key2_cd"));
 		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd"));
@@ -235,6 +205,8 @@ class Kgbasicsbt  extends CI_Controller
 		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
 		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
 		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
+		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
+		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
 
 		$better_date = date('Ymd');
 		//AR_CD 값
@@ -245,103 +217,54 @@ class Kgbasicsbt  extends CI_Controller
 		$arcdMakeSql="ifnull(CONCAT('AR',substring(max(ar_cd), 3)+1),CONCAT('AR','$better_date' , '00001')) as ar_cd";
 		$arCdRow=$this->common->select_row($table='kgart',$arcdMakeSql,$where='',$coding=false,$order_by='',$group_by='',$like);
 		$ar_cd = $arCdRow->ar_cd;
-		$anal_type =$this->input->post("anal_type");
 
-		$smode=$this->whereInArray($this->input->post("smode"));
-		$fmode=$this->whereInArray($this->input->post("fmode"));
+		$anal_type =$this->input->post("anal_type");
 		$wvalue=$this->input->post("wvalue");
 		$sdate=$this->input->post("startDate");
 		$edate=$this->input->post("endDate");
-		($key1_cd)? $key1_cd_query="AND key1_cd in ($key1_cd)  \n" :$key1_cd_query='';
-		($key2_cd)? $key2_cd_query="AND key2_cd in ($key2_cd)  \n" :$key2_cd_query='';
-		($key3_cd)? $key3_cd_query="AND key3_cd in ($key3_cd)  \n" :$key3_cd_query='';
-		($key4_cd)? $key4_cd_query="AND key3_cd in ($key4_cd)  \n" :$key4_cd_query='';
-		($key5_cd)? $key5_cd_query="AND key4_cd in ($key5_cd)  \n" :$key5_cd_query='';
-		($key3_1_cd)? $key3_1_cd_query="AND key3_1_cd in ($key3_1_cd)  \n" :$key3_1_cd_query='';
-		($key6_cd)? $key6_cd_query="AND key6_cd in ($key6_cd)  \n" :$key6_cd_query='';
-		$subQuery ="";
-		$topSubQuery="";
-		if ($key3_cd=="1" || $key3_cd=="2" || $key3_cd=="3") {
-			$subQuery = "".
-				"AND fl_tag REGEXP (SELECT CONCAT('^',group_CONCAT(FL_TAG SEPARATOR '-|^'),'-') \n" .
-				"FROM KGTAG \n".
-				"WHERE 1=1 \n".
-				$key3_cd_query.
-				$key4_cd_query.
-				$key5_cd_query.
-				$key6_cd_query.
-				")\n";
-		}else{
-			$topSubQuery=$key4_cd_query.$key5_cd_query.$key3_1_cd_query;
-
-		}
 
 
+		if ($this->form_validation->run() == true){
+			$call_row = $this->common->use_procedure('selectSBTDataCount',
+				array(
+					$key1_cd_arr,
+					$key2_cd_arr,
+					$key3_cd_arr,
+					$key4_cd_arr,
+					$key5_cd_arr,
+					$sdate,
+					$edate
+				)
+			);
+			//프로시저 호출 후 DB 다시연결
+			mysqli_next_result( $this->db->conn_id );
 
-		if ($this->form_validation->run() == true)
-		{
-			$sql='' .
-				'COUNT(*) as cnt ';
-			$table= "" .
-				"(SELECT RANK() OVER(PARTITION BY pr_cd ORDER BY pr_num) pr_rank,\n" .
-				"IFNULL(CONCAT(prfdate,' ',TIME('00:00:00')), '2008-12-31 00:00:00') ptp,\n" .
-				"TIMESTAMPDIFF(hour, IFNULL(CONCAT(DATE(LAG(edate, 1) OVER (PARTITION BY pr_cd ORDER BY pr_num)),' ',TIME(LAG(etime, 1) OVER (PARTITION BY pr_cd ORDER BY pr_num))),IFNULL(CONCAT(prfdate,' ',TIME('00:00:00')), '2008-12-31 00:00:00')), IF(bstat = 'C', NOW(), CONCAT(sdate,' ',stime))) bhour \n" .
-				"FROM KGDATA WHERE 1 = 1\n" .
-				"AND plant like '2%' \n" .
-				"AND !(edate IS NULL AND bstat = 'F') \n" .
-//					"AND prloc in (SELECT key2_cd_old FROM kgloc WHERE key2_cd IN ('3010','3100','3200')) -- key2_cd 변수 if all이면 해당쿼리 사용x \n" .
-				"AND fl_cd IN (SELECT DISTINCT CONCAT(key1_cd,'-', fl_cd) \n" .
-				"FROM KGLOC INNER JOIN KGPBT \n" .
-				"WHERE 1=1\n" .
-				$key1_cd_query.
-				$key2_cd_query.
-				$topSubQuery.
-
-				")\n" .
-
-				"AND fl_tag REGEXP (SELECT CONCAT('^',group_CONCAT(FL_TAG SEPARATOR '-|^'),'-') \n" .
-				"FROM KGTAG \n".
-				"WHERE 1=1 \n".
-				"AND key3_cd in ('2') \n".
-				$subQuery.
-				")\n".
-				" AND (sdate >= '2009-01-01' or bstat = 'C') \n".
-				" AND (sdate <= '2020-05-24' or bstat = 'C') \n".
-				" ORDER BY pr_cd, pr_num) A \n";
-			$row =  $this->common->select_row(
-				$table,
-				$sql,
-				$where=Array(
-//						"!(ptp < '2009-01-01 00:00:00' AND pr_rank = '1')",
-//						"bhour > 0;",
-				),
-				$coding=false,
-				$order_by='',
-				$group_by='' );
-			$data["alerts_icon"]="success";
-			$data["rowCnt"]=$row->cnt;
+			$data["rowCnt"]=$call_row->cnt;
 
 			$updateData = Array(
 				//data 없으면 ALL
-				"AR_CD"=>$ar_cd,
-				"analysis_type"=>'A',
-				"analysis_flg"=>'S',
-				"key1_cd"=>$key1_cd_arr?$key1_cd_arr:'ALL',
-				"key2_cd"=>$key2_cd_arr?$key2_cd_arr:'ALL',
-				"key3_cd"=>$key3_cd_arr?$key3_cd_arr:'ALL',
-				"key4_cd"=>$key4_cd_arr?$key4_cd_arr:'ALL',
-				"key5_cd"=>$key5_cd_arr?$key5_cd_arr:'ALL',
-				"key6_cd"=>$key6_cd_arr?$key6_cd_arr:'ALL',
-				"key3_1_cd"=>$key3_1_cd_arr?$key3_1_cd_arr:'ALL',
-				"sdate"=>$sdate,
-				"edate"=>$edate,
-				"fmode"=>$fmode,
-				"smode"=>$smode,
-				"wvalue"=>$wvalue,
-				"user_id"=>@$this->session->userdata('id'),
+				"AR_CD" => $ar_cd,
+				"analysis_type" => 'A',
+				"analysis_flg" => 'S',
+				"key1_cd" => $key1_cd_arr,
+				"key2_cd" => $key2_cd_arr,
+				"key3_cd" => $key3_cd_arr,
+				"key4_cd" => $key4_cd_arr,
+				"key5_cd" => $key5_cd_arr,
+				"key6_cd" => $key6_cd_arr,
+				"key3_1_cd" => $key3_1_cd_arr,
+				"sdate" => $sdate,
+				"edate" => $edate,
+				"fmode" => $fmode,
+				"smode" => $smode,
+				"wvalue" => $wvalue,
+				"user_id" => @$this->session->userdata('user_id'),
 			);
 			$this->common->insert("kgart",$updateData);
-//			$data['alerts_title'] = array("분석요청 완료");
+			$data['alerts_title'] = array("분석요청 완료");
+			$data['alerts_status'] = "success";
+			$data['anal_type'] = $anal_type;
+			$data['ar_cd'] = $ar_cd;
 			//윈도우 파일 실행
 			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
 		}
