@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<tr>
 											<td><?php echo $row->id; ?></td>
 											<td><a href="/console/boardread/<?php echo $row->id; ?>"><?php echo $row->title; ?></a></td>
-											<td><?php echo $row->title; ?></td>
+											<td><?php echo $row->name; ?></td>
 											<td><?php echo $row->created_at; ?></td>
 										</tr>
 										<?php
