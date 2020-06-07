@@ -414,7 +414,11 @@ $('#modal-default').on('show.bs.modal', function (event) {
 	var recipient = button.data('whatever') // Extract info from data-* attributes
 	var inHtml ='';
 	var inContent = '';
-	console.log(recipient);
+	var inFmode ='';//fmode 있을데
+	var inSelectKeyHtml='';//선택 값 표시
+	var inHtmlNoneFmode='';//fmode 없는 기본
+	var inDistri='';
+	// console.log(recipient);
 	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 	var modal = $(this)
@@ -427,106 +431,305 @@ $('#modal-default').on('show.bs.modal', function (event) {
 	}).done(function(data){
 		inHtml ='';
 		inContent = '조회된 데이터가 없습니다.';
-		console.log(data)
-		if(data.content) {
-			inContent = data.content;
-			inHtml += '' +
-				'<div class="modal-body">' +
-				'<div class="row">' +
-				'\t<ul class="list-unstyled">' +
-				'\t\t<li>플랜트</li> ' +
-				'\t\t\t<ul>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-
-				'\t\t\t</ul>' +
-				'\t\t</li>' +
-				'\t</ul>' +
-				'\t<ul class="list-unstyled">' +
-				'\t\t<li>위치</li> ' +
-				'\t\t\t<ul>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t</ul>' +
-				'\t\t</li>' +
-				'\t</ul>' +
-				'\t<ul class="list-unstyled">' +
-				'\t\t<li>1차</li> ' +
-				'\t\t\t<ul>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t</ul>' +
-				'\t\t</li>' +
-				'\t</ul>' +
-				'\t<ul class="list-unstyled">' +
-				'\t\t<li>1-1차</li> ' +
-				'\t\t\t<ul>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t</ul>' +
-				'\t\t</li>' +
-				'\t</ul>' +
-				'\t<ul class="list-unstyled">' +
-				'\t\t<li>2차</li> ' +
-				'\t\t\t<ul>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t</ul>' +
-				'\t\t</li>' +
-				'\t</ul>' +
-				'\t<ul class="list-unstyled">' +
-				'\t\t<li>3차</li> ' +
-				'\t\t\t<ul>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t</ul>' +
-				'\t\t</li>' +
-				'\t</ul>' +
-				'\t<ul class="list-unstyled">' +
-				'\t\t<li>4차</li> ' +
-				'\t\t\t<ul>' +
-				'\t\t\t\t<li>111111</li>' +
-				'\t\t\t</ul>' +
-				'\t\t</li>' +
-				'\t</ul>' +
-				'</div>';
-			console.log(data.kgart);
-
-			inHtml += '' +
-				'<div class="text-right">(95% CI)</div>' +
-				'<table class="table table-striped">' +
-
-				'	<tbody>' +
-				'	<tr>' +
-				'		<tr>' +
-				'			<th rowspan="2" class="table-valign-middle">고장률</th><th>하한</th><th>고장률</th><th>상한</th>' +
-				'		</tr>' +
-				'		<td>' + data.viewRctDetail.value11 + '</td>' +
-				'		<td>' + data.viewRctDetail.value10 + '</td>' +
-				'		<td>' + data.viewRctDetail.value12 + '</td>' +
-				'	</tr>' +
-				'	</tbody' +
-				'</table>' +
-				'</div> ';
+		// console.log(data)
+		//기본
+		if(data.kgart.analysis_type=='B' && data.kgart.fmode==null && data.kgart.distri==null) {
+			inHtml= getDefaultClases(data,inHtmlNoneFmode,inHtml)
+			console.log('debug ::::::::::::::: 기본 B 고장모드 null distri null')
 		}
+		//기본 고장모드 있는경우
+		if(data.kgart.fmode!=null && data.kgart.analysis_type=='B'){
+			inHtml= getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode);
+			console.log('debug ::::::::::::::: 기본 B 고장모드 있는경우')
+		}
+		//심화 distri none 1,2,3,4
+		if(data.kgart.fmode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
+			inHtml= getInSModeClass(data,inHtml,inDistri);
+			console.log('debug ::::::::::::::: 심화 E distri none 1,2,3,4')
+		}
+		//심화 fmode yes distri 1,2,3,4
+		if(data.kgart.fmode && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
+			inHtml= getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode);
+			console.log('debug ::::::::::::::: 심화 E fmode yes distri 1,2,3,4')
+		}
+		//심화 smode yse distri 1,2,4
+		if(data.kgart.smode && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2'  || data.kgart.distri=='4')){
+			inHtml= getInSModeClass(data,inHtml,inDistri);
+			console.log('debug ::::::::::::::: 심화 E smode yse distri 1,2,4')
+		}
+
+		inContent = data.content;
 		modal.find('.modal-body .inHtml').html(inHtml)
 		modal.find('.modal-body .inContent').html(inContent)
+
 	});
-
 });
+//기본 B
+function getDefaultClases(data,inHtmlNoneFmode='',inHtml='') {
+	inHtmlNoneFmode += '' +
+		'<h5 class="text-right">(95% CI)</h5>' +
+		'<div class="row"> ' +
 
+		'<table class="table table-striped">' +
+
+		'	<tbody>' +
+		'	<tr>' +
+		'		<tr>' +
+		'			<th rowspan="2" class="table-valign-middle">고장률</th><th>하한</th><th>고장률</th><th>상한</th>' +
+		'		</tr>' +
+		'		<td>' + data.viewRctDetail.value11 + '</td>' +
+		'		<td>' + data.viewRctDetail.value10 + '</td>' +
+		'		<td>' + data.viewRctDetail.value12 + '</td>' +
+		'	</tr>' +
+		'	</tbody>' +
+		'</table>\n' +
+		'</div>';
+	inHtml += inHtmlNoneFmode;
+	return inHtml;
+}
+
+//심화 E 고장모드에 값 있음 distri 1,2,3,4
+function getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode,inDistri) {
+	var wvalue = data.kgart.wvalue.split(",");//고장시간
+	var fmode = data.kgart.fmode.split(",");//고장시간
+	var value10 = data.viewRctDetail.value10.split(",");//
+	var value11 = data.viewRctDetail.value11.split(",");//
+	var value12 = data.viewRctDetail.value12.split(",");//
+	if(value10.length <= 1){
+
+		inHtmlNoneFmode += '' +
+			'<h5 class="text-right">(95% CI)</h5>' +
+			'<div class="row"> ' +
+
+			'<table class="table table-striped">' +
+
+			'	<tbody>' +
+			'	<tr>' +
+			'		<tr>' +
+			'			<th rowspan="2" class="table-valign-middle">고장률</th><th>하한</th><th>고장률</th><th>상한</th>' +
+			'		</tr>' +
+			'		<td>' + data.viewRctDetail.value11 + '</td>' +
+			'		<td>' + data.viewRctDetail.value10 + '</td>' +
+			'		<td>' + data.viewRctDetail.value12 + '</td>' +
+			'	</tr>' +
+			'	</tbody>' +
+			'</table>\n' +
+			'</div>';
+		inHtml += inHtmlNoneFmode;
+	}else{
+
+		inDistri+='' +
+
+			'<table class="table table-valign-middle table-sm">' +
+			'	<tbody>' +
+			'	<tr>' +
+			'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>하한</td><td>고장</td><td>상한</td>' +
+			'	</tr>' +
+			'';
+		$.each(wvalue,function (key,value) {
+			inDistri+='' +
+				'	<tr>' +
+				'		<td>'+value+'</td><td>'+value11[key]+'</td><td>'+value10[key]+'</td><td>'+value12[key]+'</td>' +
+				'	</tr>';
+		})
+		inDistri+='' +
+			'	</tbody' +
+			'</table>' +
+			'';
+		inHtml += inDistri;
+	}
+
+
+	var value13 = data.viewRctDetail.value13.split(",");//분류
+	var value14 = data.viewRctDetail.value14.split(",");//고장률
+	var value15 = data.viewRctDetail.value15.split(",");//하한
+	var value16 = data.viewRctDetail.value16.split(",");//하한
+	inFmode+='' +
+		'<table class="table table-valign-middle">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(value13.length+1)+'">고장모드별 고장율</td><td>모드</td><td>하한</td><td>고장율</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+
+
+	$.each(value13,function (key,value) {
+		inFmode+='' +
+			'	<tr>' +
+			'		<td class="table-valign-middle">'+value+'</td><td>'+value15[key]+'</td><td>'+value14[key]+'</td><td>'+value16[key]+'</td>' +
+			'	</tr>';
+	})
+	inFmode+='' +
+		'	</tbody' +
+		'</table>';
+	inHtml += inFmode;
+	return inHtml
+}
+//심화 E smode 있음 1,2,4
+function getInSModeClass(data,inHtml,inDistri){
+	var wvalue = data.kgart.wvalue.split(",");//고장시간
+	var value1 = data.viewRctDetail.value1.split(",");//신뢰도
+	var value2 = data.viewRctDetail.value2.split(",");//하한
+	var value3 = data.viewRctDetail.value3.split(",");//상한
+	var value4 = data.viewRctDetail.value4.split(",");//불신뢰도
+	var value5 = data.viewRctDetail.value5.split(",");//상한
+	var value6 = data.viewRctDetail.value6.split(",");//하한
+	var value7 = data.viewRctDetail.value7.split(",");//하한
+	var value8 = data.viewRctDetail.value8.split(",");//하한
+	var value9 = data.viewRctDetail.value9.split(",");//하한
+	var value10 = data.viewRctDetail.value10.split(",");//하한
+	var value11 = data.viewRctDetail.value11.split(",");//하한
+	var value12 = data.viewRctDetail.value12.split(",");//하한
+	inDistri+='' +
+		'<div class="row">' +
+		'<table class="table table-valign-middle table-sm">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'		<td rowspan="'+(value7.length+1)+'">평균 (MTTF)</td><td>하한</td><td>평균</td><td>상한</td>' +
+		'	</tr>';
+	$.each(value7,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td>'+value+'</td><td>'+value8[key]+'</td><td>'+value9[key]+'</td> '+
+			'	</tr>';
+	})
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'</div>';
+	inDistri+='' +
+
+		'<table class="table table-valign-middle table-sm">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">신뢰도</td><td>시간</td><td>하한</td><td>신뢰도</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td class="table-valign-middle">'+value+'</td><td>'+value1[key]+'</td><td>'+value2[key]+'</td><td>'+value3[key]+'</td>' +
+			'	</tr>';
+	})
+	inDistri+='' +
+		'	</tbody' +
+		'</table>' +
+		'';
+	inDistri+='' +
+
+		'<table class="table table-valign-middle table-sm">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">불신뢰도</t><td>시간</td><td>하한</td><td>불신뢰도</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td class="table-valign-middle">'+value+'</td><td>'+value4[key]+'</td><td>'+value5[key]+'</td><td>'+value6[key]+'</td>' +
+			'	</tr>';
+	})
+	inDistri+='' +
+		'	</tbody' +
+		'</table>' +
+		'';
+	inDistri+='' +
+
+		'<table class="table table-valign-middle table-sm">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>하한</td><td>고장</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td class="table-valign-middle">'+value+'</td><td>'+value11[key]+'</td><td>'+value10[key]+'</td><td>'+value12[key]+'</td>' +
+			'	</tr>';
+	})
+	inDistri+='' +
+		'	</tbody' +
+		'</table>' +
+		'';
+	inHtml += inDistri;
+	return inHtml;
+}
+
+function getKeyValue(data,inSelectKeyHtml) {
+	inSelectKeyHtml += '' +
+		'<div class="modal-body">' +
+		'<div class="row">' +
+		'\t<ul class="list-unstyled">' +
+		'\t\t<li>플랜트</li> ' +
+		'\t\t\t<ul>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+
+		'\t\t\t</ul>' +
+		'\t\t</li>' +
+		'\t</ul>' +
+		'\t<ul class="list-unstyled">' +
+		'\t\t<li>위치</li> ' +
+		'\t\t\t<ul>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t</ul>' +
+		'\t\t</li>' +
+		'\t</ul>' +
+		'\t<ul class="list-unstyled">' +
+		'\t\t<li>1차</li> ' +
+		'\t\t\t<ul>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t</ul>' +
+		'\t\t</li>' +
+		'\t</ul>' +
+		'\t<ul class="list-unstyled">' +
+		'\t\t<li>1-1차</li> ' +
+		'\t\t\t<ul>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t</ul>' +
+		'\t\t</li>' +
+		'\t</ul>' +
+		'\t<ul class="list-unstyled">' +
+		'\t\t<li>2차</li> ' +
+		'\t\t\t<ul>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t</ul>' +
+		'\t\t</li>' +
+		'\t</ul>' +
+		'\t<ul class="list-unstyled">' +
+		'\t\t<li>3차</li> ' +
+		'\t\t\t<ul>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t</ul>' +
+		'\t\t</li>' +
+		'\t</ul>' +
+		'\t<ul class="list-unstyled">' +
+		'\t\t<li>4차</li> ' +
+		'\t\t\t<ul>' +
+		'\t\t\t\t<li>111111</li>' +
+		'\t\t\t</ul>' +
+		'\t\t</li>' +
+		'\t</ul>' +
+		'</div>';
+	return inSelectKeyHtml;
+}
 //모달 뷰어
 $('#modal-default2').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal

@@ -55,7 +55,7 @@ class Kgview  extends CI_Controller
 		$row =  $this->common->select_row($table='kgrct','htm3, htm4',$where,$coding=false,$order_by='',$group_by='' );
 		$data['kgart']  =  $this->common->select_row($table='kgart','',$where,$coding=false,$order_by='',$group_by='' );
 		$data['kgartView']  =  $this->common->select_row($table='kgartview','',$where,$coding=false,$order_by='',$group_by='' );
-		$data['viewRctDetail']  =  $this->common->select_row($table='kgartview','',$where,$coding=false,$order_by='',$group_by='' );
+		$data['viewRctDetail']  =  $this->common->select_row($table='kgrct','',$where,$coding=false,$order_by='',$group_by='' );
 		$data['content']="";
 		if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
 		if($row->htm4) $data['content'] .= file_get_contents('file:///'.$row->htm4);
