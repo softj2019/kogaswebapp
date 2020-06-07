@@ -74,7 +74,7 @@ class Kgsbt  extends CI_Controller
 //			"(select Z.htm4 from kgrct Z where Z.ar_cd = TB.ar_cd) as htm4" .
 			"";
 		$order_by=array('key'=>'ar_time','value'=>'desc');
-		$data["list"]= $this->common->select_list_table_result('kgartsbtview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('kgartview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		$like=array(
 			'key1_cd','3','after'
 		);
@@ -156,34 +156,6 @@ class Kgsbt  extends CI_Controller
 
 		echo json_encode($data);
 	}
-
-	//생산 기본/심화 분석 뷰어
-	public function htmlViewer(){
-		header('Content-type: application/json');
-		$arcd = $this->input->post("arcd");
-		$where = array(
-			"ar_cd"=>$arcd,
-		);
-		$row =  $this->common->select_row($table='kgrct','htm3, htm4',$where,$coding=false,$order_by='',$group_by='' );
-		$data['viewArtDetail']  =  $this->common->select_row($table='kgartpbtview','',$where,$coding=false,$order_by='',$group_by='' );
-		$data['viewRctDetail']  =  $this->common->select_row($table='kgrct','',$where,$coding=false,$order_by='',$group_by='' );
-		$data['content']="";
-		if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
-		if($row->htm4) $data['content'] .= file_get_contents('file:///'.$row->htm4);
-		echo json_encode($data);
-	}
-	//기초분석 뷰어
-	public function htmlDefaultViewer(){
-		$arcd = $this->input->post("arcd");
-		$selectKey = $this->input->post("htmlNum")." as htmNum ";
-		$where = array(
-			"ar_cd"=>$arcd,
-		);
-		$row =  $this->common->select_row($table='kgrct',$selectKey,$where,$coding=false,$order_by='',$group_by='' );
-		$content = file_get_contents($row->htmNum);
-		echo $content;
-	}
-
 	//make where in
 	public function whereInArrayInsert($array){
 		if(is_array($array)){
@@ -287,7 +259,7 @@ class Kgsbt  extends CI_Controller
 					"fmode" => $fmode,
 					"smode" => $smode,
 					"wvalue" => $wvalue,
-					"user_id" => @$this->session->userdata('id'),
+					"user_id" => @$this->session->userdata('user_id'),
 				);
 				$this->common->insert("kgart",$updateData);
 				$data['alerts_title'] = array("분석요청 완료");

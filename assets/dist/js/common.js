@@ -339,6 +339,7 @@ function callToastHideAfter(text,icon,heading,data,bsmodal){
 	});
 }
 
+//분석 실행
 $('.submitKgArt').on("click",function () {
 	$('.loading-bar-wrap').removeClass("hidden");
 
@@ -419,7 +420,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 	var modal = $(this)
 	$.ajax({
 		type: "POST",
-		url: base_url+"kgpbt/htmlViewer",
+		url: base_url+"kgview/htmlViewer",
 		dataType:"json",
 		data:{"arcd":recipient},
 		// async: false
@@ -431,6 +432,79 @@ $('#modal-default').on('show.bs.modal', function (event) {
 			inContent = data.content;
 			inHtml += '' +
 				'<div class="modal-body">' +
+				'<div class="row">' +
+				'\t<ul class="list-unstyled">' +
+				'\t\t<li>플랜트</li> ' +
+				'\t\t\t<ul>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+
+				'\t\t\t</ul>' +
+				'\t\t</li>' +
+				'\t</ul>' +
+				'\t<ul class="list-unstyled">' +
+				'\t\t<li>위치</li> ' +
+				'\t\t\t<ul>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t</ul>' +
+				'\t\t</li>' +
+				'\t</ul>' +
+				'\t<ul class="list-unstyled">' +
+				'\t\t<li>1차</li> ' +
+				'\t\t\t<ul>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t</ul>' +
+				'\t\t</li>' +
+				'\t</ul>' +
+				'\t<ul class="list-unstyled">' +
+				'\t\t<li>1-1차</li> ' +
+				'\t\t\t<ul>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t</ul>' +
+				'\t\t</li>' +
+				'\t</ul>' +
+				'\t<ul class="list-unstyled">' +
+				'\t\t<li>2차</li> ' +
+				'\t\t\t<ul>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t</ul>' +
+				'\t\t</li>' +
+				'\t</ul>' +
+				'\t<ul class="list-unstyled">' +
+				'\t\t<li>3차</li> ' +
+				'\t\t\t<ul>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t</ul>' +
+				'\t\t</li>' +
+				'\t</ul>' +
+				'\t<ul class="list-unstyled">' +
+				'\t\t<li>4차</li> ' +
+				'\t\t\t<ul>' +
+				'\t\t\t\t<li>111111</li>' +
+				'\t\t\t</ul>' +
+				'\t\t</li>' +
+				'\t</ul>' +
+				'</div>';
+			console.log(data.kgart);
+
+			inHtml += '' +
 				'<div class="text-right">(95% CI)</div>' +
 				'<table class="table table-striped">' +
 
@@ -452,10 +526,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 	});
 
 });
-//모달을 닫을떼
-// $('#modal-default').on('hidden.bs.modal', function (event) {
-//
-// });
+
 //모달 뷰어
 $('#modal-default2').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal
@@ -491,10 +562,11 @@ $('#modal-default2').on('show.bs.modal', function (event) {
 	modal.find('.modal-body.row').html(html)
 	console.log(html)
 })
+//뷰어 차트 콜백
 function callChart(arcd,htmlNum) {
 	$.ajax({
 		type: "POST",
-		url: base_url+"kgpbt/htmlDefaultViewer",
+		url: base_url+"kgview/htmlDefaultViewer",
 		// dataType:"html",
 		data:{"arcd":arcd,"htmlNum":htmlNum,},
 		// async: false
@@ -503,28 +575,29 @@ function callChart(arcd,htmlNum) {
 	});
 
 }
-
-	$(document).on('click','.passwordChange',function () {
-		$.ajax({
-			type: "POST",
-			url: base_url+"member/resetpasswordproc",
-			// dataType:"html",
-			data:$('#passwordChange').serialize(),
-			// async: false
-		}).done(function(data){
-			console.log(data);
-			if(data.alerts_title){
-				// $('#modal-user').modal('toggle');
-				$.each(data.alerts_title,function (key,value) {
-					$('.'+key).html(value);
-				});
-			}
-			if(data.alerts_status=="success"){
-				console.log(11111);
-				$('#modal-user').modal('toggle');
-			}
-		});
-	})
+//비밀번호 초기화
+$(document).on('click','.passwordChange',function () {
+	$.ajax({
+		type: "POST",
+		url: base_url+"member/resetpasswordproc",
+		// dataType:"html",
+		data:$('#passwordChange').serialize(),
+		// async: false
+	}).done(function(data){
+		console.log(data);
+		if(data.alerts_title){
+			// $('#modal-user').modal('toggle');
+			$.each(data.alerts_title,function (key,value) {
+				$('.'+key).html(value);
+			});
+		}
+		if(data.alerts_status=="success"){
+			console.log(11111);
+			$('#modal-user').modal('toggle');
+		}
+	});
+})
+//사용자 권한 변경
 $(document).on("click",".joinApply",function () {
 	if(!$('.list_chk').is(":checked")){
 		callToast('변경 대상을 선택하세요','error','Error');
@@ -545,6 +618,7 @@ $(document).on("click",".joinApply",function () {
 		});
 	}
 })
+//썸모노트 이미지 업로드
 function uploadSummernoteImageFile(file, editor) {
 	data = new FormData();
 	data.append("file", file);
@@ -563,7 +637,7 @@ function uploadSummernoteImageFile(file, editor) {
 	});
 }
 
-//모달 뷰어
+//심화분석 모달
 function adviewCall(ar_cd) {
 
 	var ar_cd =ar_cd;
@@ -574,7 +648,7 @@ function adviewCall(ar_cd) {
 	var modal = $(this)
 	$.ajax({
 		type: "POST",
-		url: base_url+"kgpbt/htmlAdViewer",
+		url: base_url+"kgview/htmlAdViewer",
 		dataType:"json",
 		data:{"arcd":ar_cd},
 		// async: false
@@ -634,10 +708,11 @@ function adviewCall(ar_cd) {
 	});
 
 }
+//심화 분석 요청
 $(document).on('click','#requestAdRun',function () {
 	$('.loading-bar-wrap').removeClass("hidden");
 	var ar_cd = $('input[name=distri]:checked').attr("data-id");
-	var distri = $('input[name=distri]').val();
+	var distri = $('input[name=distri]:checked').val();
 	$.ajax({
 		type: "POST",
 		url: base_url+"kgpbt/insertAdSelect",
