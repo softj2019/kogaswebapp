@@ -54,8 +54,9 @@ class Kgrct  extends CI_Controller
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
 		$config['base_url'] =base_url('kgrct/kgrctlist');
-		$config['total_rows'] = $this->common->select_count('kgartpbtview','','');
+		$config['total_rows'] = $this->common->select_count('kgartview','','');
 		$config['per_page'] = 10;
+		$data['footerScript']="/assets/dist/js/commonSbt.js";
 
 		$this->pagination->initialize($config);
 		$page = $this->uri->segment(3,0);
@@ -73,10 +74,70 @@ class Kgrct  extends CI_Controller
 			"";
 		$order_by=array('key'=>'ar_time','value'=>'desc');
 		$data["list"]= $this->common->select_list_table_result('kgartview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["listType"]= $this->common->select_list_table_result('(select typecode value, typename name '.
+			'from kgref where typecolumn = \'analysis_type\' and typecode != \'C\') A ',
+			$sql = '',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('kgrct/kgrctlist',$data);
 		$this->load->view('layout/footer',$data);
 	}
 
+	public function kgrctSelect()
+	{
+		$data=Array();
+
+		$data['page_title']="분석 결과 조회";
+		$data['page_sub_title']="";
+		$data['menu_code']="008";
+
+		//날짜, 유저아이디, 분석타입 선택값 받아옴
+		$sdate=$this->input->post("startDate");
+		$edate=$this->input->post("endDate");
+		$user=$this->input->post("user");
+		$anal_type=$this->input->post("anal_type");
+
+		//조회 쿼리 생성
+		$selectQry = 'select * '.
+			'from kgartview '.
+			'where ar_time > \''.$sdate.'\' '.
+			'and ar_time < \''.$edate.'\' ';
+		
+		//유저아이디 조건 추가
+		if($user != ''){
+			$selectQry = $selectQry.'and user_id = \''.$user.'\' ';
+		}
+
+
+		//분석타입 조건 추가
+		if($anal_type != ''){
+			$selectQry = $selectQry.'and analysis_type = \''.$anal_type.'\' ';
+		}
+
+		//정렬기준 조건 추가
+		$selectQry = $selectQry.'order by ar_time desc';
+
+		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
+		$config['base_url'] =base_url('kgrct/kgrctlist');
+		$config['total_rows'] = $this->common->select_count('('.$selectQry.') A','','');
+		$config['per_page'] = 10;
+
+		$this->pagination->initialize($config);
+		$page = $this->uri->segment(3,0);
+		$data['pagination']= $this->pagination->create_links();
+		$limit[1]=$page;
+		$limit[0]=$config['per_page'];
+		$data['footerScript']="/assets/dist/js/commonSbt.js";
+
+		//data list
+		$data["list"]= $this->common->select_list_table_result('('.$selectQry.') A',$sql = '',$where='',$coding=false,$order_by = '',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		//분석타입 select box
+		$data["listType"]= $this->common->select_list_table_result('(select typecode value, typename name '.
+			'from kgref where typecolumn = \'analysis_type\' and typecode != \'C\') A ',
+			$sql = '',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+
+		$this->load->view('layout/header',$data);
+		$this->load->view('kgrct/kgrctlist',$data);
+		$this->load->view('layout/footer',$data);
+	}
 }

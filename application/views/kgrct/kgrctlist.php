@@ -6,24 +6,82 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="container-fluid">
 		<?php
 		$attributes = array('class' => 'form-horizonatal', 'id' => 'defaultForm','name' => 'defaultForm');
-		echo form_open('email/send',$attributes);
+		echo form_open('kgrct/kgrctSelect',$attributes);
 		?>
 		<?php form_close()?>
+
+
+		<div class="selectListCard row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-body row" style = "height: 80px">
+						<label class="col-1 text-center col-form-label">기간선택</label>
+						<div class="col-2">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									  <span class="input-group-text">
+										<i class="far fa-calendar-alt"></i>
+									  </span>
+								</div>
+								<input type="text" name="startDate" class="form-control float-right startDateCustom">
+							</div>
+						</div>
+						<div class="col-2">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									  <span class="input-group-text">
+										<i class="far fa-calendar-alt"></i>
+									  </span>
+								</div>
+								<input type="text" name="endDate" class="form-control float-right endDate" value = '2020-06-07'>
+							</div>
+						</div>
+
+						<label class="col-1 text-center col-form-label">분석 타입</label>
+						<div class="col-2">
+							<select name="anal_type" class = "form-control" >
+								<option value = ""> 모든 타입 </option>
+								<?php if(@$listType) {
+									foreach ($listType as $row) {
+										?>
+										<option value = <?php echo $row->value; ?>> <?php echo $row->name; ?> </option>
+										<?php
+									}
+								}
+								?>
+							</select>
+						</div>
+
+						<label class="col-1 text-center col-form-label" >사용자</label>
+						<div class="col-2">
+							<input type="text" class = "form-control" name="user" placeholder="User Name" data-id=""><br><br>
+						</div>
+
+						<div class="col-2" >
+							<button type="submit" class="btn btn-success btn-block" data-id="kgrct"> 결과 조회 </button>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="card">
 			<div class="card-body table-responsive">
-
-				<table class="table table-hover table-striped">
+				<table class="table table-hover table-striped" id = "kgartList">
 					<thead>
 					<tr>
 						<th>요청코드</th>
 						<th>분석일자</th>
+						<th>분석 요청자</th>
 						<!--						<th>플랜트</th>-->
 						<!--						<th>위치내역</th>-->
 						<!--						<th>1차분류</th>-->
 						<!--						<th>1-1차분류</th>-->
 						<!--						<th>distri</th>-->
 						<th>요청구분</th>
-						<th>요청실행상태</th>
+<!--						<th>요청실행상태</th>-->
 						<th>신뢰도분석결과</th>
 						<th>기초통계분석결과</th>
 						<th>데이터 파일</th>
@@ -36,6 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<tr>
 								<td class="text"><?php echo $row->ar_cd; ?></td>
 								<td><?php echo $row->ar_time; ?></td>
+								<td class="text-truncate"><?php echo $row->user_id; ?></td>
 								<!--								<td class="text-truncate">--><?php //echo $row->key1_nm; ?><!--</td>-->
 								<!--								<td class="text-truncate">--><?php //echo $row->key2_nm; ?><!--</td>-->
 								<!--								<td>--><?php //echo $row->key3_nm; ?><!--</td>-->
@@ -43,12 +102,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<!--								<td class="text-truncate">--><?php //echo $row->key5_nm; ?><!--</td>-->
 								<!--								<td class="text-truncate">--><?php //echo $row->distri; ?><!--</td>-->
 								<td class="text-truncate"><?php echo $row->analysis_name; ?></td>
-								<td class="text-truncate"><?php echo $row->analysis_flg; ?></td>
+<!--								<td class="text-truncate">--><?php //echo $row->analysis_flg; ?><!--</td>-->
 								<td>
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
-									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
+									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>" ><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
 									<a class="btn btn-info btn-block" href="/download/getfile/<?php echo $row->ar_cd;?>">download</a>
@@ -120,3 +179,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<!-- /.modal-dialog -->
 </div>
+
