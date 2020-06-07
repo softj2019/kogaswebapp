@@ -186,7 +186,7 @@ class Kgpbt  extends CI_Controller
 
 		echo json_encode($data);
 	}
-	//생산 기본/심화 분석 뷰어
+	//생산 기본 분석 뷰어
 	public function htmlViewer(){
 		header('Content-type: application/json');
 		$arcd = $this->input->post("arcd");
@@ -199,6 +199,15 @@ class Kgpbt  extends CI_Controller
 		$data['content']="";
 		if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
 		if($row->htm4) $data['content'] .= file_get_contents('file:///'.$row->htm4);
+		echo json_encode($data);
+	}//생산 심화 분석 뷰어
+	public function htmlAdViewer(){
+		header('Content-type: application/json');
+		$arcd = $this->input->post("arcd");
+		$yy = substr($arcd,'2',4);
+		$dd = substr($arcd,'6',4);
+		$data['contentD'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID.htm");
+		$data['contentD2'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID2.htm");
 		echo json_encode($data);
 	}
 	//기초분석 뷰어
@@ -325,6 +334,8 @@ class Kgpbt  extends CI_Controller
 				$this->common->insert("kgart",$updateData);
 				$data['alerts_title'] = array("분석요청 완료");
 				$data['alerts_status'] = "success";
+				$data['anal_type'] = $anal_type;
+				$data['ar_cd'] = $ar_cd;
 				//윈도우 파일 실행
 				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
 			}else{
