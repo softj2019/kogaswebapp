@@ -157,6 +157,11 @@ $('.key3_cd').on('change',function () {
 })
 // 1차 분류 선택 2차 표시
 $('.key3_cd').on('change',function () {
+	$('.key4_cd_view').prop("checked",false).trigger('change');
+	$('.key5_cd_view').prop("checked",false).trigger('change');
+	$('.key4_cd_view').html('');
+	$('.key5_cd_view').html('');
+	$('.key6_cd_view').html('');
 	var html='';
 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
 	var key3_cd=[];
@@ -312,6 +317,25 @@ function callToast(text,icon,heading) {
 		text: text,
 		icon: "info",
 		loaderBg: '#ffffff',  // Background color of the toast loader
+	});
+}
+function callToastHideAfter(text,icon,heading,data,bsmodal){
+	$.toast({
+		position: 'bottom-right',
+		heading: heading,
+		text: text,
+		icon: icon,
+		// hideAfter: false
+		loaderBg: '#ffffff',  // Background color of the toast loader
+		hideAfter: 1300,
+		afterHidden: function () {
+			if (data.alerts_status == "success") {
+				location.reload();
+			}
+			if(bsmodal){
+				bsmodal.modal('toggle');
+			}
+		}
 	});
 }
 
@@ -542,7 +566,7 @@ function uploadSummernoteImageFile(file, editor) {
 //모달 뷰어
 function adviewCall(ar_cd) {
 
-
+	var ar_cd =ar_cd;
 	var inHtml ='';
 	var inContent = '';
 	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -568,35 +592,35 @@ function adviewCall(ar_cd) {
 				'<div class="col-6">' +
 				'\t<div class="form-group clearfix">\n' +
 				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk1" name="distri" value="1" >\n' +
+				'\t\t\t<input type="radio" id="districhk1" name="distri" value="1" checked data-id="'+ar_cd+'">\n' +
 				'\t\t\t<label for="districhk1" class="">Weibull 분포\n' +
 				'\t\t\t</label>\n' +
 				'\t\t</div>\n' +
 				'\t</div>' +
 				'\t<div class="form-group clearfix">\n' +
 				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk2" name="distri" value="2" >' +
+				'\t\t\t<input type="radio" id="districhk2" name="distri" value="2" data-id="'+ar_cd+'">' +
 				'\t\t\t<label for="districhk2" class="">로그 정규 분포\n' +
 				'\t\t\t</label>\n' +
 				'\t\t</div>\n' +
 				'\t</div>' +
 				'\t<div class="form-group clearfix">\n' +
 				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk3" name="distri" value="3" >\n' +
+				'\t\t\t<input type="radio" id="districhk3" name="distri" value="3" data-id="'+ar_cd+'">\n' +
 				'\t\t\t<label for="districhk3" class="">지수\n' +
 				'\t\t\t</label>\n' +
 				'\t\t</div>\n' +
 				'\t</div>' +
 				'\t<div class="form-group clearfix">\n' +
 				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk4" name="distri" value="4" >\n' +
+				'\t\t\t<input type="radio" id="districhk4" name="distri" value="4" data-id="'+ar_cd+'">\n' +
 				'\t\t\t<label for="districhk4" class="">정규 분포\n' +
 				'\t\t\t</label>\n' +
 				'\t\t</div>\n' +
 				'\t</div>' +
 				'\t<div class="form-group clearfix">\n' +
 				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk5" name="distri" value="5" >\n' +
+				'\t\t\t<input type="radio" id="districhk5" name="distri" value="5" data-id="'+ar_cd+'">\n' +
 				'\t\t\t<label for="districhk5" class="">비모수 분포\n' +
 				'\t\t\t</label>\n' +
 				'\t\t</div>\n' +
@@ -610,3 +634,33 @@ function adviewCall(ar_cd) {
 	});
 
 }
+$(document).on('click','#requestAdRun',function () {
+	$('.loading-bar-wrap').removeClass("hidden");
+	var ar_cd = $('input[name=distri]:checked').attr("data-id");
+	var distri = $('input[name=distri]').val();
+	$.ajax({
+		type: "POST",
+		url: base_url+"kgpbt/insertAdSelect",
+		dataType:"json",
+		data:{"ar_cd":ar_cd,"distri":distri},
+		success : function(data) {
+			console.log(data)
+			if(data.alerts_status=="success"){
+				callToastHideAfter(data.alerts_title,"success","Info",data,$('#modal-adview'))
+
+			}else{
+				callToast("분석요청실패","error","Info")
+			}
+			//항상 업로드된 파일의 url이 있어야 한다.
+		},
+		// async: false
+		complete: function(data){
+			// TODO
+			$('.loading-bar-wrap').addClass("hidden");
+		},
+		error: function (xhr, status, error) {
+			console.log(error,xhr,status );
+		}
+	});
+
+});

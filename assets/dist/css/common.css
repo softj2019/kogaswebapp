@@ -119,3 +119,6 @@ body {
 .card{
 	overflow:hidden;
 }
+.output.table.tableselectioncontainer.selectable{
+	padding: 0!important;
+}
