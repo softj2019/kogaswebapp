@@ -353,4 +353,25 @@ class Kgpbt  extends CI_Controller
 
 		echo json_encode($data);
 	}
+	//심화 분석 요청
+	public function insertAdSelect(){
+		header('Content-type: application/json');
+    	$ar_cd = $this->input->post("ar_cd");
+		$distri = $this->input->post("distri");
+		$where=array(
+			"ar_cd"=>$ar_cd,
+		);
+		$param=array(
+			"distri"=>$distri,
+		);
+		$result = $this->common->update_c('kgart',$param,$where);
+		if($result) {
+			$data['alerts_title'] = array("분석요청 완료");
+			$data['alerts_status'] = "success";
+			execCmdRun('start /b cmd /c ' . $this->config->item("exe_path") . "KGANS.exe " . $ar_cd);
+		}
+
+
+		echo json_encode($data);
+	}
 }

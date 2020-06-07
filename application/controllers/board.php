@@ -63,9 +63,10 @@ class Board  extends CI_Controller
 		$data['pagination']= $this->pagination->create_links();
 		$limit[1]=$page;
 		$limit[0]=$config['per_page'];
-		$order_by=array('key'=>'id','value'=>'desc');
+		$order_by=array('key'=>'num','value'=>'desc');
 		//기본목록
-		$data["list"]= $this->common->select_list_table_result('board',$sql='board.*,(select kguse.name from kguse where kguse.id = board.user_id) as name',array('type'=>$type),$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('board a,(select (@rownum:=0) = 0) tmp',$sql='(@rownum:=@rownum+1) as num,a.*,(select kguse.name from kguse where kguse.id = a.user_id) as name',array('type'=>$type),$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+//		$data["list"]= $this->common->select_list_table_result('board',$sql='board.*,(select kguse.name from kguse where kguse.id = board.user_id) as name',array('type'=>$type),$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
         $this->load->view('board/boardlist',$data);

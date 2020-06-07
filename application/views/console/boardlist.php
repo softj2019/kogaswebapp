@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									foreach ($list as $row) {
 										?>
 										<tr>
-											<td><?php echo $row->id; ?></td>
+											<td><?php echo $row->num; ?></td>
 											<td><a href="/console/boardread/<?php echo $row->id; ?>"><?php echo $row->title; ?></a></td>
 											<td><?php echo $row->name; ?></td>
 											<td><?php echo $row->created_at; ?></td>
@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									foreach ($list as $row) {
 										?>
 										<tr>
-											<td><?php echo $row->id; ?></td>
+											<td><?php echo $row->num; ?></td>
 											<td><a href="/console/boardread/<?php echo $row->id; ?>"><?php echo $row->title; ?></a></td>
 											<td><?php echo $row->name; ?></td>
 											<td><?php echo $row->created_at; ?></td>

@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									?>
 									<div class="form-group clearfix">
 										<div class="icheck-primary d-inline text-truncate">
-											<input type="checkbox" id="key3_cd_<?=$key?>" name='key3_cd[]' value="<?php echo $row->key3_cd; ?>" class="key3_cd">
+											<input type="checkbox" id="key3_cd_<?=$key?>" name='key3_cd[]' value="<?php echo $row->key3_cd; ?>" class="key3_cd" data-id="kgsbt">
 											<label for="key3_cd_<?=$key?>" class="">
 												<?php echo $row->key3_nm; ?>
 											</label>
