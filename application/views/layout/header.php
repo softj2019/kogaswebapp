@@ -201,7 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							<li class="nav-item">
 								<a href="/console/boardlist?board_type=A" class="nav-link <?=$menu_code=='012'?'active':''?>" >
 									<i class="far fa-circle nav-icon"></i>
-									<p>게시판 관리</p>
+									<p>도움말 관리</p>
 								</a>
 							</li>
 						</ul>

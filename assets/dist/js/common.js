@@ -317,14 +317,7 @@ function callToast(text,icon,heading) {
 
 $('.submitKgArt').on("click",function () {
 	$('.loading-bar-wrap').removeClass("hidden");
-	// var insertToast =$.toast({
-	// 	heading: "Info",
-	// 	text: "분석요청 데이터 생성중입니다.",
-	// 	icon: "info",
-	// 	position: 'top-center',
-	// 	hideAfter: 8000,
-	// 	loaderBg: '#ffffff',  // Background color of the toast loader
-	// });
+
 	var url='';
 	var type=$(this).attr("data-id");
 	if(type=="kgsbt"){
@@ -343,25 +336,32 @@ $('.submitKgArt').on("click",function () {
 		dataType: "json",
 		success: function (data) {
 			console.log(data)
-			if(data.alerts_title){
-				$.each(data.alerts_title,function (key,value) {
-					$.toast({
-						position: 'bottom-right',
-						heading: data.alerts_icon,
-						text: value,
-						icon: data.alerts_icon,
-						// hideAfter: false
-						loaderBg: '#ffffff',  // Background color of the toast loader
-						hideAfter: 2000,
-						afterHidden: function () {
-							if(data.alerts_status=="success"){
-								location.reload();
+
+			if(data.anal_type=='C') {
+				$('#modal-adview').modal({backdrop: true, keyboard: false, show: true});
+				adviewCall(data.ar_cd);
+			}else{
+				if(data.alerts_title) {
+					$.each(data.alerts_title, function (key, value) {
+						$.toast({
+							position: 'bottom-right',
+							heading: data.alerts_icon,
+							text: value,
+							icon: data.alerts_icon,
+							// hideAfter: false
+							loaderBg: '#ffffff',  // Background color of the toast loader
+							hideAfter: 2000,
+							afterHidden: function () {
+								if (data.alerts_status == "success") {
+									location.reload();
+								}
+								// callDebugToast(data.debug);
 							}
-							// callDebugToast(data.debug);
-						}
-					});
-				})
+						});
+					})
+				}
 			}
+
 		},
 		beforeSend: function(data){
 			//진행중
@@ -537,4 +537,76 @@ function uploadSummernoteImageFile(file, editor) {
 			$(editor).summernote('insertImage', base_url+'assets/editor/'+data.imgData.file_name);
 		}
 	});
+}
+
+//모달 뷰어
+function adviewCall(ar_cd) {
+
+
+	var inHtml ='';
+	var inContent = '';
+	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	var modal = $(this)
+	$.ajax({
+		type: "POST",
+		url: base_url+"kgpbt/htmlAdViewer",
+		dataType:"json",
+		data:{"arcd":ar_cd},
+		// async: false
+	}).done(function(data){
+		inHtml ='';
+		inContent = '조회된 데이터가 없습니다.';
+		inContent2 = '조회된 데이터가 없습니다.';
+		console.log(data)
+		if(data.contentD) {
+			$("#modal-adview").data('bs.modal')._config.backdrop = 'static';
+			inContent = data.contentD;
+			inContent2 = data.contentD2;
+			inHtml += '' +
+				'<div class="col-6 inContent"></div>' +
+				'<div class="col-6">' +
+				'\t<div class="form-group clearfix">\n' +
+				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+				'\t\t\t<input type="radio" id="districhk1" name="distri" value="1" >\n' +
+				'\t\t\t<label for="districhk1" class="">Weibull 분포\n' +
+				'\t\t\t</label>\n' +
+				'\t\t</div>\n' +
+				'\t</div>' +
+				'\t<div class="form-group clearfix">\n' +
+				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+				'\t\t\t<input type="radio" id="districhk2" name="distri" value="2" >' +
+				'\t\t\t<label for="districhk2" class="">로그 정규 분포\n' +
+				'\t\t\t</label>\n' +
+				'\t\t</div>\n' +
+				'\t</div>' +
+				'\t<div class="form-group clearfix">\n' +
+				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+				'\t\t\t<input type="radio" id="districhk3" name="distri" value="3" >\n' +
+				'\t\t\t<label for="districhk3" class="">지수\n' +
+				'\t\t\t</label>\n' +
+				'\t\t</div>\n' +
+				'\t</div>' +
+				'\t<div class="form-group clearfix">\n' +
+				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+				'\t\t\t<input type="radio" id="districhk4" name="distri" value="4" >\n' +
+				'\t\t\t<label for="districhk4" class="">정규 분포\n' +
+				'\t\t\t</label>\n' +
+				'\t\t</div>\n' +
+				'\t</div>' +
+				'\t<div class="form-group clearfix">\n' +
+				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+				'\t\t\t<input type="radio" id="districhk5" name="distri" value="5" >\n' +
+				'\t\t\t<label for="districhk5" class="">비모수 분포\n' +
+				'\t\t\t</label>\n' +
+				'\t\t</div>\n' +
+				'\t</div>' +
+				'</div>' +
+				'';
+		}
+		$('#modal-adview').find('.modal-body').eq(0).html(inHtml)
+		$('#modal-adview').find('.inContent').html(inContent)
+		$('#modal-adview').find('.card-body').html(inContent2)
+	});
+
 }

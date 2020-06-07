@@ -431,3 +431,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<!-- /.modal-dialog -->
 </div>
+<div class="modal fade" id="modal-adview">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">적합도</h4>
+<!--				<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--					<span aria-hidden="true">&times;</span>-->
+<!--				</button>-->
+			</div>
+			<div class="modal-body row">
+
+			</div>
+			<div class="modal-footer justify-content-right">
+				<button type="button" class="btn btn-default">분석실행</button>
+
+			</div>
+			<div class="modal-body">
+				<div class="card collapsed-card">
+					<div class="card-header">
+						<h3 class="card-title"> 상세보기</h3>
+						<div class="card-tools">
+							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+							</button>
+							<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+							</button>
+						</div>
+
+					</div>
+					<div class="card-body">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>

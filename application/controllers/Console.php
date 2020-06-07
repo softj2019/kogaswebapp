@@ -194,7 +194,7 @@ class Console  extends CI_Controller
 		//		header('Content-type: application/json');
 		$config['upload_path']          = $this->config->item("uploads")."\\board\\";
 //		$config['upload_path']          = 'assets/board/';
-		$config['allowed_types']        = 'txt|ppt|pptx|xls|xlsx|doc|docx|hwp|gif|jpg|png|sql';
+		$config['allowed_types']        = 'txt|ppt|pptx|xls|xlsx|doc|docx|hwp|gif|jpg|png|sql|csv';
 		$config['max_size']             = 1000000;
 		$config['max_width']            = 10240000;
 		$config['max_height']           = 7680000;
