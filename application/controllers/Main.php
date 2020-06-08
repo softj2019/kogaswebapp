@@ -110,17 +110,17 @@ class Main  extends CI_Controller
 		$data["listB"]=$this->common->select_list_table_result('' .
 			'(select num_nm code_name,' .
 			'count(*) as cnt ' .
-			'from kgdata inner join kgcod on num_cd = action_cd ' .
+			'from kgdata inner join kgcod on num_cd = cause_cd ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
-			'group by break_cd ORDER BY cnt DESC limit 10) A',
+			'group by cause_cd ORDER BY cnt DESC limit 10) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 		//해당 년도 고장조치 비율
 		$data["listC"]=$this->common->select_list_table_result(
 			'(select num_nm code_name,' .
 			'count(*) as cnt ' .
-			'from kgdata inner join kgcod on num_cd = cause_cd ' .
+			'from kgdata inner join kgcod on num_cd = action_cd ' .
 			'WHERE sdate BETWEEN DATE_ADD(NOW(),INTERVAL -12 MONTH) AND NOW() ' .
-			'group by break_cd ORDER BY cnt DESC limit 10) A',
+			'group by action_cd ORDER BY cnt DESC limit 10) A',
 			$sql='','code_name is not null',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
 
 		$data["listD"]=$this->common->select_list_table_result(
