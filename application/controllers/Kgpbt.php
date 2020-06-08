@@ -186,41 +186,6 @@ class Kgpbt  extends CI_Controller
 
 		echo json_encode($data);
 	}
-	//생산 기본 분석 뷰어
-	public function htmlViewer(){
-		header('Content-type: application/json');
-		$arcd = $this->input->post("arcd");
-		$where = array(
-			"ar_cd"=>$arcd,
-		);
-		$row =  $this->common->select_row($table='kgrct','htm3, htm4',$where,$coding=false,$order_by='',$group_by='' );
-		$data['viewArtDetail']  =  $this->common->select_row($table='kgartpbtview','',$where,$coding=false,$order_by='',$group_by='' );
-		$data['viewRctDetail']  =  $this->common->select_row($table='kgrct','',$where,$coding=false,$order_by='',$group_by='' );
-		$data['content']="";
-		if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
-		if($row->htm4) $data['content'] .= file_get_contents('file:///'.$row->htm4);
-		echo json_encode($data);
-	}//생산 심화 분석 뷰어
-	public function htmlAdViewer(){
-		header('Content-type: application/json');
-		$arcd = $this->input->post("arcd");
-		$yy = substr($arcd,'2',4);
-		$dd = substr($arcd,'6',4);
-		$data['contentD'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID.htm");
-		$data['contentD2'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID2.htm");
-		echo json_encode($data);
-	}
-	//기초분석 뷰어
-	public function htmlDefaultViewer(){
-    	$arcd = $this->input->post("arcd");
-    	$selectKey = $this->input->post("htmlNum")." as htmNum ";
-    	$where = array(
-    		"ar_cd"=>$arcd,
-		);
-    	$row =  $this->common->select_row($table='kgrct',$selectKey,$where,$coding=false,$order_by='',$group_by='' );
-		$content = file_get_contents($row->htmNum);
-		echo $content;
-	}
 
 	//make where in
 	public function whereInArrayInsert($array){
@@ -328,7 +293,7 @@ class Kgpbt  extends CI_Controller
 					"fmode" => $fmode,
 					"smode" => $smode,
 					"wvalue" => $wvalue,
-					"user_id" => @$this->session->userdata('id'),
+					"user_id" => @$this->session->userdata('user_id'),
 				);
 
 				$this->common->insert("kgart",$updateData);
@@ -348,6 +313,27 @@ class Kgpbt  extends CI_Controller
 			//알림 타입 error,info,success,warning,question
 			$data["alerts_icon"]="error";
 			$data['alerts_title'] = $this->form_validation->error_array();
+		}
+
+
+		echo json_encode($data);
+	}
+	//심화 분석 요청
+	public function insertAdSelect(){
+		header('Content-type: application/json');
+    	$ar_cd = $this->input->post("ar_cd");
+		$distri = $this->input->post("distri");
+		$where=array(
+			"ar_cd"=>$ar_cd,
+		);
+		$param=array(
+			"distri"=>$distri,
+		);
+		$result = $this->common->update_c('kgart',$param,$where);
+		if($result) {
+			$data['alerts_title'] = array("분석요청 완료");
+			$data['alerts_status'] = "success";
+			execCmdRun('start /b cmd /c ' . $this->config->item("exe_path") . "KGANS.exe " . $ar_cd);
 		}
 
 

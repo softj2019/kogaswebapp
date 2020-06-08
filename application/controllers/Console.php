@@ -115,7 +115,7 @@ class Console  extends CI_Controller
 		if(!$type){
 			$type = "A";
 		}
-		$data['page_title']="게시판관리";
+		$data['page_title']="도움말 관리";
 //		$data['page_sub_title']="";
 //        $data['page_css_style']="fee.css";
 		$data['menu_code']="012";
@@ -131,9 +131,14 @@ class Console  extends CI_Controller
 		$data['pagination']= $this->pagination->create_links();
 		$limit[1]=$page;
 		$limit[0]=$config['per_page'];
-		$order_by=array('key'=>'id','value'=>'desc');
+		$order_by=array('key'=>'num','value'=>'desc');
+		$where = array(
+			'type'=>$type,
+//			"(@rownum:=0) = "=>0,
+
+		);
 		//기본목록
-		$data["list"]= $this->common->select_list_table_result('board',$sql='board.*,(select kguse.name from kguse where kguse.id = board.user_id) as name',array('type'=>$type),$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('board a,(select (@rownum:=0) = 0) tmp',$sql='(@rownum:=@rownum+1) as num,a.*,(select kguse.name from kguse where kguse.id = a.user_id) as name',$where,$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('console/boardlist',$data);
@@ -151,7 +156,7 @@ class Console  extends CI_Controller
 	public function boardform()
 	{
 		$data=Array();
-		$data['page_title']="게시판 글쓰기";
+		$data['page_title']="도움말 글쓰기";
 		$data['menu_code']="012";
 		$data['footerScript']='/assets/dist/js/summernote-basic.js';
 		$data['board_type']=$this->input->get("board_type");
@@ -165,7 +170,7 @@ class Console  extends CI_Controller
 	public function boardread()
 	{
 		$data=Array();
-		$data['page_title']="게시판 글수정";
+		$data['page_title']="도움말 글수정";
 		$data['menu_code']="012";
 		$data['footerScript']='/assets/dist/js/summernote-basic.js';
 		$where=array(
@@ -229,7 +234,7 @@ class Console  extends CI_Controller
 		//파일 업로드 종료
 
 		$data=Array();
-		$data['page_title']="게시판 글쓰기";
+		$data['page_title']="도움말 글쓰기";
 		$data['menu_code']="012";
 		$data['footerScript']='/assets/dist/js/summernote-basic.js';
 

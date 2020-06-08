@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									?>
 									<div class="form-group clearfix">
 										<div class="icheck-primary d-inline text-truncate">
-											<input type="checkbox" id="key3_cd_<?=$key?>" name='key3_cd[]' value="<?php echo $row->key3_cd; ?>" class="key3_cd">
+											<input type="checkbox" id="key3_cd_<?=$key?>" name='key3_cd[]' value="<?php echo $row->key3_cd; ?>" class="key3_cd" data-id="kgsbt">
 											<label for="key3_cd_<?=$key?>" class="">
 												<?php echo $row->key3_nm; ?>
 											</label>
@@ -147,11 +147,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th>요청코드</th>
 						<th>분석일자</th>
-						<th>플랜트</th>
-						<th>위치내역</th>
-						<th>1차분류</th>
-						<th>2차분류</th>
-						<th>3차분류</th>
+						<th>분석 요청자</th>
+						<th>요청구분</th>
 						<th>신뢰도분석결과</th>
 						<th>기초통계분석결과</th>
 						<th>데이터 파일</th>
@@ -164,16 +161,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<tr>
 								<td class="text"><?php echo $row->ar_cd; ?></td>
 								<td><?php echo $row->ar_time; ?></td>
-								<td class="text-truncate"><?php echo $row->key1_nm; ?></td>
-								<td class="text-truncate"><?php echo $row->key2_nm; ?></td>
-								<td><?php echo $row->key3_nm; ?></td>
-								<td class="text-truncate"><?php echo $row->key4_nm; ?></td>
-								<td class="text-truncate"><?php echo $row->key5_nm; ?></td>
+								<td class="text-truncate"><?php echo $row->user_id; ?></td>
+								<td class="text-truncate"><?php echo $row->analysis_name; ?></td>
 								<td>
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
-									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
+									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="<?php echo $row->ar_cd; ?>" ><i class="fas fa-search"></i> </button>
 								</td>
 								<td>
 									<a class="btn btn-info btn-block" href="/download/getfile/<?php echo $row->ar_cd;?>">download</a>

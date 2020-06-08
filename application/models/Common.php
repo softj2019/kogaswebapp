@@ -107,6 +107,11 @@ class Common extends CI_Model
         $this->db->where($pid_key, $pid_value);
         return $this->db->update($table, $param);
     }
+	function update_c($table='',$param='',$where='')
+	{
+		$this->db->where($where);
+		return $this->db->update($table, $param);
+	}
     function delete_row($table='',$where='')
     {
         $this->db->where($where);

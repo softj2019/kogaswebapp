@@ -20,6 +20,9 @@ select.form-control.kgpbtMultiSelect {
 	max-height: 300px;
 	overflow-y: auto;
 }
+.card{
+	/*overflow:auto;*/
+}
 .table td, .table th {
 	min-width: 180px;
 }
@@ -116,6 +119,7 @@ body {
 .w-5{
 	width: 5% !important;
 }
-.card{
-	overflow:hidden;
+
+.output.table.tableselectioncontainer.selectable{
+	padding: 0!important;
 }
