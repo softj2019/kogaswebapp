@@ -83,7 +83,10 @@ class Kgsbt  extends CI_Controller
 //		$data['footerScript']="/assets/dist/js/chart/defaultChart.js";
 
 		$data["kgpbtClass1"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key3_cd,key3_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
-		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='','');
+		$likeCod=array(
+			'num_cd','1','after'
+		);
+		$data["kgcodList"]= $this->common->select_list_table_result('kgcod',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$likeCod,$joina='',$joinb='','');
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('kgsbt/writeform',$data);
