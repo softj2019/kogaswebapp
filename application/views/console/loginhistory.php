@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$attributes = array('class' => 'form-horizonatal', 'id' => 'defaultForm','name' => 'defaultForm');
 		echo form_open('email/send',$attributes);
 		?>
-		<?php form_close()?>
+		<?php echo form_close();?>
 		<div class="card">
 			<div class="card-body table-responsive">
 

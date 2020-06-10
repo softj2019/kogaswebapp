@@ -275,18 +275,4 @@ class Member extends CI_Controller {
         }
         echo json_encode($data);
     }
-	public function joinapply()
-	{
-		header('Content-type: application/json');
-
-		$param=Array(
-			'role' => "user",
-		);
-		foreach ($this->input->post("chk") as $key=>$value){
-			$this->common->update_row('kguse',$param,'id',$value);
-		}
-		$data["alerts_status"]="success";
-
-		echo json_encode($data);
-	}
 }

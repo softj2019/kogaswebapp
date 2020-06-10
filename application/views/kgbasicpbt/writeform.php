@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<i class="far fa-calendar-alt"></i>
 										  </span>
 										</div>
-										<input type="text" name="startDate" class="form-control float-right startDate">
+										<input type="text" name="startDate" class="form-control float-right startDate bg-white" readonly="ture">
 									</div>
 								</div>
 								<div class="col-2">
@@ -31,15 +31,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<i class="far fa-calendar-alt"></i>
 										  </span>
 										</div>
-										<input type="text" name="endDate" class="form-control float-right endDate">
+										<input type="text" name="endDate" class="form-control float-right endDate bg-white" readonly="ture">>
 									</div>
 								</div>
 								<div class="col-2">
 									<button type="button" class="btn btn-success btn-block submitKgArt" data-id="kgbasicpbt">분석 실행</button>
 								</div>
 							</div>
-
-
+							<div class="form-group row">
+								<label class="text-info offset-1">해당 분석의 시작시점은 2009년 1월 1일 이후로 설정해야 합니다.</label>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -187,18 +188,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 			</div>
-		<?php form_close();?>
+		<?php echo form_close();?>
 		<div class="card">
 			<div class="card-body table-responsive">
 
 				<table class="table table-hover table-striped">
 					<thead>
 					<tr>
-						<th>분석코드</th>
-						<th>분석일자</th>
+						<th>분석 코드</th>
+						<th>분석 일자</th>
 						<th>사용자</th>
-						<th>분석구분</th>
-						<th>기초통계분석결과</th>
+						<th>분석 구분</th>
+						<th>기초통계 분석 결과</th>
 						<th>데이터 파일</th>
 					</tr>
 					</thead>

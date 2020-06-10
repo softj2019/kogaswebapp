@@ -8,11 +8,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$attributes = array('class' => 'form-horizonatal', 'id' => 'defaultForm','name' => 'defaultForm');
 		echo form_open('email/send',$attributes);
 		?>
-		<?php form_close()?>
+		<?php echo form_close();?>
 		<div class="card">
+			<div class="card-header">
+				<blockquote class="quote-primary">
+										<h4 class="text-gray-dark">업로드 필요한 자료가 있는 경우 관리자에게 요청해주십시오.</h4>
+<!--					<small>업로드 필요한 자료가 있는 경우 관리자에게 요청해주십시오.</small>-->
+				</blockquote>
+			</div>
 			<div class="card-body">
 				<div class="card-body">
-<!--					<h4>Custom Content Below</h4>-->
 					<ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
 						<li class="nav-item">
 							<a class="nav-link <?=$this->input->get("board_type")=="A"?"active":""?> " id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true" onclick="location.href='/board/boardlist?board_type=A'">사용방법</a>
@@ -81,11 +86,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				</div>
 
-
-			</div>
-			<div class="card-footer">
 				<?php echo $pagination?>
 			</div>
+<!--			<div class="card-footer">-->
+<!--				-->
+<!--			</div>-->
 		</div>
 	</div>
 </div>

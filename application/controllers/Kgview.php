@@ -59,6 +59,13 @@ class Kgview  extends CI_Controller
 		$data['content']="";
 		if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
 		if($row->htm4) $data['content'] .= file_get_contents('file:///'.$row->htm4);
+
+		//표시데이터
+		if(!$data['kgart']){
+			$data['alerts_status']="error";
+		}else{
+			$data['alerts_status']="success";
+		}
 		echo json_encode($data);
 	}
 	//생산 심화 분석 뷰어

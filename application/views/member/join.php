@@ -95,19 +95,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					<?php echo form_error('name'); ?>
 				</div>
 				<div class="row">
-<!--					<div class="col-8">-->
-<!--						<div class="icheck-primary">-->
-<!--							<input type="checkbox" id="remember">-->
-<!--							<label for="remember">-->
-<!--								Remember Me-->
-<!--							</label>-->
-<!--						</div>-->
-<!--					</div>-->
-					<!-- /.col -->
 					<div class="col-12">
 						<button type="submit" class="btn btn-primary btn-block">회원가입</button>
 					</div>
-					<!-- /.col -->
 				</div>
 			<?php
 				echo form_close();
@@ -124,14 +114,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!--			</div>-->
 			<!-- /.social-auth-links -->
 			<p>&nbsp;</p>
-			<p class="mb-1">
+			<div class="row">
+				<div class="col-12">
+					<button class="btn btn-block btn-outline-primary" onclick="location.href='/member/login'">로그인</button>
+				</div>
+			</div>
 
-				<a href="/member/login" class="join">로그인</a>
-			</p>
-			<p class="mb-1">
-
-				관리자에 연락 하세요 or
-			</p>
+<!--			<p class="mb-1">-->
+<!--				<a href="/member/login" class="join">로그인</a>-->
+<!--			</p>-->
+			<p>&nbsp;</p>
+			<ul class="mb-1 list-unstyled">
+				<li>계정승인은 관리자에게문의 주십시오
+					<ul>
+						<li>단승규 031-400-7505</li>
+						<li>정호진 031-400-7561</li>
+						<li>윤익근 031-400-7544</li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 		<!-- /.login-card-body -->
 	</div>

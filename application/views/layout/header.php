@@ -64,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<!-- Main Sidebar Container -->
 	<aside class="main-sidebar sidebar-dark-primary elevation-4">
 		<!-- Brand Logo -->
-		<a href="index3.html" class="brand-link">
+		<a href="/" class="brand-link">
 
 			<span class="brand-text font-weight-light">설비 신뢰도 분석시스템</span>
 		</a>
@@ -177,7 +177,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</a>
 					</li>
 					<?php if(@$this->session->userdata('is_admin')) {?>
-					<li class="nav-item <?=$menu_code=='009' || $menu_code=='011'|| $menu_code=='012'?'menu-open':''?>"">
+					<li class="nav-item <?=$menu_code=='009' || $menu_code=='011'|| $menu_code=='012'?'menu-open':''?>">
 						<a href="" class="nav-link <?=$menu_code=='009' || $menu_code=='011' ||  $menu_code=='012'?'active':''?>">
 							<i class="nav-icon fas fa-cogs"></i>
 							<p>

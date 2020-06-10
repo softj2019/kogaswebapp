@@ -25,6 +25,8 @@ $('input[name=select_mode]').on('change',function () {
 		//검정모드
 		$('.smodeOverlay').removeClass('hidden')
 		$('.smode').prop("checked",false).trigger('change');
+		//검정모드 초기화
+		$('.smode_key1_cd').html('');
 	//검정모드
 	}else if(select_mode == 'smode'){
 		//고장모드
@@ -32,6 +34,7 @@ $('input[name=select_mode]').on('change',function () {
 		//검정모드
 		$('.smodeOverlay').addClass('hidden');
 		$('.fmode').prop("checked",false).trigger('change');
+
 
 	//선택안함
 	}else{
@@ -41,6 +44,8 @@ $('input[name=select_mode]').on('change',function () {
 		$('.smodeOverlay').removeClass('hidden')
 		$('.fmode').prop("checked",false).trigger('change');
 		$('.smode').prop("checked",false).trigger('change');
+		//검정모드 초기화
+		$('.smode_key1_cd').html('');
 	}
 })
 // $('.sdate').datetimepicker({"format":"YYYY-MM-DD","locale":"ko"});
@@ -73,13 +78,22 @@ $('input[name=checkAll]').on("change",function () {
 	}
 
 })
+//검정모드 2개이상 체크
+$(document).on("change",'.smode',function () {
+	if($('.smode:checked').length >2){
+		callToast("검정모드는 2개이상 선택할 수 없습니다.","error","알림")
+		$(this).prop("checked",false);
+	}
+
+});
 //플랜트 선택 위치 표시
 $('.key1_cd').on('change',function () {
 
 	var html='';
+	var smodeHtml='';
 	//화면에 플랜트 위치 오브젝트 가 존재하면 위치정보를 출력
 	var key1_cd=[];
-
+	var key1_cd_name=[];
 	$('.smode').prop("checked",false).trigger('change');
 
 	var selectModeValue =$('input[name=select_mode]:checked').val();
@@ -88,10 +102,25 @@ $('.key1_cd').on('change',function () {
 	$.each($('.key1_cd'),function () {
 		if($(this).is(":checked")){
 			key1_cd.push($(this).val());
-			// 검정모드자동선택전
-			if(selectModeValue=="smode")$('.smode').filter('[value="'+$(this).val()+'"]').prop("checked",true).trigger('change');
+			key1_cd_name.push($(this).next().text());
 		}
 	})
+	// 검정모드 목록 출력
+	if(selectModeValue=="smode"){
+		$('.smode_key1_cd').html('')
+		// $('.smode').filter('[value="'+$(this).val()+'"]').prop("checked",true).trigger('change');
+		$.each(key1_cd,function (key,value) {
+			smodeHtml+='' +
+				'<div class="form-group clearfix">\n' +
+				'\t<div class="icheck-primary d-inline text-truncate">\n' +
+				'\t\t<input type="checkbox" id="smode_'+key+'" name="smode[]" value="'+value+'" class="smode">\n' +
+				'\t\t<label for="smode_'+key+'">'+key1_cd_name[key]+'</label>\n' +
+				'\t</div>\n' +
+				'</div>';
+		});
+		$('.smode_key1_cd').html(smodeHtml)
+	}
+
 	var url='';
 	var type=$(this).attr("data-id");
 	if(type=="kgsbt"){
@@ -313,32 +342,52 @@ function callDebugToast(text) {
 function callToast(text,icon,heading) {
 	$.toast({
 		position: 'bottom-right',
-		heading: "Debug",
+		heading:heading,
 		text: text,
-		icon: "info",
+		icon: icon,
 		loaderBg: '#ffffff',  // Background color of the toast loader
 	});
 }
 function callToastHideAfter(text,icon,heading,data,bsmodal){
-	$.toast({
-		position: 'bottom-right',
-		heading: heading,
-		text: text,
-		icon: icon,
-		// hideAfter: false
-		loaderBg: '#ffffff',  // Background color of the toast loader
-		hideAfter: 1300,
-		afterHidden: function () {
-			if (data.alerts_status == "success") {
+	if(data.alerts_status=="success"){
+		$.toast({
+			position: 'bottom-right',
+			heading: heading,
+			text: text,
+			icon: icon,
+			// hideAfter: false
+			loaderBg: '#ffffff',  // Background color of the toast loader
+			hideAfter: 2000,
+			afterHidden: function () {
+				if(bsmodal){
+					bsmodal.modal('toggle');
+				}
 				location.reload();
 			}
-			if(bsmodal){
-				bsmodal.modal('toggle');
-			}
-		}
+		});
+	}else{
+		$.toast({
+			position: 'bottom-right',
+			heading: "알림",
+			text: "요청이 실패했습니다.",
+			icon: "error",
+			// hideAfter: false
+			loaderBg: '#ffffff',  // Background color of the toast loader
+			// hideAfter: 1300,
+		});
+	}
+
+}
+function callToastHideFalse(text,icon,heading) {
+	$.toast({
+		position: 'bottom-right',
+		heading:heading,
+		text: text,
+		icon: icon,
+		loaderBg: '#ffffff',  // Background color of the toast loader
+		hideAfter: false,
 	});
 }
-
 //분석 실행
 $('.submitKgArt').on("click",function () {
 	$('.loading-bar-wrap').removeClass("hidden");
@@ -360,30 +409,38 @@ $('.submitKgArt').on("click",function () {
 		data:$('#defaultForm').serialize(),
 		dataType: "json",
 		success: function (data) {
-			console.log(data)
+			console.log("심화분석 테이블 저장후 반환",data)
 
 			if(data.anal_type=='C') {
 				$('#modal-adview').modal({backdrop: true, keyboard: false, show: true});
-				adviewCall(data.ar_cd);
+				adviewCall(data);
 			}else{
-				if(data.alerts_title) {
+				if(data.alerts_status=="success") {
+					$.toast({
+						position: 'bottom-right',
+						heading: "알림",
+						text: "분석 실행 성공",
+						icon: "success",
+						// hideAfter: false
+						loaderBg: '#ffffff',  // Background color of the toast loader
+						hideAfter: 3000,
+						afterHidden: function () {
+								location.reload();
+							// callDebugToast(data.debug);
+						}
+					});
+				}else{
 					$.each(data.alerts_title, function (key, value) {
 						$.toast({
 							position: 'bottom-right',
-							heading: data.alerts_icon,
+							heading: "알림",
 							text: value,
 							icon: data.alerts_icon,
 							// hideAfter: false
 							loaderBg: '#ffffff',  // Background color of the toast loader
-							hideAfter: 2000,
-							afterHidden: function () {
-								if (data.alerts_status == "success") {
-									location.reload();
-								}
-								// callDebugToast(data.debug);
-							}
+							hideAfter: false,
 						});
-					})
+					});
 				}
 			}
 
@@ -429,43 +486,48 @@ $('#modal-default').on('show.bs.modal', function (event) {
 		data:{"arcd":recipient},
 		// async: false
 	}).done(function(data){
+		console.log("분석결과 뷰어",data)
+
 		inHtml ='';
 		inContent = '조회된 데이터가 없습니다.';
-		// console.log(data)
-		//기본
-		if(data.kgart.analysis_type=='B' && data.kgart.fmode==null && data.kgart.distri==null) {
-			inHtml= getDefaultClases(data,inHtmlNoneFmode,inHtml)
-			console.log('debug ::::::::::::::: 기본 B 고장모드 null distri null')
-		}
-		//기본 고장모드 있는경우
-		if(data.kgart.fmode!=null && data.kgart.analysis_type=='B'){
-			inHtml= getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode);
-			console.log('debug ::::::::::::::: 기본 B 고장모드 있는경우')
-		}
-		//심화 distri none 1,2,3,4
-		if(data.kgart.fmode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
-			inHtml= getInSModeClass(data,inHtml,inDistri);
-			console.log('debug ::::::::::::::: 심화 E distri none 1,2,3,4')
-		}
-		//심화 fmode yes distri 1,2,3,4
-		if(data.kgart.fmode && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
-			inHtml= getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode);
-			console.log('debug ::::::::::::::: 심화 E fmode yes distri 1,2,3,4')
-		}
-		//심화 smode yse distri 1,2,4
-		if(data.kgart.smode && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2'  || data.kgart.distri=='4')){
-			inHtml= getInSModeClass(data,inHtml,inDistri);
-			console.log('debug ::::::::::::::: 심화 E smode yse distri 1,2,4')
-		}
 
-		inContent = data.content;
-		modal.find('.modal-body .inHtml').html(inHtml)
-		modal.find('.modal-body .inContent').html(inContent)
+		if(data.alerts_status=="success"){
+			//기본
+			if(data.kgart.analysis_type=='B' && data.kgart.fmode==null && data.kgart.distri==null) {
+				inHtml= getDefaultClases(data,inHtmlNoneFmode,inHtml)
+				console.log('debug ::::::::::::::: case1')
+			}
+			//case2 기본,심화 B,E 고장모드 있는경우 distri ==null || 3
+			if(data.kgart.fmode!=null && (data.kgart.analysis_type=='B' || data.kgart.analysis_type=='E') && (data.kgart.distri=='3' || data.kgart.distri==null )){
+				inHtml= getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode);
+				console.log('debug ::::::::::::::: case2')
+			}
+			//case3 심화 s/fmode null distri 1,2,3,4
+			if(data.kgart.fmode==null && data.kgart.smode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
+				inHtml= getInSModeClass(data,inHtml,inDistri);
+				console.log('debug ::::::::::::::: case3')
+			}
+			//case4 심화 E smode == null and fmode not null  distri 1,2,4
+			if(data.kgart.fmode!=null && data.kgart.smode==null  && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='4')){
+				inHtml= getInFModeNotSmodeClass(data,inHtmlNoneFmode,inHtml,inFmode);
+				console.log('debug ::::::::::::::: case4')
+			}
+			//case5 심화 smode yse distri 1,2,4
+			if(data.kgart.smode!=null && data.kgart.fmode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2'  || data.kgart.distri=='4')){
+				inHtml= getCase5(data,inHtml,inDistri);
+				console.log('debug ::::::::::::::: case5')
+			}
+			inContent = data.content;
+			modal.find('.modal-body .inHtml').html(inHtml)
+			modal.find('.modal-body .inContent').html(inContent)
+		}else {
+			callToast("분석된 데이터가 없습니다.","error","알림")
+	}
 
 	});
 });
-//기본 B
-function getDefaultClases(data,inHtmlNoneFmode='',inHtml='') {
+//case1 기본 B
+function getDefaultClases(data,inHtmlNoneFmode,inHtml) {
 	inHtmlNoneFmode += '' +
 		'<h5 class="text-right">(95% CI)</h5>' +
 		'<div class="row"> ' +
@@ -475,7 +537,7 @@ function getDefaultClases(data,inHtmlNoneFmode='',inHtml='') {
 		'	<tbody>' +
 		'	<tr>' +
 		'		<tr>' +
-		'			<th rowspan="2" class="table-valign-middle">고장률</th><th>하한</th><th>고장률</th><th>상한</th>' +
+		'			<th rowspan="2" class="table-valign-middle text-bold">고장률</th><th>하한</th><th>고장률</th><th>상한</th>' +
 		'		</tr>' +
 		'		<td>' + data.viewRctDetail.value11 + '</td>' +
 		'		<td>' + data.viewRctDetail.value10 + '</td>' +
@@ -487,8 +549,7 @@ function getDefaultClases(data,inHtmlNoneFmode='',inHtml='') {
 	inHtml += inHtmlNoneFmode;
 	return inHtml;
 }
-
-//심화 E 고장모드에 값 있음 distri 1,2,3,4
+//case2 심화 E 고장모드에 값 있음 distri 1,2,3,4
 function getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode,inDistri) {
 	var wvalue = data.kgart.wvalue.split(",");//고장시간
 	var fmode = data.kgart.fmode.split(",");//고장시간
@@ -548,7 +609,7 @@ function getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode,inDistri) {
 		'<table class="table table-valign-middle">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(value13.length+1)+'">고장모드별 고장율</td><td>모드</td><td>하한</td><td>고장율</td><td>상한</td>' +
+		'	<td rowspan="'+(value13.length+1)+'">고장모드별 고장률</td><td>모드</td><td>하한</td><td>고장률</td><td>상한</td>' +
 		'	</tr>' +
 		'';
 
@@ -565,7 +626,82 @@ function getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode,inDistri) {
 	inHtml += inFmode;
 	return inHtml
 }
-//심화 E smode 있음 1,2,4
+//case3 심화 E fmode not null  distri 1,2,4
+function getInFModeNotSmodeClass(data,inHtml,inDistri){
+	var wvalue = data.kgart.wvalue.split(",");//고장시간
+	var value1 = data.viewRctDetail.value1.split(",");//신뢰도
+	var value2 = data.viewRctDetail.value2.split(",");//하한
+	var value3 = data.viewRctDetail.value3.split(",");//상한
+	var value4 = data.viewRctDetail.value4.split(",");//불신뢰도
+	var value5 = data.viewRctDetail.value5.split(",");//상한
+	var value6 = data.viewRctDetail.value6.split(",");//하한
+	var value7 = data.viewRctDetail.value7.split(",");//하한
+	var value8 = data.viewRctDetail.value8.split(",");//하한
+	var value9 = data.viewRctDetail.value9.split(",");//하한
+	var value10 = data.viewRctDetail.value10.split(",");//하한
+	var value11 = data.viewRctDetail.value11.split(",");//하한
+	var value12 = data.viewRctDetail.value12.split(",");//하한
+	//신뢰도
+	inDistri+='' +
+		'<h5 class="text-right">(95% CI)</h5>' +
+		'<table class="table table-valign-middle table-sm">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">신뢰도</td><td>시간</td><td>하한</td><td>신뢰도</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td class="table-valign-middle">'+value+'</td><td>'+value1[key]+'</td><td>'+value2[key]+'</td><td>'+value3[key]+'</td>' +
+			'	</tr>';
+	})
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'';
+	//불신뢰도
+	inDistri+='' +
+
+		'<table class="table table-valign-middle table-sm">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">불신뢰도</t><td>시간</td><td>하한</td><td>불신뢰도</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td class="table-valign-middle">'+value+'</td><td>'+value4[key]+'</td><td>'+value5[key]+'</td><td>'+value6[key]+'</td>' +
+			'	</tr>';
+	})
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'';
+	//고장률
+	inDistri+='' +
+
+		'<table class="table table-valign-middle table-sm">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>하한</td><td>고장률</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td>'+wvalue[key]+'</td><td>'+value11[key]+'</td><td>'+value10[key]+'</td><td>'+value12[key]+'</td>' +
+			'	</tr>';
+	});
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'';
+	inHtml += inDistri;
+	return inHtml;
+}
+//case4 심화 E smode 있음 1,2,4
 function getInSModeClass(data,inHtml,inDistri){
 	var wvalue = data.kgart.wvalue.split(",");//고장시간
 	var value1 = data.viewRctDetail.value1.split(",");//신뢰도
@@ -597,6 +733,7 @@ function getInSModeClass(data,inHtml,inDistri){
 		'	</tbody>' +
 		'</table>' +
 		'</div>';
+	//신뢰도
 	inDistri+='' +
 
 		'<table class="table table-valign-middle table-sm">' +
@@ -612,9 +749,10 @@ function getInSModeClass(data,inHtml,inDistri){
 			'	</tr>';
 	})
 	inDistri+='' +
-		'	</tbody' +
+		'	</tbody>' +
 		'</table>' +
 		'';
+	//불신뢰도
 	inDistri+='' +
 
 		'<table class="table table-valign-middle table-sm">' +
@@ -630,31 +768,216 @@ function getInSModeClass(data,inHtml,inDistri){
 			'	</tr>';
 	})
 	inDistri+='' +
-		'	</tbody' +
+		'	</tbody>' +
 		'</table>' +
 		'';
+	//고장률
 	inDistri+='' +
 
 		'<table class="table table-valign-middle table-sm">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>하한</td><td>고장</td><td>상한</td>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>고장률</td>' +
 		'	</tr>' +
 		'';
 	$.each(wvalue,function (key,value) {
 		inDistri+='' +
 			'	<tr>' +
-			'		<td class="table-valign-middle">'+value+'</td><td>'+value11[key]+'</td><td>'+value10[key]+'</td><td>'+value12[key]+'</td>' +
+			'		<td>'+wvalue[key]+'</td><td>'+value10[key]+'</td>' +
 			'	</tr>';
-	})
+	});
 	inDistri+='' +
-		'	</tbody' +
+		'	</tbody>' +
 		'</table>' +
 		'';
 	inHtml += inDistri;
 	return inHtml;
 }
+//case5 심화 E smode 있음 1,2,4
+function getCase5(data,inHtml,inDistri){
 
+	var wvalue = data.kgart.wvalue.split(",");//고장시간
+
+	var value1 = data.viewRctDetail.value1.split(",");//신뢰도
+	var value2 = data.viewRctDetail.value2.split(",");//하한
+	var value3 = data.viewRctDetail.value3.split(",");//상한
+	var value4 = data.viewRctDetail.value4.split(",");//불신뢰도
+	var value5 = data.viewRctDetail.value5.split(",");//상한
+	var value6 = data.viewRctDetail.value6.split(",");//하한
+	var value7 = data.viewRctDetail.value7.split(",");//하한
+	var value8 = data.viewRctDetail.value8.split(",");//하한
+	var value9 = data.viewRctDetail.value9.split(",");//하한
+	var value10 = data.viewRctDetail.value10.split(",");//하한
+	var value11 = data.viewRctDetail.value11.split(",");//하한
+	var value12 = data.viewRctDetail.value12.split(",");//하한
+
+	//
+
+	if(data.kgart.smode != null){
+		var smode = data.kgartView.smode.split(",");//고장시간
+		inDistri+='' +
+			'<div class="row">' +
+			'	<table class="table table-valign-middle table-sm">' +
+			'		<thead>' +
+			'		<tr>' +
+			'			<th colspan="4" class="text-center">'+smode[0]+'</th><th colspan="4" class="text-center">'+smode[1]+'</th>' +
+			'		</tr>'+
+			'		</thead>'+
+			'	</table>'+
+			'</div>';
+	}
+
+	//신뢰도
+	inDistri+='' +
+		'<div class="clearfix row">';
+	inDistri+='' +
+		'<div class="col-6">'+
+		'<table class="table-valign-middle w-100" style="border-right: 1px solid #eee">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">신뢰도</td><td>시간</td><td>하한</td><td>신뢰도</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td class="table-valign-middle">'+value+'</td><td>'+value1[key]+'</td><td>'+value2[key]+'</td><td>'+value3[key]+'</td>' +
+			'	</tr>';
+	})
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'</div> ';
+	inDistri+='' +
+		'<div class="col-6">'+
+		'<table class="table-valign-middle w-100" >' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td>시간</td><td>하한</td><td>신뢰도</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	// $.each(wvalue,function (key,value) {
+
+		inDistri+='' +
+			'	<tr>' +
+			'		<td>'+wvalue[0]+'</td><td>'+value1[5]+'</td><td>'+value2[5]+'</td><td>'+value3[5]+'</td>' +
+			'	</tr>'+
+			'		<td>'+wvalue[1]+'</td><td>'+value1[6]+'</td><td>'+value2[6]+'</td><td>'+value3[6]+'</td>' +
+			'	<tr>' +
+			'	</tr>'+
+			'		<td>'+wvalue[2]+'</td><td>'+value1[7]+'</td><td>'+value2[7]+'</td><td>'+value3[7]+'</td>' +
+			'	<tr>' +
+			'	</tr>'+
+			'		<td>'+wvalue[3]+'</td><td>'+value1[8]+'</td><td>'+value2[8]+'</td><td>'+value3[8]+'</td>' +
+			'	<tr>' +
+			'	</tr>'+
+			'		<td>'+wvalue[4]+'</td><td>'+value1[9]+'</td><td>'+value2[9]+'</td><td>'+value3[9]+'</td>' +
+			'	</tr>';
+	// })
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'</div> ';
+	inDistri+='' +
+		'</div> <p>&nbsp;</p>';
+	//불신뢰도
+
+	inDistri+='' +
+		'<div class="clearfix row">';
+	inDistri+='' +
+		'<div class="col-6">'+
+		'<table class="table-valign-middle w-100" style="border-right: 1px solid #eee">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">불신뢰도</td><td>시간</td><td>하한</td><td>신뢰도</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td class="table-valign-middle">'+value+'</td><td>'+value4[key]+'</td><td>'+value5[key]+'</td><td>'+value6[key]+'</td>' +
+			'	</tr>';
+	})
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'</div> ';
+	inDistri+='' +
+		'<div class="col-6">'+
+		'<table class="table-valign-middle w-100" >' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td>시간</td><td>하한</td><td>신뢰도</td><td>상한</td>' +
+		'	</tr>' +
+		'';
+	// $.each(wvalue,function (key,value) {
+
+	inDistri+='' +
+		'	<tr>' +
+		'		<td>'+wvalue[0]+'</td><td>'+value4[5]+'</td><td>'+value5[5]+'</td><td>'+value6[5]+'</td>' +
+		'	</tr>'+
+		'		<td>'+wvalue[1]+'</td><td>'+value4[6]+'</td><td>'+value5[6]+'</td><td>'+value6[6]+'</td>' +
+		'	<tr>' +
+		'	</tr>'+
+		'		<td>'+wvalue[2]+'</td><td>'+value4[7]+'</td><td>'+value5[7]+'</td><td>'+value6[7]+'</td>' +
+		'	<tr>' +
+		'	</tr>'+
+		'		<td>'+wvalue[3]+'</td><td>'+value4[8]+'</td><td>'+value5[8]+'</td><td>'+value6[8]+'</td>' +
+		'	<tr>' +
+		'	</tr>'+
+		'		<td>'+wvalue[4]+'</td><td>'+value4[9]+'</td><td>'+value5[9]+'</td><td>'+value6[9]+'</td>' +
+		'	</tr>';
+	// })
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'</div> ';
+	inDistri+='' +
+		'</div> <p>&nbsp;</p>';
+	//고장률
+	inDistri+='' +
+		'<div class="clearfix row">'+
+		'<div class="col-6">'+
+		'<table class="w-100" style="border-right: 1px solid #eee">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>고장률</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td>'+wvalue[key]+'</td><td>'+value10[key]+'</td>' +
+			'	</tr>';
+	});
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'</div>';
+
+	inDistri+='' +
+		'<div class="col-6">'+
+		'<table class="w-100">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>고장률</td>' +
+		'	</tr>' +
+		'';
+	$.each(wvalue,function (key,value) {
+		inDistri+='' +
+			'	<tr>' +
+			'		<td>'+wvalue[key]+'</td><td>'+value10[key]+'</td>' +
+			'	</tr>';
+	});
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'</div>' +
+		'</div>';
+
+	inHtml += inDistri;
+	return inHtml;
+}
 function getKeyValue(data,inSelectKeyHtml) {
 	inSelectKeyHtml += '' +
 		'<div class="modal-body">' +
@@ -748,8 +1071,8 @@ $('#modal-default2').on('show.bs.modal', function (event) {
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm9\')"> 플랜트 구분 고장원인 별 파이차트</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm10\')"> 플랜트 구분 고장조치사항 별 파이차트</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm11\')"> 고장모드 별 작동시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm12\')"> 고장원인 별 운용시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm13\')"> 고장조치사항 별 고장시간</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm12\')"> 고장원인 별 작동시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm13\')"> 고장조치사항 별 고장시간 히스토그램</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm14\')"> 설비 별 작동시간 히스토그램</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm15\')"> 설비 구분 고장모드 별<br> 작동시간 히스토그램</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm16\')"> 설비 구분 고장원일 별<br> 작동시간 히스토그램</button>\n' +
@@ -763,7 +1086,7 @@ $('#modal-default2').on('show.bs.modal', function (event) {
 
 		'\t\t\t\t</div>';
 	modal.find('.modal-body.row').html(html)
-	console.log(html)
+
 })
 //뷰어 차트 콜백
 function callChart(arcd,htmlNum) {
@@ -795,29 +1118,49 @@ $(document).on('click','.passwordChange',function () {
 			});
 		}
 		if(data.alerts_status=="success"){
-			console.log(11111);
 			$('#modal-user').modal('toggle');
 		}
 	});
 })
-//사용자 권한 변경
+//사용자 승인
 $(document).on("click",".joinApply",function () {
 	if(!$('.list_chk').is(":checked")){
-		callToast('변경 대상을 선택하세요','error','Error');
+		callToast('변경 대상을 선택하세요','error','알림');
 	}else{
 		$.ajax({
 			type: "POST",
-			url: base_url+"member/joinapply",
+			url: base_url+"console/joinapply",
 			data:$('#defaultForm').serialize(),
-
 		}).done(function(data){
-
-			if(data.alerts_title){
-
-			}
-			if(data.alerts_status=="success"){
-
-			}
+			callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data)
+		});
+	}
+})
+//사용자 삭제
+$(document).on("click",".deleteUser",function () {
+	if(!$('.list_chk').is(":checked")){
+		callToast('변경 대상을 선택하세요','error','알림');
+	}else{
+		$.ajax({
+			type: "POST",
+			url: base_url+"console/deleteUser",
+			data:$('#defaultForm').serialize(),
+		}).done(function(data){
+			callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data)
+		});
+	}
+})
+//관리자권한 부여
+$(document).on("click",".adminAccessApply",function () {
+	if(!$('.list_chk').is(":checked")){
+		callToast('변경 대상을 선택하세요','error','알림');
+	}else{
+		$.ajax({
+			type: "POST",
+			url: base_url+"console/adminAccessApply",
+			data:$('#defaultForm').serialize(),
+		}).done(function(data){
+			callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data)
 		});
 	}
 })
@@ -841,11 +1184,13 @@ function uploadSummernoteImageFile(file, editor) {
 }
 
 //심화분석 모달
-function adviewCall(ar_cd) {
+function adviewCall(data) {
 
-	var ar_cd =ar_cd;
+	var ar_cd =data.ar_cd;
+	var smode =data.smode;
 	var inHtml ='';
 	var inContent = '';
+	var smodeActive ='';
 	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 	var modal = $(this)
@@ -859,7 +1204,9 @@ function adviewCall(ar_cd) {
 		inHtml ='';
 		inContent = '조회된 데이터가 없습니다.';
 		inContent2 = '조회된 데이터가 없습니다.';
-		console.log(data)
+		if(smode){
+			smodeActive="disabled";
+		}
 		if(data.contentD) {
 			$("#modal-adview").data('bs.modal')._config.backdrop = 'static';
 			inContent = data.contentD;
@@ -883,7 +1230,7 @@ function adviewCall(ar_cd) {
 				'\t</div>' +
 				'\t<div class="form-group clearfix">\n' +
 				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk3" name="distri" value="3" data-id="'+ar_cd+'">\n' +
+				'\t\t\t<input type="radio" id="districhk3" name="distri" '+smodeActive+' value="3" data-id="'+ar_cd+'">\n' +
 				'\t\t\t<label for="districhk3" class="">지수\n' +
 				'\t\t\t</label>\n' +
 				'\t\t</div>\n' +
@@ -897,7 +1244,7 @@ function adviewCall(ar_cd) {
 				'\t</div>' +
 				'\t<div class="form-group clearfix">\n' +
 				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk5" name="distri" value="5" data-id="'+ar_cd+'">\n' +
+				'\t\t\t<input type="radio" id="districhk5" name="distri" '+smodeActive+' value="5" data-id="'+ar_cd+'">\n' +
 				'\t\t\t<label for="districhk5" class="">비모수 분포\n' +
 				'\t\t\t</label>\n' +
 				'\t\t</div>\n' +
@@ -922,14 +1269,7 @@ $(document).on('click','#requestAdRun',function () {
 		dataType:"json",
 		data:{"ar_cd":ar_cd,"distri":distri},
 		success : function(data) {
-			console.log(data)
-			if(data.alerts_status=="success"){
-				callToastHideAfter(data.alerts_title,"success","Info",data,$('#modal-adview'))
-
-			}else{
-				callToast("분석요청실패","error","Info")
-			}
-			//항상 업로드된 파일의 url이 있어야 한다.
+			callToastHideAfter(data.alerts_title,"success","Info",data,$('#modal-adview'));
 		},
 		// async: false
 		complete: function(data){
@@ -942,3 +1282,38 @@ $(document).on('click','#requestAdRun',function () {
 	});
 
 });
+function submitBoardFormSave(){
+	var title = $('input[name=title]').val();
+	var content = $('textarea[name=content]').val();
+	if(title!=null && content!=null){
+		$.toast({
+			position: 'bottom-right',
+			heading: "알림",
+			text: "요청이 정상적으로 처리되었습니다",
+			icon: "success",
+			// hideAfter: false
+			loaderBg: '#ffffff',  // Background color of the toast loader
+			hideAfter: 1700,
+			afterHidden: function () {
+				$('#defaultForm').submit();
+			}
+		});
+	}else{
+		if(title==null) callToast("제목은 필수 입력입니다.","error","알림")
+		if(content==null) callToast("내용은 필수 입력입니다.","error","알림")
+	}
+}
+function submitBoardDelete(br_cd){
+	$.toast({
+		position: 'bottom-right',
+		heading: "알림",
+		text: "요청이 정상적으로 처리되었습니다",
+		icon: "success",
+		// hideAfter: false
+		loaderBg: '#ffffff',  // Background color of the toast loader
+		hideAfter: 1700,
+		afterHidden: function () {
+			location.href='/console/boarddelete/'+br_cd;
+		}
+	});
+}

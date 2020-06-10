@@ -273,33 +273,37 @@ class Kgbasicpbt  extends CI_Controller
 			mysqli_next_result( $this->db->conn_id );
 
 			$data["rowCnt"]=$call_row->cnt;
-
-			$updateData = Array(
-				//data 없으면 ALL
-				"AR_CD" => $ar_cd,
-				"analysis_type" => 'A',
-				"analysis_flg" => 'S',
-				"key1_cd" => $key1_cd_arr,
-				"key2_cd" => $key2_cd_arr,
-				"key3_cd" => $key3_cd_arr,
-				"key4_cd" => $key4_cd_arr,
-				"key5_cd" => $key5_cd_arr,
-				"key6_cd" => $key6_cd_arr,
-				"key3_1_cd" => $key3_1_cd_arr,
-				"sdate" => $sdate,
-				"edate" => $edate,
-				"fmode" => $fmode,
-				"smode" => $smode,
-				"wvalue" => $wvalue,
-				"user_id" => @$this->session->userdata('user_id'),
-			);
-			$this->common->insert("kgart",$updateData);
-			$data['alerts_title'] = array("분석요청 완료");
-			$data['alerts_status'] = "success";
-			$data['anal_type'] = $anal_type;
-			$data['ar_cd'] = $ar_cd;
-			//윈도우 파일 실행
-			execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+			if($data["rowCnt"] > 0) {
+				$updateData = Array(
+					//data 없으면 ALL
+					"AR_CD" => $ar_cd,
+					"analysis_type" => 'A',
+					"analysis_flg" => 'S',
+					"key1_cd" => $key1_cd_arr,
+					"key2_cd" => $key2_cd_arr,
+					"key3_cd" => $key3_cd_arr,
+					"key4_cd" => $key4_cd_arr,
+					"key5_cd" => $key5_cd_arr,
+					"key6_cd" => $key6_cd_arr,
+					"key3_1_cd" => $key3_1_cd_arr,
+					"sdate" => $sdate,
+					"edate" => $edate,
+					"fmode" => $fmode,
+					"smode" => $smode,
+					"wvalue" => $wvalue,
+					"user_id" => @$this->session->userdata('user_id'),
+				);
+				$this->common->insert("kgart",$updateData);
+				$data['alerts_title'] = array("분석요청 완료");
+				$data['alerts_status'] = "success";
+				$data['anal_type'] = $anal_type;
+				$data['ar_cd'] = $ar_cd;
+				//윈도우 파일 실행
+				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+			}else{
+				$data["alerts_icon"]="error";
+				$data['alerts_title']= array("요청에 해당하는 DATA 가 없습니다.");
+			}
 		}else{
 			//알림 타입 error,info,success,warning,question
 			$data["alerts_icon"]="error";

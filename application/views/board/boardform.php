@@ -4,9 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Main content -->
 <div class="content">
 	<div class="container-fluid">
+
 		<div class="card">
 			<div class="card-header">
-				<?=$title?>
+				<blockquote class="quote-primary">
+					<!--					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>-->
+					<h4 class="text-gray-dark">업로드 필요한 자료가 있는 경우 관리자에게 요청해주십시오.</h4>
+				</blockquote>
+			</div>
+			<div class="card-header">
+				<h5><?=$title?></h5>
 			</div>
 			<div class="card-body" >
 				<div class="form-group" style="min-height: 500px">
