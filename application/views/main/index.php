@@ -115,7 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-4">
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">최근 1년간 고장모드 상위 10건</h3>
+						<h3 class="card-title">최근 1년간 고장 발생 상위 10건</h3>
 
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -144,7 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-4">
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">최근 1년간 고장원인 상위 10건</h3>
+						<h3 class="card-title">최근 1년간 고장 원인 상위 10건</h3>
 
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-4">
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">최근 1년간 고장 조치 상위 10건</h3>
+						<h3 class="card-title">최근 1년간 고장 조치 사항 상위 10건</h3>
 
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
