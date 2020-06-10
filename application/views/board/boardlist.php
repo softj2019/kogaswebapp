@@ -11,9 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php echo form_close();?>
 		<div class="card">
 			<div class="card-header">
-				<blockquote class="quote-indigo">
-					<!--					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>-->
-					<small>업로드 필요한 자료가 있는 경우 관리자에게 요청해주십시오.</small>
+				<blockquote class="quote-primary">
+										<h4 class="text-gray-dark">업로드 필요한 자료가 있는 경우 관리자에게 요청해주십시오.</h4>
+<!--					<small>업로드 필요한 자료가 있는 경우 관리자에게 요청해주십시오.</small>-->
 				</blockquote>
 			</div>
 			<div class="card-body">
