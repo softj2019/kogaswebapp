@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="icheck-primary d-inline text-truncate">
 								<input type="checkbox" id="checkAll_key_1" name='checkAll' value="key1_cd">
 								<label for="checkAll_key_1">
-									플랜트 (필수선택 항목)
+									플랜트 <span class = "text-danger">*필수</span>
 								</label>
 							</div>
 
@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="icheck-primary d-inline ">
 								<input type="checkbox" id="checkAll_key_3" name='checkAll' value="key3_cd" disabled>
 								<label for="checkAll_key_3">
-									1차 (필수선택 항목)
+									1차 <span class = "text-danger">*필수</span>
 								</label>
 							</div>
 						</div>
