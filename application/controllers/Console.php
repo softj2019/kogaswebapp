@@ -90,7 +90,7 @@ class Console  extends CI_Controller
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
 		$config['base_url'] =base_url('console/loginhistory');
-		$config['total_rows'] = $this->common->select_count('ci_sessions','','');
+		$config['total_rows'] = $this->common->select_count('kguse_history','','');
 		$config['per_page'] = 10;
 
 		$this->pagination->initialize($config);
