@@ -12,7 +12,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="card">
 			<div class="card-header">
 				<button type="button" class="btn btn-danger deleteUser">사용자 삭제</button>
-				<button type="button" class="btn btn-default joinApply">가입승인</button>
+				<button type="button" class="btn btn-default joinApply">가입 승인</button>
+				<button type="button" class="btn btn-default userAccessApply">사용자 권한</button>
 				<button type="button" class="btn btn-default adminAccessApply">관리자 권한</button>
 			</div>
 

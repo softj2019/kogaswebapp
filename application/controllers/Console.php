@@ -302,6 +302,7 @@ class Console  extends CI_Controller
 		}
 		return $data;
 	}
+
 	public function joinapply()
 	{
 		header('Content-type: application/json');
@@ -309,35 +310,103 @@ class Console  extends CI_Controller
 		$param=Array(
 			'role' => "user",
 		);
+
+		//권한 확인 Flag
+		$isOk = true;
 		foreach ($this->input->post("chk") as $key=>$value){
-			$this->common->update_row('kguse',$param,'id',$value);
+			// id 값으로 Role 조회
+			$where= array(
+				'id' => $value,
+			);
+			$targetRole = $this->common->select_row('(select role, id '.'from kguse) A ',$sql='',$where );
+
+			// 타겟의 권한이 admin인 계정이 있으면 불가능.
+			if($targetRole->role == "admin" || $targetRole->role == "root"){
+				$isOk = false;
+			}
 		}
-		$data["alerts_status"]="success";
+
+		if($isOk == true){
+			foreach ($this->input->post("chk") as $key=>$value){
+				$this->common->update_row('kguse',$param,'id',$value);
+			}
+			$data["alerts_status"]="success";
+		}
+		else{
+			$data["alerts_status"]="fail";
+		}
+
+		echo json_encode($data);
+	}
+	public function userAccessApply()
+	{
+		header('Content-type: application/json');
+		$rootUser = @$this->session->userdata('is_root');
+		if($rootUser == true) {
+			$param = array(
+				'role' => "user",
+			);
+			foreach ($this->input->post("chk") as $key => $value) {
+				$this->common->update_row('kguse', $param, 'id', $value);
+			}
+			$data["alerts_status"] = "success";
+		}
+		else{
+			$data["alerts_status"]="fail";
+		}
 
 		echo json_encode($data);
 	}
 	public function adminAccessApply()
 	{
 		header('Content-type: application/json');
-
-		$param=Array(
-			'role' => "admin",
-		);
-		foreach ($this->input->post("chk") as $key=>$value){
-			$this->common->update_row('kguse',$param,'id',$value);
+		$rootUser = @$this->session->userdata('is_root');
+		if($rootUser == true){
+			$param=Array(
+				'role' => "admin",
+			);
+			foreach ($this->input->post("chk") as $key=>$value){
+				$this->common->update_row('kguse',$param,'id',$value);
+			}
+			$data["alerts_status"]="success";
 		}
-		$data["alerts_status"]="success";
+		else{
+			$data["alerts_status"]="fail";
+		}
 
 		echo json_encode($data);
 	}
 	public function deleteUser()
 	{
 		header('Content-type: application/json');
-
+		//권한 확인 Flag
+		$isOk = true;
+		$rootUser = @$this->session->userdata('is_root');
 		foreach ($this->input->post("chk") as $key=>$value){
-			$this->common->delete_row("kguse",array('id'=>$value));
+			// id 값으로 Role 조회
+			$where= array(
+				'id' => $value,
+			);
+			$targetRole = $this->common->select_row('(select role, id '.'from kguse) A ',$sql='',$where );
+			
+			// 타겟의 권한이 admin인 경우 ROOT가 아니면 불가능.
+			if($targetRole->role == "admin" || $targetRole->role == "root"){
+				if($rootUser == false){
+					$isOk = false;
+				}
+			}
 		}
-		$data["alerts_status"]="success";
+		
+		// 만약 이상이 없다면 삭제
+		if($isOk == true){
+			foreach ($this->input->post("chk") as $key=>$value) {
+				$this->common->delete_row("kguse", array('id' => $value));
+			}
+			$data["alerts_status"] = "success";
+		}
+		else{
+			$data["alerts_status"]="fail";
+		}
 
 		echo json_encode($data);
 	}
