@@ -32,7 +32,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>이메일</th>
 						<th>권한</th>
 						<th>이름</th>
-						<th>사번</th>
 						<th>부서</th>
 						<th>등록일</th>
 						<th>수정일</th>
@@ -53,7 +52,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?php echo $row->email; ?></td>
 								<td><?php echo $row->role_name; ?></td>
 								<td><?php echo $row->name; ?></td>
-								<td>사번</td>
 								<td><?php echo $row->department; ?></td>
 								<td><?php echo $row->created_at; ?></td>
 								<td><?php echo $row->updated_at; ?></td>
