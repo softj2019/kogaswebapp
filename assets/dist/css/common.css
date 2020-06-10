@@ -124,3 +124,11 @@ body {
 	padding: 0!important;
 }
 
+@media (min-width: 1200px){
+	.modal-xl {
+		max-width: 1240px!important;
+	}
+}
+[class*="icheck-"] > input:first-child {
+	display: none!important;
+}

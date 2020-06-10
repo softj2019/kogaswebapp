@@ -89,7 +89,7 @@ class Console  extends CI_Controller
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
-		$config['base_url'] =base_url('console/mguser');
+		$config['base_url'] =base_url('console/loginhistory');
 		$config['total_rows'] = $this->common->select_count('ci_sessions','','');
 		$config['per_page'] = 10;
 
@@ -237,6 +237,11 @@ class Console  extends CI_Controller
 		$data['page_title']="도움말 글쓰기";
 		$data['menu_code']="012";
 		$data['footerScript']='/assets/dist/js/summernote-basic.js';
+		$data['board_type']=$this->input->post("board_type");
+		$data['br_cd']='';
+		$data['title']='';
+		if($this->input->post("br_cd"))$data['br_cd']=$this->input->post("br_cd");
+		if($this->input->post("title"))$data['title']=$this->input->post("title");
 
 		//파일 번호
 		$better_date = date('Ymd');
@@ -273,6 +278,7 @@ class Console  extends CI_Controller
 				);
 				$this->common->insert('boardfile',$paramfile);
 			}
+
 			redirect(base_url().'console/boardlist?board_type='.$this->input->post("board_type"));
 		}else{
 			$this->load->view('layout/header',$data);
@@ -295,5 +301,44 @@ class Console  extends CI_Controller
 			$data['imgData'] = $this->upload->data();
 		}
 		return $data;
+	}
+	public function joinapply()
+	{
+		header('Content-type: application/json');
+
+		$param=Array(
+			'role' => "user",
+		);
+		foreach ($this->input->post("chk") as $key=>$value){
+			$this->common->update_row('kguse',$param,'id',$value);
+		}
+		$data["alerts_status"]="success";
+
+		echo json_encode($data);
+	}
+	public function adminAccessApply()
+	{
+		header('Content-type: application/json');
+
+		$param=Array(
+			'role' => "admin",
+		);
+		foreach ($this->input->post("chk") as $key=>$value){
+			$this->common->update_row('kguse',$param,'id',$value);
+		}
+		$data["alerts_status"]="success";
+
+		echo json_encode($data);
+	}
+	public function deleteUser()
+	{
+		header('Content-type: application/json');
+
+		foreach ($this->input->post("chk") as $key=>$value){
+			$this->common->delete_row("kguse",array('id'=>$value));
+		}
+		$data["alerts_status"]="success";
+
+		echo json_encode($data);
 	}
 }

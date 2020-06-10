@@ -72,9 +72,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-5">
 									<div class="input-group">
 										<div class="input-group-prepend">
-						  <span class="input-group-text">
-							<i class="far fa-calendar-alt"></i>
-						  </span>
+										  <span class="input-group-text">
+											<i class="far fa-calendar-alt"></i>
+										  </span>
 										</div>
 										<input type="text" name="startDate" class="form-control float-right startDate">
 									</div>
@@ -82,13 +82,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-5">
 									<div class="input-group">
 										<div class="input-group-prepend">
-						  <span class="input-group-text">
-							<i class="far fa-calendar-alt"></i>
-						  </span>
+										  <span class="input-group-text">
+											<i class="far fa-calendar-alt"></i>
+										  </span>
 										</div>
 										<input type="text" name="endDate" class="form-control float-right endDate">
 									</div>
 								</div>
+							</div>
+							<div class="form-group row">
+								<label class="text-info offset-2">해당 분석의 시작시점은 2009년 1월 1일 이후로 설정해야 합니다.</label>
 							</div>
 							<div class="form-group row">
 								<label class="col-2" >관심시간 입력 </label>
@@ -294,7 +297,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 			</div>
-		<?php form_close();?>
+		<?php echo form_close();?>
 		<div class="card">
 			<div class="card-body table-responsive">
 
@@ -312,10 +315,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<thead>
 					<tr>
-						<th>요청코드</th>
+						<th>분석 코드</th>
 						<th>분석일자</th>
-						<th>분석 요청자</th>
-						<th>요청구분</th>
+						<th>사용자</th>
+						<th>분석 구분</th>
 						<th>신뢰도분석결과</th>
 						<th>기초통계분석결과</th>
 						<th>데이터 파일</th>

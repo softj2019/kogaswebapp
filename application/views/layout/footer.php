@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						&nbsp;
 					</p>
 				</div>
-				<?php form_close();?>
+				<?php echo form_close();?>
 			</div>
 			<div class="modal-footer justify-content-between">
 				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
@@ -95,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="card-header">
 						<h3 class="card-title"> 상세보기</h3>
 						<div class="card-tools">
-							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
 							</button>
 							<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
 							</button>

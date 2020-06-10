@@ -8,11 +8,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$attributes = array('class' => 'form-horizonatal', 'id' => 'defaultForm','name' => 'defaultForm');
 		echo form_open('email/send',$attributes);
 		?>
-		<?php form_close()?>
+
 		<div class="card">
 			<div class="card-header">
-				<button type="button" class="btn btn-primary joinApply">가입승인</button>
+				<button type="button" class="btn btn-danger deleteUser">사용자 삭제</button>
+				<button type="button" class="btn btn-default joinApply">가입승인</button>
+				<button type="button" class="btn btn-default adminAccessApply">관리자 권한</button>
 			</div>
+
 			<div class="card-body table-responsive">
 
 				<table class="table table-hover table-striped">
@@ -66,5 +69,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php echo $pagination?>
 			</div>
 		</div>
+		<?php echo form_close();?>
 	</div>
 </div>
