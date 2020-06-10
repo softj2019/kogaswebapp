@@ -75,11 +75,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 					<tr>
 						<th>분석 코드</th>
-						<th>분석일자</th>
+						<th>분석 일자</th>
 						<th>사용자</th>
 						<th>분석 구분</th>
-						<th>신뢰도분석결과</th>
-						<th>기초통계분석결과</th>
+						<th>신뢰도 분석 결과</th>
+						<th>기초통계 분석 결과</th>
 						<th>데이터 파일</th>
 					</tr>
 					</thead>

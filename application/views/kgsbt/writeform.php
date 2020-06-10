@@ -162,7 +162,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="icheck-primary d-inline text-truncate">
 							<input type="checkbox" id="checkAll_key_1" name='checkAll' value="key1_cd">
 							<label for="checkAll_key_1">
-								플랜트
+								플랜트 (필수선택 항목)
 							</label>
 						</div>
 
@@ -208,7 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="icheck-primary d-inline ">
 							<input type="checkbox" id="checkAll_key_3" name='checkAll' value="key3_cd" disabled>
 							<label for="checkAll_key_3">
-								1차
+								1차 (필수선택 항목)
 							</label>
 						</div>
 					</div>
@@ -277,11 +277,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 					<tr>
 						<th>분석 코드</th>
-						<th>분석일자</th>
+						<th>분석 일자</th>
 						<th>사용자</th>
 						<th>분석 구분</th>
-						<th>신뢰도분석결과</th>
-						<th>기초통계분석결과</th>
+						<th>신뢰도 분석 결과</th>
+						<th>기초통계 분석 결과</th>
 						<th>데이터 파일</th>
 					</tr>
 					</thead>
