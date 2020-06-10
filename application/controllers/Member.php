@@ -77,10 +77,10 @@ class Member extends CI_Controller {
 	public function login_proc()
 	{
 		$email = $this->input->post('email', TRUE);
-		$this->form_validation->set_rules('email', '이메일', 'required|valid_email');
-		$this->form_validation->set_rules('password', '비밀번호','required|callback_login_check['.$email.']');
+			$this->form_validation->set_rules('email', '이메일', 'required|valid_email');
+			$this->form_validation->set_rules('password', '비밀번호','required|callback_login_check['.$email.']');
 
-		if ($this->form_validation->run() == TRUE) {
+			if ($this->form_validation->run() == TRUE) {
 			$where= array(
 				'email' => $email,
 			);
@@ -103,6 +103,11 @@ class Member extends CI_Controller {
 			}
 
 			$this->session->set_userdata($newdata);
+			$kguse_history_param=array(
+				'user_id'=>$result->id,
+				'log_data'=>'로그인',
+			);
+			$this->common->insert('kguse_history',$kguse_history_param);
 			redirect(site_url('/'));
 		}else{
 			$this->load->view('member/login');
@@ -146,6 +151,12 @@ class Member extends CI_Controller {
 				'password' => do_hash($this->input->post('password', TRUE),'sha1'),
 			);
 			$this->common->insert('kguse',$param);
+			$user_row = $this->common->select_row($table='kguse',$sql='',$where=array('email'=>$this->input->post('email', TRUE)),$coding=true,$order_by='',$group_by='',$like='' );
+			$kguse_history_param=array(
+				'user_id'=>$user_row->id,
+				'log_data'=>'회원가입',
+			);
+			$this->common->insert('kguse_history',$kguse_history_param);
 			redirect('/member/login', 'refresh');
 		}else{
             $this->load->view('member/join');
@@ -156,6 +167,11 @@ class Member extends CI_Controller {
     public function logout()
     {
         $this->session->sess_destroy();
+		$kguse_history_param=array(
+			'user_id'=>@$this->session->userdata('user_id'),
+			'log_data'=>'로그아웃',
+		);
+		$this->common->insert('kguse_history',$kguse_history_param);
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
 //        modal_alert('로그아웃 되었습니다', 'member/login',$this);
         redirect(site_url('member/login'));

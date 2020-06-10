@@ -100,7 +100,11 @@ class Console  extends CI_Controller
 		$limit[0]=$config['per_page'];
 
 		//기본목록
-		$data["list"]= $this->common->select_list_table_result('ci_sessions',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('kguse_history user',
+			$sql='' .
+				'user.*,(select Z.name from kguse Z where Z.id=user.user_id) as user_name, ' .
+				'(select Z.email from kguse Z where Z.id=user.user_id) as email',
+			$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('console/loginhistory',$data);
