@@ -57,7 +57,9 @@ class Kgpbt  extends CI_Controller
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
 		$config['base_url'] =base_url('kgpbt/writeform');
-		$config['total_rows'] = $this->common->select_count('kgartpbtview','','');
+		$user_id = @$this->session->userdata('user_id');
+		$config['total_rows'] = $this->common->select_count('(select * from kgartPbtView where analysis_type in (\'E\',\'B\')'.
+			'and user_id = (select name from kguse where id = \''.$user_id.'\')) TB','','');
 		$config['per_page'] = 5;
 
 		$this->pagination->initialize($config);
@@ -77,7 +79,8 @@ class Kgpbt  extends CI_Controller
 //			"(select Z.htm4 from kgrct Z where Z.ar_cd = TB.ar_cd) as htm4" .
 			"";
 		$order_by=array('key'=>'ar_time','value'=>'desc');
-		$data["list"]= $this->common->select_list_table_result('kgartview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('(select * from kgartPbtView where analysis_type in (\'E\',\'B\')'.
+			'and user_id = (select name from kguse where id = \''.$user_id.'\')) TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		$like=array(
 			'key1_cd','2','after'
 		);

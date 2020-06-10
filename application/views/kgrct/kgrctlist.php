@@ -72,10 +72,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="table table-hover table-striped" id = "kgartList">
 					<thead>
 					<tr>
-						<th>요청코드</th>
+						<th>분석코드</th>
 						<th>분석일자</th>
-						<th>분석 요청자</th>
-						<th>요청구분</th>
+						<th>사용자</th>
+						<th>분석구분</th>
 						<th>신뢰도분석결과</th>
 						<th>기초통계분석결과</th>
 						<th>데이터 파일</th>

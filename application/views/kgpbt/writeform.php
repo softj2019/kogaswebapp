@@ -173,7 +173,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="icheck-primary d-inline text-truncate">
 								<input type="checkbox" id="checkAll_key_1" name='checkAll' value="key1_cd">
 								<label for="checkAll_key_1">
-									플랜트
+									플랜트 (필수선택 항목)
 								</label>
 							</div>
 
@@ -219,7 +219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="icheck-primary d-inline ">
 								<input type="checkbox" id="checkAll_key_3" name='checkAll' value="key3_cd" disabled>
 								<label for="checkAll_key_3">
-									1차
+									1차 (필수선택 항목)
 								</label>
 							</div>
 						</div>
@@ -313,16 +313,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="card-body table-responsive">
 
 				<table class="table table-hover table-striped">
-					<colgroup>
-						<col class="w-5">
-						<col>
-						<col>
-						<col>
-						<col class="w-5">
-						<col class="w-5">
-						<col class="w-5">
-
-					</colgroup>
+<!--					<colgroup>-->
+<!--						<col class="w-5">-->
+<!--						<col>-->
+<!--						<col>-->
+<!--						<col>-->
+<!--						<col class="w-5">-->
+<!--						<col class="w-5">-->
+<!--						<col class="w-5">-->
+<!---->
+<!--					</colgroup>-->
 
 					<thead>
 					<tr>
