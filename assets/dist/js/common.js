@@ -1132,7 +1132,12 @@ $(document).on("click",".joinApply",function () {
 			url: base_url+"console/joinapply",
 			data:$('#defaultForm').serialize(),
 		}).done(function(data){
-			callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data)
+			if(data.alerts_status=="success"){
+				callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data);
+			}
+			else{
+				callToastHideAfter("선택한 대상 중에 관리자가 포함되어있습니다.","success","알림",data);
+			}
 		});
 	}
 })
@@ -1146,7 +1151,31 @@ $(document).on("click",".deleteUser",function () {
 			url: base_url+"console/deleteUser",
 			data:$('#defaultForm').serialize(),
 		}).done(function(data){
-			callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data)
+			if(data.alerts_status=="success"){
+				callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data);
+			}
+			else{
+				callToastHideAfter("선택한 대상 중에 관리자가 포함되어있습니다.","success","알림",data);
+			}
+		});
+	}
+})
+//사용자 부여
+$(document).on("click",".userAccessApply",function () {
+	if(!$('.list_chk').is(":checked")){
+		callToast('변경 대상을 선택하세요','error','알림');
+	}else{
+		$.ajax({
+			type: "POST",
+			url: base_url+"console/userAccessApply",
+			data:$('#defaultForm').serialize(),
+		}).done(function(data){
+			if(data.alerts_status=="success"){
+				callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data);
+			}
+			else{
+				callToastHideAfter("선택한 대상 중에 관리자가 포함되어있습니다.","success","알림",data);
+			}
 		});
 	}
 })
@@ -1160,7 +1189,12 @@ $(document).on("click",".adminAccessApply",function () {
 			url: base_url+"console/adminAccessApply",
 			data:$('#defaultForm').serialize(),
 		}).done(function(data){
-			callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data)
+			if(data.alerts_status=="success"){
+				callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data);
+			}
+			else{
+				callToastHideAfter("관리자는 관리자 권한 부여를 할 수 없습니다\r\n시스템 관리자에게 문의 하세요.","success","알림",data);
+			}
 		});
 	}
 })
