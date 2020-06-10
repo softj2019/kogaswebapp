@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						?>
 					</div>
 					<div class="fmodeOverlay overlay">
-						<i class="fas fa-2x fa-sync-alt"></i>
+<!--						<i class="fas fa-2x fa-sync-alt"></i>-->
 					</div>
 				</div>
 			</div>
@@ -142,25 +142,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</label>
 						</div>
 					</div>
-					<div class="card-body scroll-300">
-						<?php if(@$listKey1) {
-							foreach ($listKey1 as $key=>$row) {
-								?>
-								<div class="form-group clearfix">
-									<div class="icheck-primary d-inline text-truncate">
-										<input type="checkbox" id="smode_<?=$key?>" name='smode[]' value="<?php echo $row->key1_cd; ?>" class="smode">
-										<label for="smode_<?=$key?>">
-											<?php echo $row->key1_nm; ?>
-										</label>
-									</div>
-								</div>
-								<?php
-							}
-						}
-						?>
+					<div class="card-body scroll-300 smode_key1_cd">
+
 					</div>
 					<div class="smodeOverlay overlay">
-						<i class="fas fa-2x fa-sync-alt"></i>
+<!--						<i class="fas fa-2x fa-sync-alt"></i>-->
 					</div>
 				</div>
 			</div>

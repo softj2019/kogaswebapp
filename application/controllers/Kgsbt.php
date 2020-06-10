@@ -269,6 +269,7 @@ class Kgsbt  extends CI_Controller
 				$data['alerts_status'] = "success";
 				$data['anal_type'] = $anal_type;
 				$data['ar_cd'] = $ar_cd;
+				$data['smode'] = $smode;
 				//윈도우 파일 실행
 				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
 			}else{
