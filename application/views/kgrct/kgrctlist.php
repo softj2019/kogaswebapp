@@ -5,14 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="content">
 	<div class="container-fluid">
 		<?php
-//		$attributes = array('class' => 'form-horizonatal', 'id' => 'defaultForm','name' => 'defaultForm');
-//		echo form_open('kgrct/kgrctSelect',$attributes);
+		$attributes = array('class' => 'form-horizonatal', 'id' => 'defaultForm','name' => 'defaultForm');
+		echo form_open('kgrct/kgrctSelect',$attributes);
 		?>
-		<?php
-//		echo form_close();
-		?>
-
-
 		<div class="selectListCard row">
 			<div class="col-12">
 				<div class="card">
@@ -46,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php if(@$listType) {
 									foreach ($listType as $row) {
 										?>
-										<option value = <?php echo $row->value; ?>> <?php echo $row->name; ?> </option>
+										<option value = "<?php echo $row->value; ?>" <?=$this->input->post_get('anal_type')== $row->value?'selected':''?>> <?php echo $row->name; ?> </option>
 										<?php
 									}
 								}
@@ -56,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<label class="col-1 text-center col-form-label" >사용자</label>
 						<div class="col-2">
-							<input type="text" class = "form-control" name="user" placeholder="User Name" data-id=""><br><br>
+							<input type="text" class = "form-control" name="user" placeholder="User Name" data-id="" value="<?=$this->input->post_get('user')?>"><br><br>
 						</div>
 
 						<div class="col-2" >
@@ -68,7 +63,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 		</div>
-
+		<?php
+		echo form_close();
+		?>
 		<div class="card">
 			<div class="card-body table-responsive">
 				<table class="table table-hover table-striped" id = "kgartList">
@@ -110,6 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</table>
 
 			</div>
+
 			<div class="card-footer">
 				<?php echo $pagination?>
 			</div>

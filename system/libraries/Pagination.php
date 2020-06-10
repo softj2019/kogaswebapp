@@ -401,6 +401,14 @@ class CI_Pagination {
 	 */
 	public function create_links()
 	{
+		//검색조건이 있는경우
+//		$dataaaaa= $this->input->post_get();
+		$search_array_value='?';
+		if($_REQUEST){
+			foreach ($_REQUEST as $key=>$value){
+				$search_array_value.=$key.'='.$value.'&';
+			}
+		}
 		// If our item count or per-page total is zero there is no need to continue.
 		// Note: DO NOT change the operator to === here!
 		if ($this->total_rows == 0 OR $this->per_page == 0)
@@ -621,7 +629,7 @@ class CI_Pagination {
 					else
 					{
 						$append = $this->prefix.$i.$this->suffix;
-						$output .= $this->num_tag_open.'<a href="'.$base_url.$append.'"'.$attributes.'>'
+						$output .= $this->num_tag_open.'<a href="'.$base_url.$append.$search_array_value.'"'.$attributes.'>'
 							.$loop.'</a>'.$this->num_tag_close;
 					}
 				}
