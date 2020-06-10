@@ -537,7 +537,7 @@ function getDefaultClases(data,inHtmlNoneFmode,inHtml) {
 		'	<tbody>' +
 		'	<tr>' +
 		'		<tr>' +
-		'			<th rowspan="2" class="table-valign-middle text-bold">고장률</th><th>하한</th><th>고장률</th><th>상한</th>' +
+		'			<th rowspan="2" class="table-valign-middle text-bold">전체<br>고장률</th><th>하한</th><th>고장률 (per hour) </th><th>상한</th>' +
 		'		</tr>' +
 		'		<td>' + data.viewRctDetail.value11 + '</td>' +
 		'		<td>' + data.viewRctDetail.value10 + '</td>' +
@@ -567,7 +567,7 @@ function getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode,inDistri) {
 			'	<tbody>' +
 			'	<tr>' +
 			'		<tr>' +
-			'			<th rowspan="2" class="table-valign-middle">고장률</th><th>하한</th><th>고장률</th><th>상한</th>' +
+			'			<th rowspan="2" class="table-valign-middle">전체</br>고장률</th><th>하한</th><th>고장률 (per hour) </th><th>상한</th>' +
 			'		</tr>' +
 			'		<td>' + data.viewRctDetail.value11 + '</td>' +
 			'		<td>' + data.viewRctDetail.value10 + '</td>' +
@@ -584,7 +584,7 @@ function getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode,inDistri) {
 			'<table class="table table-valign-middle table-sm">' +
 			'	<tbody>' +
 			'	<tr>' +
-			'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>하한</td><td>고장</td><td>상한</td>' +
+			'	<td rowspan="'+(wvalue.length+1)+'">전체</br>고장률</td><td>시간</td><td>하한</td><td>고장률 (per hour) </td><td>상한</td>' +
 			'	</tr>' +
 			'';
 		$.each(wvalue,function (key,value) {
@@ -609,7 +609,7 @@ function getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode,inDistri) {
 		'<table class="table table-valign-middle">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(value13.length+1)+'">고장모드별 고장률</td><td>모드</td><td>하한</td><td>고장률</td><td>상한</td>' +
+		'	<td rowspan="'+(value13.length+1)+'">고장모드별 고장률</td><td>모드</td><td>하한</td><td>고장률 (per hour) </td><td>상한</td>' +
 		'	</tr>' +
 		'';
 
@@ -685,7 +685,7 @@ function getInFModeNotSmodeClass(data,inHtml,inDistri){
 		'<table class="table table-valign-middle table-sm">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>하한</td><td>고장률</td><td>상한</td>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">전체</br>고장률</td><td>시간</td><td>하한</td><td>고장률 (per hour) </td><td>상한</td>' +
 		'	</tr>' +
 		'';
 	$.each(wvalue,function (key,value) {
@@ -777,7 +777,7 @@ function getInSModeClass(data,inHtml,inDistri){
 		'<table class="table table-valign-middle table-sm">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>고장률</td>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">전체</br>고장률</td><td>시간</td><td>고장률 (per hour) </td>' +
 		'	</tr>' +
 		'';
 	$.each(wvalue,function (key,value) {
@@ -941,7 +941,7 @@ function getCase5(data,inHtml,inDistri){
 		'<table class="w-100" style="border-right: 1px solid #eee">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>고장률</td>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">전체</br>고장률</td><td>시간</td><td>고장률 (per hour) </td>' +
 		'	</tr>' +
 		'';
 	$.each(wvalue,function (key,value) {
@@ -960,7 +960,7 @@ function getCase5(data,inHtml,inDistri){
 		'<table class="w-100">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(wvalue.length+1)+'">고장률</td><td>시간</td><td>고장률</td>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">전체</br>고장률</td><td>시간</td><td>고장률 (per hour) </td>' +
 		'	</tr>' +
 		'';
 	$.each(wvalue,function (key,value) {

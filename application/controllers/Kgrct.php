@@ -53,7 +53,14 @@ class Kgrct  extends CI_Controller
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
-		$config['base_url'] =base_url('kgrct/kgrctlist');
+
+		//검색조건이 있을떼
+		if($_REQUEST){
+			$config['base_url'] =base_url('kgrct/kgrctSelect');
+		}else{
+			$config['base_url'] =base_url('kgrct/kgrctlist');
+		}
+
 		$config['total_rows'] = $this->common->select_count('kgartview','','');
 		$config['per_page'] = 10;
 		$data['footerScript']="/assets/dist/js/commonSbt.js";
@@ -76,7 +83,7 @@ class Kgrct  extends CI_Controller
 		$data["list"]= $this->common->select_list_table_result('kgartview TB',$sql,$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		$data["listType"]= $this->common->select_list_table_result('(select typecode value, typename name '.
 			'from kgref where typecolumn = \'analysis_type\' and typecode != \'C\') A ',
-			$sql = '',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+			$sql = '',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='');
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('kgrct/kgrctlist',$data);
@@ -92,10 +99,10 @@ class Kgrct  extends CI_Controller
 		$data['menu_code']="008";
 
 		//날짜, 유저아이디, 분석타입 선택값 받아옴
-		$sdate=$this->input->post("startDate");
-		$edate=$this->input->post("endDate");
-		$user=$this->input->post("user");
-		$anal_type=$this->input->post("anal_type");
+		$sdate=$this->input->post_get("startDate",true);
+		$edate=$this->input->post_get("endDate",true);
+		$user=$this->input->post_get("user",true);
+		$anal_type=$this->input->post_get("anal_type",true);
 
 		//조회 쿼리 생성
 		$selectQry = 'select * '.
@@ -118,7 +125,7 @@ class Kgrct  extends CI_Controller
 		$selectQry = $selectQry.'order by ar_time desc';
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
-		$config['base_url'] =base_url('kgrct/kgrctlist');
+		$config['base_url'] =base_url('kgrct/kgrctSelect');
 		$config['total_rows'] = $this->common->select_count('('.$selectQry.') A','','');
 		$config['per_page'] = 10;
 
@@ -134,7 +141,7 @@ class Kgrct  extends CI_Controller
 		//분석타입 select box
 		$data["listType"]= $this->common->select_list_table_result('(select typecode value, typename name '.
 			'from kgref where typecolumn = \'analysis_type\' and typecode != \'C\') A ',
-			$sql = '',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+			$sql = '',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='');
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('kgrct/kgrctlist',$data);

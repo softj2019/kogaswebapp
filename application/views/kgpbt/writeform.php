@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<i class="far fa-calendar-alt"></i>
 										  </span>
 										</div>
-										<input type="text" name="endDate" class="form-control float-right endDate bg-white" readonly="ture">>
+										<input type="text" name="endDate" class="form-control float-right endDate bg-white" readonly="ture">
 									</div>
 								</div>
 							</div>
