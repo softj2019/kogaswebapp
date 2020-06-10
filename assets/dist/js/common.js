@@ -978,81 +978,55 @@ function getCase5(data,inHtml,inDistri){
 	inHtml += inDistri;
 	return inHtml;
 }
-function getKeyValue(data,inSelectKeyHtml) {
-	inSelectKeyHtml += '' +
-		'<div class="modal-body">' +
-		'<div class="row">' +
-		'\t<ul class="list-unstyled">' +
-		'\t\t<li>플랜트</li> ' +
-		'\t\t\t<ul>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-
-		'\t\t\t</ul>' +
-		'\t\t</li>' +
-		'\t</ul>' +
-		'\t<ul class="list-unstyled">' +
-		'\t\t<li>위치</li> ' +
-		'\t\t\t<ul>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t</ul>' +
-		'\t\t</li>' +
-		'\t</ul>' +
-		'\t<ul class="list-unstyled">' +
-		'\t\t<li>1차</li> ' +
-		'\t\t\t<ul>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t</ul>' +
-		'\t\t</li>' +
-		'\t</ul>' +
-		'\t<ul class="list-unstyled">' +
-		'\t\t<li>1-1차</li> ' +
-		'\t\t\t<ul>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t</ul>' +
-		'\t\t</li>' +
-		'\t</ul>' +
-		'\t<ul class="list-unstyled">' +
-		'\t\t<li>2차</li> ' +
-		'\t\t\t<ul>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t</ul>' +
-		'\t\t</li>' +
-		'\t</ul>' +
-		'\t<ul class="list-unstyled">' +
-		'\t\t<li>3차</li> ' +
-		'\t\t\t<ul>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t</ul>' +
-		'\t\t</li>' +
-		'\t</ul>' +
-		'\t<ul class="list-unstyled">' +
-		'\t\t<li>4차</li> ' +
-		'\t\t\t<ul>' +
-		'\t\t\t\t<li>111111</li>' +
-		'\t\t\t</ul>' +
-		'\t\t</li>' +
-		'\t</ul>' +
-		'</div>';
-	return inSelectKeyHtml;
+//문자열 치환 배열 저장
+function callSplit(StringArr) {
+	return StringArr.split(",")
 }
+$('#modal-kgartRunView').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget) // Button that triggered the modal
+	var recipient = button.data('whatever') // Extract info from data-* attributes
+	var kgartTable='';
+	var modal = $(this);
+	$.ajax({
+		type: "POST",
+		url: base_url+"kgview/htmlViewer",
+		dataType:"json",
+		data:{"arcd":recipient},
+		// async: false
+
+	}).done(function(data){
+
+	kgartTable+='' +
+		'' +
+		'<table class="table table-responsive table-sm">' +
+		'<tbody>' +
+		'<tr>' +
+		'<th style="width: 5%">플랜트</th><td style="width: 95%">'+data.kgartView.key1_nm+'</td>' +
+		'</tr>' +
+		'<tr>' +
+		'<th>위치</th><td>'+data.kgartView.key2_nm+'</td>' +
+		'</tr>' +
+		'<tr>' +
+		'<th>1차</th><td>'+data.kgartView.key3_nm+'</td>' +
+		'</tr>' +
+		'<tr>' +
+		'<th>1-1차</th><td>'+data.kgartView.key3_1_nm+'</td>' +
+		'</tr>' +
+		'<tr>' +
+		'<th>2차</th><td>'+data.kgartView.key4_nm+'</td>' +
+		'</tr>' +
+		'<tr>' +
+		'<th>3차</th><td>'+data.kgartView.key5_nm+'</td>' +
+		'</tr>' +
+		'<tr>' +
+		'<th>4차</th><td>'+data.kgartView.key6_nm+'</td>' +
+		'</tr>' +
+		'</tbody>' +
+		'</table>' +
+		'';
+		modal.find('.modal-body').html(kgartTable);
+	});
+});
 //모달 뷰어
 $('#modal-default2').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal
