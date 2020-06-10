@@ -92,10 +92,14 @@ class Member extends CI_Controller {
 				'user_id'=> $result->id,
 				'logged_in' => TRUE,
 				'is_admin'=>FALSE,
+				'is_root'=>FALSE,
 //					'lang_cd'=>$this->input->post('lang_cd'),
 			);
-			if($result->role =="admin"){
+			if($result->role =="admin" || $result->role =="root"){
 				$newdata['is_admin']=TRUE;
+				if($result->role =="root"){
+					$newdata['is_root']=TRUE;
+				}
 			}
 
 			$this->session->set_userdata($newdata);
