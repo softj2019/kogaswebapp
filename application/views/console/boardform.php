@@ -35,7 +35,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if(@$boardFileList) {
 						foreach($boardFileList as $value) {
 							?>
-							<p class="mb-1"><a href="/download/getBoardFile/<?= $value->file ?>"><?= $value->file ?></a></p>
+							<p class="mb-1"><a href="/download/getBoardFile/<?= $value->file ?>"><?= $value->file ?></a>
+								<button type="button" class="btn btn-default" onclick="deleteFile('<?=$value->id?>')"><i class="fas fa-trash"></i></button>
+							</p>
 							<?php
 						}
 					}

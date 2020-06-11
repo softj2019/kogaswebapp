@@ -997,7 +997,7 @@ $('#modal-kgartRunView').on('show.bs.modal', function (event) {
 	}).done(function(data){
 
 	kgartTable+='' +
-		'' +
+		'<h4>'+data.kgartView.ar_cd+'</h4>' +
 		'<table class="table table-responsive table-sm">' +
 		'<tbody>' +
 		'<tr>' +
@@ -1323,5 +1323,15 @@ function submitBoardDelete(br_cd){
 		afterHidden: function () {
 			location.href='/console/boarddelete/'+br_cd;
 		}
+	});
+}
+function deleteFile(file_id) {
+	$.ajax({
+		type: "POST",
+		url: base_url+"console/deleteBoardFile",
+		data:{'file_id':file_id},
+	}).done(function(data){
+		callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data);
+
 	});
 }
