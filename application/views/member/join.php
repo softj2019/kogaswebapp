@@ -12,7 +12,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta property="og:image" content="/assets/img/ci/kogas_ci.png">
-	<title>한국가스공사</title>
+	<title>신뢰도 분석 시스템</title>
 
 	<!-- Font Awesome Icons -->
 	<link rel="stylesheet" href="/assets/plugins/fontawesome-free/css/all.min.css">

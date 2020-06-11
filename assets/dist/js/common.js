@@ -1,7 +1,7 @@
 //분석타입 선택
 $('input[name=anal_type]').on('change',function(){
 	var anal_type_value = $(this).val();
-	console.log(anal_type_value)
+	//console.log(anal_type_value)
 	if(anal_type_value=='B'){
 		$('.select_mode_s').addClass('hidden');
 		$('.kgpbtLocale').addClass('hidden');
@@ -15,7 +15,7 @@ $('input[name=anal_type]').on('change',function(){
 })
 //모드 선택
 $('input[name=select_mode]').on('change',function () {
-	console.log($(this).val());
+	//console.log($(this).val());
 	var select_mode = $(this).val();
 	$('.anal_flag').attr('disabled','disabled');
 	//고장모드
@@ -97,7 +97,7 @@ $('.key1_cd').on('change',function () {
 	$('.smode').prop("checked",false).trigger('change');
 
 	var selectModeValue =$('input[name=select_mode]:checked').val();
-	console.log(selectModeValue);
+	//console.log(selectModeValue);
 	//다중셀렉트 체크된 결과값 반환
 	$.each($('.key1_cd'),function () {
 		if($(this).is(":checked")){
@@ -170,7 +170,7 @@ $('.key3_cd').on('change',function () {
 		data:{"key3_cd":key3_cd},
 		dataType: "json",
 		success: function (data) {
-			console.log(data)
+			//console.log(data)
 			$.each(data.list,function (key,value) {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
@@ -216,7 +216,7 @@ $('.key3_cd').on('change',function () {
 		data:{"key3_cd":key3_cd},
 		dataType: "json",
 		success: function (data) {
-			console.log(data)
+			// console.log(data)
 			$.each(data.list,function (key,value) {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
@@ -263,7 +263,7 @@ $(document).on('change','.key4_cd',function () {
 		},
 		dataType: "json",
 		success: function (data) {
-			console.log(data)
+			// console.log(data)
 			$.each(data.list,function (key,value) {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
@@ -313,7 +313,7 @@ $(document).on('change','.key5_cd',function () {
 		},
 		dataType: "json",
 		success: function (data) {
-			console.log(data)
+			// console.log(data)
 			$.each(data.list,function (key,value) {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
@@ -409,7 +409,7 @@ $('.submitKgArt').on("click",function () {
 		data:$('#defaultForm').serialize(),
 		dataType: "json",
 		success: function (data) {
-			console.log("심화분석 테이블 저장후 반환",data)
+			// console.log("심화분석 테이블 저장후 반환",data)
 
 			if(data.anal_type=='C') {
 				$('#modal-adview').modal({backdrop: true, keyboard: false, show: true});
@@ -486,7 +486,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 		data:{"arcd":recipient},
 		// async: false
 	}).done(function(data){
-		console.log("분석결과 뷰어",data)
+		// console.log("분석결과 뷰어",data)
 
 		inHtml ='';
 		inContent = '조회된 데이터가 없습니다.';
@@ -495,27 +495,27 @@ $('#modal-default').on('show.bs.modal', function (event) {
 			//기본
 			if(data.kgart.analysis_type=='B' && data.kgart.fmode==null && data.kgart.distri==null) {
 				inHtml= getDefaultClases(data,inHtmlNoneFmode,inHtml)
-				console.log('debug ::::::::::::::: case1')
+				// console.log('debug ::::::::::::::: case1')
 			}
 			//case2 기본,심화 B,E 고장모드 있는경우 distri ==null || 3
 			if(data.kgart.fmode!=null && (data.kgart.analysis_type=='B' || data.kgart.analysis_type=='E') && (data.kgart.distri=='3' || data.kgart.distri==null )){
 				inHtml= getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode);
-				console.log('debug ::::::::::::::: case2')
+				// console.log('debug ::::::::::::::: case2')
 			}
 			//case3 심화 s/fmode null distri 1,2,3,4
 			if(data.kgart.fmode==null && data.kgart.smode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
 				inHtml= getInSModeClass(data,inHtml,inDistri);
-				console.log('debug ::::::::::::::: case3')
+				// console.log('debug ::::::::::::::: case3')
 			}
 			//case4 심화 E smode == null and fmode not null  distri 1,2,4
 			if(data.kgart.fmode!=null && data.kgart.smode==null  && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='4')){
 				inHtml= getInFModeNotSmodeClass(data,inHtmlNoneFmode,inHtml,inFmode);
-				console.log('debug ::::::::::::::: case4')
+				// console.log('debug ::::::::::::::: case4')
 			}
 			//case5 심화 smode yse distri 1,2,4
 			if(data.kgart.smode!=null && data.kgart.fmode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2'  || data.kgart.distri=='4')){
 				inHtml= getCase5(data,inHtml,inDistri);
-				console.log('debug ::::::::::::::: case5')
+				// console.log('debug ::::::::::::::: case5')
 			}
 			inContent = data.content;
 			modal.find('.modal-body .inHtml').html(inHtml)
@@ -1110,7 +1110,7 @@ $(document).on('click','.passwordChange',function () {
 		data:$('#passwordChange').serialize(),
 		// async: false
 	}).done(function(data){
-		console.log(data);
+		// console.log(data);
 		if(data.alerts_title){
 			// $('#modal-user').modal('toggle');
 			$.each(data.alerts_title,function (key,value) {
@@ -1210,7 +1210,7 @@ function uploadSummernoteImageFile(file, editor) {
 		contentType : false,
 		processData : false,
 		success : function(data) {
-			console.log(data)
+			// console.log(data)
 			//항상 업로드된 파일의 url이 있어야 한다.
 			$(editor).summernote('insertImage', base_url+'assets/editor/'+data.imgData.file_name);
 		}

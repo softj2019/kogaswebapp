@@ -117,7 +117,7 @@ function barChartCall(objectId,labelArr,dataArrSbt,dataArrPbt) {
 				listClabelsArr.push(value.code_name);
 				listCarr.push(value.cnt);
 			});
-			console.log(data.listD);
+			//console.log(data.listD);
 			$.each(data.listD,function (key,value) {
 				listDlabelsArr.push(value.chartDate);
 				listSbtArr.push(value.sbtCnt);

@@ -107,14 +107,13 @@ class Kgrct  extends CI_Controller
 		//조회 쿼리 생성
 		$selectQry = 'select * '.
 			'from kgartview '.
-			'where ar_time > \''.$sdate.'\' '.
-			'and ar_time < \''.$edate.'\' ';
+			'where ar_time >= \''.$sdate.' 00:00:00\' '.
+			'and ar_time <= \''.$edate.' 23:59:59\' ';
 		
 		//유저아이디 조건 추가
 		if($user != ''){
 			$selectQry = $selectQry.'and user_id = \''.$user.'\' ';
 		}
-
 
 		//분석타입 조건 추가
 		if($anal_type != ''){
