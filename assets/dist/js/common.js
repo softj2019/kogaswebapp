@@ -19,7 +19,17 @@ $('input[name=select_mode]').on('change',function () {
 	var select_mode = $(this).val();
 	$('.anal_flag').attr('disabled','disabled');
 	//고장모드
-	if(select_mode == 'fmode'){
+	if(select_mode == 'fmodeALL') {
+		//고장모드
+		$('.fmodeOverlay').removeClass('hidden')
+		//검정모드
+		$('.smodeOverlay').removeClass('hidden')
+		$('.smode').prop("checked", false).trigger('change');
+		//검정모드 초기화
+		$('.smode_key1_cd').html('');
+	}
+	//복합 고장모드
+	else if(select_mode == 'fmode'){
 		//고장모드
 		$('.fmodeOverlay').addClass('hidden')
 		//검정모드

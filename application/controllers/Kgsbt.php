@@ -213,7 +213,10 @@ class Kgsbt  extends CI_Controller
 		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
 		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
 
-
+		$fmode_type =$this->input->post("select_mode");
+		if($fmode_type == "fmodeALL"){
+			$fmode = "ALL";
+		}
 		$better_date = date('Ymd');
 		//AR_CD 값
 		$like=array(
