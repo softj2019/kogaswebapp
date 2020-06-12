@@ -273,7 +273,7 @@ $(document).on('change','.key4_cd',function () {
 		},
 		dataType: "json",
 		success: function (data) {
-			// console.log(data)
+			//console.log(data)
 			$.each(data.list,function (key,value) {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
@@ -323,7 +323,7 @@ $(document).on('change','.key5_cd',function () {
 		},
 		dataType: "json",
 		success: function (data) {
-			// console.log(data)
+			//console.log(data)
 			$.each(data.list,function (key,value) {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
@@ -419,7 +419,7 @@ $('.submitKgArt').on("click",function () {
 		data:$('#defaultForm').serialize(),
 		dataType: "json",
 		success: function (data) {
-			// console.log("심화분석 테이블 저장후 반환",data)
+			//console.log("심화분석 테이블 저장후 반환",data)
 
 			if(data.anal_type=='C') {
 				$('#modal-adview').modal({backdrop: true, keyboard: false, show: true});
@@ -471,7 +471,7 @@ $('.submitKgArt').on("click",function () {
 			$('.loading-bar-wrap').addClass("hidden");
 		},
 		error: function (xhr, status, error) {
-			console.log(error,xhr,status );
+			//console.log(error,xhr,status );
 		}
 	});
 });
@@ -496,7 +496,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 		data:{"arcd":recipient},
 		// async: false
 	}).done(function(data){
-		// console.log("분석결과 뷰어",data)
+		//console.log("분석결과 뷰어",data)
 
 		inHtml ='';
 		inContent = '조회된 데이터가 없습니다.';
@@ -505,7 +505,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 			//기본
 			if(data.kgart.analysis_type=='B' && data.kgart.fmode==null && data.kgart.distri==null) {
 				inHtml= getDefaultClases(data,inHtmlNoneFmode,inHtml)
-				// console.log('debug ::::::::::::::: case1')
+				//console.log('debug ::::::::::::::: case1')
 			}
 			//case2 기본,심화 B,E 고장모드 있는경우 distri ==null || 3
 			if(data.kgart.fmode!=null && (data.kgart.analysis_type=='B' || data.kgart.analysis_type=='E') && (data.kgart.distri=='3' || data.kgart.distri==null )){
@@ -515,7 +515,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 			//case3 심화 s/fmode null distri 1,2,3,4
 			if(data.kgart.fmode==null && data.kgart.smode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
 				inHtml= getInSModeClass(data,inHtml,inDistri);
-				// console.log('debug ::::::::::::::: case3')
+				//console.log('debug ::::::::::::::: case3')
 			}
 			//case4 심화 E smode == null and fmode not null  distri 1,2,4
 			if(data.kgart.fmode!=null && data.kgart.smode==null  && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='4')){
@@ -525,7 +525,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 			//case5 심화 smode yse distri 1,2,4
 			if(data.kgart.smode!=null && data.kgart.fmode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2'  || data.kgart.distri=='4')){
 				inHtml= getCase5(data,inHtml,inDistri);
-				// console.log('debug ::::::::::::::: case5')
+				//console.log('debug ::::::::::::::: case5')
 			}
 			inContent = data.content;
 			modal.find('.modal-body .inHtml').html(inHtml)
@@ -1007,7 +1007,7 @@ $('#modal-kgartRunView').on('show.bs.modal', function (event) {
 	}).done(function(data){
 
 	kgartTable+='' +
-		'' +
+		'<h4>'+data.kgartView.ar_cd+'</h4>' +
 		'<table class="table table-responsive table-sm">' +
 		'<tbody>' +
 		'<tr>' +
@@ -1194,7 +1194,7 @@ function uploadSummernoteImageFile(file, editor) {
 		contentType : false,
 		processData : false,
 		success : function(data) {
-			// console.log(data)
+			//console.log(data)
 			//항상 업로드된 파일의 url이 있어야 한다.
 			$(editor).summernote('insertImage', base_url+'assets/editor/'+data.imgData.file_name);
 		}
@@ -1295,7 +1295,7 @@ $(document).on('click','#requestAdRun',function () {
 			$('.loading-bar-wrap').addClass("hidden");
 		},
 		error: function (xhr, status, error) {
-			console.log(error,xhr,status );
+			//console.log(error,xhr,status );
 		}
 	});
 
@@ -1333,5 +1333,15 @@ function submitBoardDelete(br_cd){
 		afterHidden: function () {
 			location.href='/console/boarddelete/'+br_cd;
 		}
+	});
+}
+function deleteFile(file_id) {
+	$.ajax({
+		type: "POST",
+		url: base_url+"console/deleteBoardFile",
+		data:{'file_id':file_id},
+	}).done(function(data){
+		callToastHideAfter("요청이 정상적으로 처리되었습니다","success","알림",data);
+
 	});
 }

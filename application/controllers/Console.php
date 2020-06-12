@@ -415,4 +415,16 @@ class Console  extends CI_Controller
 
 		echo json_encode($data);
 	}
+	public function deleteBoardFile()
+	{
+		header('Content-type: application/json');
+		//권한 확인 Flag
+
+		$this->common->delete_row("boardfile", array('id' => $this->input->post_get("file_id")));
+
+		$data["alerts_status"] = "success";
+
+
+		echo json_encode($data);
+	}
 }

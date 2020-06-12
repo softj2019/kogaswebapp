@@ -117,9 +117,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">분석 실행 정보</h4>
-				<!--				<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-				<!--					<span aria-hidden="true">&times;</span>-->
-				<!--				</button>-->
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<div class="modal-body row">
 
