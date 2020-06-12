@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<i class="far fa-calendar-alt"></i>
 									  </span>
 								</div>
-								<input type="text" name="startDate" class="form-control float-right startDateCustom">
+								<input type="text" name="startDate" class="form-control float-right startDateCustom bg-white" readonly="ture">
 							</div>
 						</div>
 						<div class="col-2">
@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<i class="far fa-calendar-alt"></i>
 									  </span>
 								</div>
-								<input type="text" name="endDate" class="form-control float-right endDate" value = '2020-06-07'>
+								<input type="text" name="endDate" class="form-control float-right endDate bg-white" readonly="ture">
 							</div>
 						</div>
 

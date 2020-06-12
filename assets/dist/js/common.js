@@ -19,7 +19,17 @@ $('input[name=select_mode]').on('change',function () {
 	var select_mode = $(this).val();
 	$('.anal_flag').attr('disabled','disabled');
 	//고장모드
-	if(select_mode == 'fmode'){
+	if(select_mode == 'fmodeALL') {
+		//고장모드
+		$('.fmodeOverlay').removeClass('hidden')
+		//검정모드
+		$('.smodeOverlay').removeClass('hidden')
+		$('.smode').prop("checked", false).trigger('change');
+		//검정모드 초기화
+		$('.smode_key1_cd').html('');
+	}
+	//복합 고장모드
+	else if(select_mode == 'fmode'){
 		//고장모드
 		$('.fmodeOverlay').addClass('hidden')
 		//검정모드
@@ -216,7 +226,7 @@ $('.key3_cd').on('change',function () {
 		data:{"key3_cd":key3_cd},
 		dataType: "json",
 		success: function (data) {
-			//console.log(data)
+			// console.log(data)
 			$.each(data.list,function (key,value) {
 				html+='' +
 					'<div class="form-group clearfix">\n' +
@@ -500,7 +510,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 			//case2 기본,심화 B,E 고장모드 있는경우 distri ==null || 3
 			if(data.kgart.fmode!=null && (data.kgart.analysis_type=='B' || data.kgart.analysis_type=='E') && (data.kgart.distri=='3' || data.kgart.distri==null )){
 				inHtml= getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode);
-				console.log('debug ::::::::::::::: case2')
+				// console.log('debug ::::::::::::::: case2')
 			}
 			//case3 심화 s/fmode null distri 1,2,3,4
 			if(data.kgart.fmode==null && data.kgart.smode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
@@ -510,7 +520,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 			//case4 심화 E smode == null and fmode not null  distri 1,2,4
 			if(data.kgart.fmode!=null && data.kgart.smode==null  && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='4')){
 				inHtml= getInFModeNotSmodeClass(data,inHtmlNoneFmode,inHtml,inFmode);
-				//console.log('debug ::::::::::::::: case4')
+				// console.log('debug ::::::::::::::: case4')
 			}
 			//case5 심화 smode yse distri 1,2,4
 			if(data.kgart.smode!=null && data.kgart.fmode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2'  || data.kgart.distri=='4')){
@@ -1084,7 +1094,7 @@ $(document).on('click','.passwordChange',function () {
 		data:$('#passwordChange').serialize(),
 		// async: false
 	}).done(function(data){
-		console.log(data);
+		// console.log(data);
 		if(data.alerts_title){
 			// $('#modal-user').modal('toggle');
 			$.each(data.alerts_title,function (key,value) {

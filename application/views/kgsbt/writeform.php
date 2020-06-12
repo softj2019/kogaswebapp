@@ -53,9 +53,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</label>
 								</div>
 								<div class="icheck-primary d-inline">
+									<input type="radio" id="select_mode_fA" name="select_mode" value="fmodeALL">
+									<label for="select_mode_fA">
+										고장모드
+									</label>
+								</div>
+								<div class="icheck-primary d-inline">
 									<input type="radio" id="select_mode_f" name="select_mode" value="fmode">
 									<label for="select_mode_f">
-										고장모드
+										복합 고장모드
 									</label>
 								</div>
 								<div class="icheck-primary d-inline select_mode_s hidden">
