@@ -211,7 +211,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="<?php echo $row->ar_cd; ?>"><?php echo $row->ar_cd; ?></a></td>
 								<td><?php echo $row->ar_time; ?></td>
 								<td class="text-truncate"><?php echo $row->user_id; ?></td>
-								<td class="text-truncate"><?php echo $row->analysis_name; ?></td>
+								<td class="text-truncate"><?php echo $row->analysis_name; ?>&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt('<?php echo $row->ar_cd; ?>')"><i class="fas fa-copy"></i></button> </td>
 <!--								<td>-->
 <!--									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="--><?php //echo $row->ar_cd; ?><!--"><i class="fas fa-search"></i> </button>-->
 <!--								</td>-->

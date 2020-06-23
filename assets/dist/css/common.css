@@ -23,13 +23,8 @@ select.form-control.kgpbtMultiSelect {
 .card{
 	/*overflow:auto;*/
 }
-.modal table tbody tr td,
-.modal table tbody tr th,
-.modal table thead tr td,
-.modal table thead tr th
-{
-	min-width: 60px;
-
+.modal .card-body.inHtml table {
+	table-layout: fixed;
 }
 .table td.text-truncate, .table th.text-truncate {
 	max-width: 180px;

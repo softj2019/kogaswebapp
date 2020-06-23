@@ -97,4 +97,14 @@ class Kgview  extends CI_Controller
 		$content = file_get_contents($row->htmNum);
 		echo $content;
 	}
+	//분석 결과 복사
+	public function getKgArt(){
+		header('Content-type: application/json');
+		$ar_cd = $this->input->post("ar_cd");
+		$where = array(
+			"ar_cd"=>$ar_cd,
+		);
+		$row =  $this->common->select_row($table='kgart','',$where,$coding=false,$order_by='',$group_by='' );
+		echo json_encode($row); ;
+	}
 }

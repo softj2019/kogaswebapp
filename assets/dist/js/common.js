@@ -520,12 +520,14 @@ $('#modal-default').on('show.bs.modal', function (event) {
 
 		inHtml ='';
 		inContent = '조회된 데이터가 없습니다.';
-
+		modal.find('.modal-body .inInformation').html('');
+		modal.find('.modal-body .inHtml').html('');
+		modal.find('.modal-body .inContent').html('');
 		if(data.alerts_status=="success"){
 			//기본
 			if(data.kgart.analysis_type=='B' && data.kgart.fmode==null && data.kgart.distri==null) {
 				inHtml= getDefaultClases(data,inHtmlNoneFmode,inHtml)
-				//console.log('debug ::::::::::::::: case1')
+				console.log('debug ::::::::::::::: case1')
 			}
 			//case2 기본,심화 B,E 고장모드 있는경우 distri ==null || 3
 			if(data.kgart.fmode!=null && (data.kgart.analysis_type=='B' || data.kgart.analysis_type=='E') && (data.kgart.distri=='3' || data.kgart.distri==null )){
@@ -535,17 +537,17 @@ $('#modal-default').on('show.bs.modal', function (event) {
 			//case3 심화 s/fmode null distri 1,2,3,4
 			if(data.kgart.fmode==null && data.kgart.smode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
 				inHtml= getInSModeClass(data,inHtml,inDistri);
-				//console.log('debug ::::::::::::::: case3')
+				// console.log(data,'debug ::::::::::::::: case3')
 			}
 			//case4 심화 E smode == null and fmode not null  distri 1,2,4
 			if(data.kgart.fmode!=null && data.kgart.smode==null  && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='4')){
 				inHtml= getInFModeNotSmodeClass(data,inHtmlNoneFmode,inHtml,inFmode);
-				// console.log('debug ::::::::::::::: case4')
+				// console.log(data,'debug ::::::::::::::: case4')
 			}
 			//case5 심화 smode yse distri 1,2,4
 			if(data.kgart.smode!=null && data.kgart.fmode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2'  || data.kgart.distri=='4')){
 				inHtml= getCase5(data,inHtml,inDistri);
-				//console.log('debug ::::::::::::::: case5')
+				// console.log(data,'debug ::::::::::::::: case5')
 			}
 			if(data.kgart.smode==null) {
 				inInformation= '<p>- 생존 그림 = 신뢰도 그림 , 누적실패 그림 = 불신뢰도 그림 , 위험 그림 = 고장률 그림을 의미합니다.</p>'
@@ -597,7 +599,7 @@ function runReportViewer(ar_cd,target) {
 			//기본
 			if(data.kgart.analysis_type=='B' && data.kgart.fmode==null && data.kgart.distri==null) {
 				inHtml= getDefaultClases(data,inHtmlNoneFmode,inHtml)
-				//console.log('debug ::::::::::::::: case1')
+				// console.log('debug ::::::::::::::: case1')
 			}
 			//case2 기본,심화 B,E 고장모드 있는경우 distri ==null || 3
 			if(data.kgart.fmode!=null && (data.kgart.analysis_type=='B' || data.kgart.analysis_type=='E') && (data.kgart.distri=='3' || data.kgart.distri==null )){
@@ -607,17 +609,17 @@ function runReportViewer(ar_cd,target) {
 			//case3 심화 s/fmode null distri 1,2,3,4
 			if(data.kgart.fmode==null && data.kgart.smode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
 				inHtml= getInSModeClass(data,inHtml,inDistri);
-				console.log('debug ::::::::::::::: case3')
+				// console.log('debug ::::::::::::::: case3')
 			}
 			//case4 심화 E smode == null and fmode not null  distri 1,2,4
 			if(data.kgart.fmode!=null && data.kgart.smode==null  && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='4')){
 				inHtml= getInFModeNotSmodeClass(data,inHtmlNoneFmode,inHtml,inFmode);
-				console.log('debug ::::::::::::::: case4')
+				// console.log(data,'debug ::::::::::::::: case4')
 			}
 			//case5 심화 smode yse distri 1,2,4
 			if(data.kgart.smode!=null && data.kgart.fmode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2'  || data.kgart.distri=='4')){
 				inHtml= getCase5(data,inHtml,inDistri);
-				console.log('debug ::::::::::::::: case5')
+				// console.log(data,'debug ::::::::::::::: case5')
 			}
 			if(data.kgart.smode==null) {
 				inInformation= '<p>- 생존 그림 = 신뢰도 그림 , 누적실패 그림 = 불신뢰도 그림 , 위험 그림 = 고장률 그림을 의미합니다.</p>'
@@ -813,7 +815,6 @@ function getInFModeNotSmodeClass(data,inHtml,inDistri){
 		'	</tbody>' +
 		'</table>' +
 		'';
-	inHtml += inDistri;
 
 	//고장 모드별 고장률
 	inDistri+='' +
@@ -1477,7 +1478,7 @@ $(document).on('click','#requestAdRun',function () {
 						'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
 						'\t<td>'+data.kgartview.ar_time+'</td>\n' +
 						'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
-						'\t<td class="text-truncate">'+data.kgartview.analysis_name+'</td>\n' +
+						'\t<td class="text-truncate">'+data.kgartview.analysis_name+' ;&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt(\''+data.kgartview.ar_cd+'\')"><i class="fas fa-copy"></i></button></td>\n' +
 						'\t<td>\n' +
 						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
 						'\t</td>\n' +
@@ -1568,4 +1569,80 @@ $(document).on("click","#btnPrint",function () {
 		formValues: true
 	});
 })
+
+//분석결과 복사
+function copyKgArt(ar_cd) {
+	$.ajax({
+		type: "POST",
+		url: base_url+"kgview/getKgArt",
+		dataType:"json",
+		data:{"ar_cd":ar_cd},
+		success : function(data) {
+
+			console.log(111,data)
+			if(data.analysis_type==='E'){
+				$('input:radio[name=anal_type][value="C"]').prop("checked",true).trigger('change');
+			}
+			if(data.analysis_type==='B'){
+				$('input:radio[name=anal_type][value="B"]').prop("checked",true).trigger('change');
+			}
+
+			if(data.fmode!==null && data.fmode.split(",").length>0){
+				$('input:radio[name=select_mode][value="fmode"]').prop("checked",true).trigger('change');
+				$.each(data.fmode.split(","),function (key,value) {
+					$('input:checkbox[name="fmode[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+				})
+			}
+			if(data.key1_cd!==null && data.key1_cd.split(",").length>0){
+				$.each(data.key1_cd.split(","),function (key,value) {
+					$('input:checkbox[name="key1_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+				})
+			}
+			if(data.smode!==null && data.smode.split(",").length>0){
+				$('input:radio[name=select_mode][value="smode"]').prop("checked",true).trigger('change');
+				$.each(data.smode.split(","),function (key,value) {
+					$('input:checkbox[name="key1_cd[]"]').trigger('change');
+					$('input:checkbox[name="smode[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+				})
+			}
+			if(data.key2_cd!==null && data.key2_cd.split(",").length>0){
+				$.each(data.key2_cd.split(","),function (key,value) {
+					$('input:checkbox[name="key2_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+				})
+			}
+			if(data.key3_cd.split(",").length>0){
+				$.each(data.key3_cd.split(","),function (key,value) {
+					$('input:checkbox[name="key3_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+				})
+			}
+			if(data.key4_cd.split(",").length>0){
+				$.each(data.key4_cd.split(","),function (key,value) {
+					$('input:checkbox[name="key4_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+				})
+			}
+			if(data.key5_cd.split(",").length>0){
+				$.each(data.key5_cd.split(","),function (key,value) {
+					$('input:checkbox[name="key5_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+				})
+			}
+			if(data.key6_cd.split(",").length>0){
+				$.each(data.key6_cd.split(","),function (key,value) {
+					$('input:checkbox[name="key6_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+				})
+			}
+			if(data.key3_1_cd.split(",").length>0){
+				$.each(data.key3_1_cd.split(","),function (key,value) {
+					$('input:checkbox[name="key3_1_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+				})
+			}
+		},
+
+		complete: function(data){
+			// TODO
+		},
+		error: function (xhr, status, error) {
+			//console.log(error,xhr,status );
+		}
+	})
+}
 
