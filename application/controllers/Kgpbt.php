@@ -311,6 +311,9 @@ class Kgpbt  extends CI_Controller
 				$data['smode'] = $smode;
 				//윈도우 파일 실행
 				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+				//실행 결과 반환
+				$resultRow=$this->common->select_row($table='kgartview','',$where=array('ar_cd'=>$ar_cd),$coding=false,$order_by='',$group_by='','');
+				$data['kgartview'] = $resultRow;
 			}else{
 				$data["alerts_icon"]="error";
 				$data['alerts_title']= array("요청에 해당하는 DATA 가 없습니다.");

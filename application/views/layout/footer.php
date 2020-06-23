@@ -160,8 +160,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- Toast -->
 <script src="/assets/plugins/toast/jquery.toast.min.js"></script>
+
+<script type="text/javascript" src="/assets/dist/js/printThis.js"></script>
+
+
 <!-- AdminLTE App -->
 <script src="/assets/dist/js/adminlte.min.js"></script>
+
+
 <!-- OPTIONAL SCRIPTS -->
 <script src="/assets/dist/js/demo.js"></script>
 

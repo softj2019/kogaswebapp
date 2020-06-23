@@ -53,7 +53,7 @@ class Kgsbt  extends CI_Controller
 //		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
 
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
-		$config['base_url'] =base_url('kgpbt/writeform');
+		$config['base_url'] =base_url('kgsbt/writeform');
 		$user_id = @$this->session->userdata('user_id');
 		$config['total_rows'] = $this->common->select_count('(select * from kgartSbtView where analysis_type in (\'E\',\'B\')'.
 			'and user_id = (select name from kguse where id = \''.$user_id.'\')) TB','','');
@@ -278,6 +278,9 @@ class Kgsbt  extends CI_Controller
 				$data['smode'] = $smode;
 				//윈도우 파일 실행
 				execCmdRun('start /b cmd /c '.$this->config->item("exe_path")."KGANS.exe ".$ar_cd);
+				//실행 결과 반환
+				$resultRow=$this->common->select_row($table='kgartview','',$where=array('ar_cd'=>$ar_cd),$coding=false,$order_by='',$group_by='','');
+				$data['kgartview'] = $resultRow;
 			}else{
 				$data["alerts_icon"]="error";
 				$data['alerts_title']= array("요청에 해당하는 DATA 가 없습니다.");

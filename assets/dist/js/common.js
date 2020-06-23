@@ -401,7 +401,7 @@ function callToastHideFalse(text,icon,heading) {
 //분석 실행
 $('.submitKgArt').on("click",function () {
 	$('.loading-bar-wrap').removeClass("hidden");
-
+	var html='';
 	var url='';
 	var type=$(this).attr("data-id");
 	if(type=="kgsbt"){
@@ -419,7 +419,7 @@ $('.submitKgArt').on("click",function () {
 		data:$('#defaultForm').serialize(),
 		dataType: "json",
 		success: function (data) {
-			//console.log("심화분석 테이블 저장후 반환",data)
+			console.log("심화분석 테이블 저장후 반환",data)
 
 			if(data.anal_type=='C') {
 				$('#modal-adview').modal({backdrop: true, keyboard: false, show: true});
@@ -435,8 +435,26 @@ $('.submitKgArt').on("click",function () {
 						loaderBg: '#ffffff',  // Background color of the toast loader
 						hideAfter: 3000,
 						afterHidden: function () {
-								location.reload();
+							html+='' +
+								'<tr>' +
+								'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
+								'\t<td>'+data.kgartview.ar_time+'</td>\n' +
+								'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
+								'\t<td class="text-truncate">'+data.kgartview.analysis_name+'</td>\n' +
+								'\t<td>\n' +
+								'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
+								'\t</td>\n' +
+								'\t<td>\n' +
+								'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" ><i class="fas fa-search"></i> </button>\n' +
+								'\t</td>\n' +
+								'\t<td>\n' +
+								'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
+								'</td>' +
+								'</tr>';
+								// location.reload();
 							// callDebugToast(data.debug);
+							$('#kgArgViewList').prepend(html);
+							$('#kgArgViewList tr:last').remove();
 						}
 					});
 				}else{
@@ -1345,3 +1363,19 @@ function deleteFile(file_id) {
 
 	});
 }
+$(document).on("click","#btnPrint",function () {
+// printElement(document.getElementById("modal-default"));
+	$("#modal-default .modal-body").printThis({
+		debug: true,
+		importCSS: true,
+		importStyle: true,
+		printContainer: true,
+		// loadCSS: "/assets/dist/css/common.js",
+		pageTitle: "My Modal",
+		removeInline: false,
+		printDelay: 333,
+		header: null,
+		formValues: true
+	});
+})
+
