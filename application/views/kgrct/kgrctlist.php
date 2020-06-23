@@ -135,6 +135,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="card-header">
 						<h4>Information</h4>
 					</div>
+					<div class="card-body inInformation">
+
+					</div>
 					<div class="card-body inContent">
 
 					</div>

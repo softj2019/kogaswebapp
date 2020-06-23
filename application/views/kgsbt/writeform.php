@@ -341,9 +341,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					</div>
 				</div>
-				<div class="card">
+				<div class="card card-info">
 					<div class="card-header">
 						<h4>Information</h4>
+					</div>
+					<div class="card-body inInformation">
+
 					</div>
 					<div class="card-body inContent">
 
