@@ -71,11 +71,19 @@ class Kgview  extends CI_Controller
 	//생산 심화 분석 뷰어
 	public function htmlAdViewer(){
 		header('Content-type: application/json');
+		$anal_type=$arcd = $this->input->post("anal_type");
 		$arcd = $this->input->post("arcd");
-		$yy = substr($arcd,'2',4);
-		$dd = substr($arcd,'6',4);
-		$data['contentD'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID.htm");
-		$data['contentD2'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID2.htm");
+		$analysys_flg = $this->input->post("analysys_flg");
+
+		if($analysys_flg =="Z") {
+
+		}else{
+			$yy = substr($arcd,'2',4);
+			$dd = substr($arcd,'6',4);
+			$data['contentD'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID.htm");
+			$data['contentD2'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID2.htm");
+		}
+
 		echo json_encode($data);
 	}
 	//기초분석 뷰어

@@ -330,7 +330,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>데이터 파일</th>
 					</tr>
 					</thead>
-					<tbody>
+					<tbody id="kgArgViewList">
 					<?php if(@$list) {
 						foreach ($list as $row) {
 							?>
@@ -369,6 +369,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">신뢰도 분석결과</h4>
+				<button type="button" class="btn btn-default" id="btnPrint">인쇄</button>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -379,7 +380,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					</div>
 				</div>
-				<div class="card">
+				<div class="card card-info">
+					<div class="card-header">
+						<h4>Information</h4>
+					</div>
+					<div class="card-body inInformation">
+
+					</div>
 					<div class="card-body inContent">
 
 					</div>

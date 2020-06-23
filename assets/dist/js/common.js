@@ -401,7 +401,7 @@ function callToastHideFalse(text,icon,heading) {
 //분석 실행
 $('.submitKgArt').on("click",function () {
 	$('.loading-bar-wrap').removeClass("hidden");
-
+	var html='';
 	var url='';
 	var type=$(this).attr("data-id");
 	if(type=="kgsbt"){
@@ -419,7 +419,7 @@ $('.submitKgArt').on("click",function () {
 		data:$('#defaultForm').serialize(),
 		dataType: "json",
 		success: function (data) {
-			//console.log("심화분석 테이블 저장후 반환",data)
+			console.log("심화분석 테이블 저장후 반환",data)
 
 			if(data.anal_type=='C') {
 				$('#modal-adview').modal({backdrop: true, keyboard: false, show: true});
@@ -435,8 +435,27 @@ $('.submitKgArt').on("click",function () {
 						loaderBg: '#ffffff',  // Background color of the toast loader
 						hideAfter: 3000,
 						afterHidden: function () {
-								location.reload();
+							html+='' +
+								'<tr>' +
+								'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
+								'\t<td>'+data.kgartview.ar_time+'</td>\n' +
+								'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
+								'\t<td class="text-truncate">'+data.kgartview.analysis_name+'</td>\n' +
+								'\t<td>\n' +
+								'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
+								'\t</td>\n' +
+								'\t<td>\n' +
+								'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" ><i class="fas fa-search"></i> </button>\n' +
+								'\t</td>\n' +
+								'\t<td>\n' +
+								'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
+								'</td>' +
+								'</tr>';
+								// location.reload();
 							// callDebugToast(data.debug);
+							$('#kgArgViewList').prepend(html);
+							$('#kgArgViewList tr:last').remove();
+							runReportViewer(data.kgartview.ar_cd,$('#modal-default'));
 						}
 					});
 				}else{
@@ -485,6 +504,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 	var inSelectKeyHtml='';//선택 값 표시
 	var inHtmlNoneFmode='';//fmode 없는 기본
 	var inDistri='';
+	var inInformation=''
 	// console.log(recipient);
 	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -527,15 +547,97 @@ $('#modal-default').on('show.bs.modal', function (event) {
 				inHtml= getCase5(data,inHtml,inDistri);
 				//console.log('debug ::::::::::::::: case5')
 			}
+			if(data.kgart.smode==null) {
+				inInformation= '<p>- 생존 그림 = 신뢰도 그림 , 누적실패 그림 = 불신뢰도 그림 , 위험 그림 = 고장률 그림을 의미합니다.</p>'
+				//console.log('debug ::::::::::::::: case1')
+			}else{
+				inInformation= '' +
+					'<p>- 생존 그림 = 신뢰도 그림 , 누적실패 그림 = 불신뢰도 그림 , 위험 그림 = 고장률 그림을 의미합니다.</p>' +
+					'<p>- P 값이 0.05 보다 작은 경우 두 플랜트간에 고장시간의 차이가 있다고 해석하고 P 값이 0.05 보다 큰 경우 두 플랜트간에 고장시간의 차이를 증명하지 못했다고 해석합니다(차이가 없다)</p>'
+			}
+
 			inContent = data.content;
-			modal.find('.modal-body .inHtml').html(inHtml)
-			modal.find('.modal-body .inContent').html(inContent)
+			modal.find('.modal-body .inInformation').html(inInformation);
+			modal.find('.modal-body .inHtml').html(inHtml);
+			modal.find('.modal-body .inContent').html(inContent);
 		}else {
 			callToast("분석된 데이터가 없습니다.","error","알림")
 	}
 
 	});
 });
+
+//모달 뷰어 분석완료 후 즉시 실행
+function runReportViewer(ar_cd,target) {
+	target.modal('toggle');
+	var inHtml ='';
+	var inContent = '';
+	var inFmode ='';//fmode 있을데
+	var inSelectKeyHtml='';//선택 값 표시
+	var inHtmlNoneFmode='';//fmode 없는 기본
+	var inDistri='';
+	var inInformation=''
+	// console.log(recipient);
+	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+	var modal = target
+	$.ajax({
+		type: "POST",
+		url: base_url+"kgview/htmlViewer",
+		dataType:"json",
+		data:{"arcd":ar_cd},
+		// async: false
+	}).done(function(data){
+		//console.log("분석결과 뷰어",data)
+
+		inHtml ='';
+		inContent = '조회된 데이터가 없습니다.';
+
+		if(data.alerts_status=="success"){
+			//기본
+			if(data.kgart.analysis_type=='B' && data.kgart.fmode==null && data.kgart.distri==null) {
+				inHtml= getDefaultClases(data,inHtmlNoneFmode,inHtml)
+				//console.log('debug ::::::::::::::: case1')
+			}
+			//case2 기본,심화 B,E 고장모드 있는경우 distri ==null || 3
+			if(data.kgart.fmode!=null && (data.kgart.analysis_type=='B' || data.kgart.analysis_type=='E') && (data.kgart.distri=='3' || data.kgart.distri==null )){
+				inHtml= getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode);
+				// console.log('debug ::::::::::::::: case2')
+			}
+			//case3 심화 s/fmode null distri 1,2,3,4
+			if(data.kgart.fmode==null && data.kgart.smode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='3' || data.kgart.distri=='4')){
+				inHtml= getInSModeClass(data,inHtml,inDistri);
+				console.log('debug ::::::::::::::: case3')
+			}
+			//case4 심화 E smode == null and fmode not null  distri 1,2,4
+			if(data.kgart.fmode!=null && data.kgart.smode==null  && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2' || data.kgart.distri=='4')){
+				inHtml= getInFModeNotSmodeClass(data,inHtmlNoneFmode,inHtml,inFmode);
+				console.log('debug ::::::::::::::: case4')
+			}
+			//case5 심화 smode yse distri 1,2,4
+			if(data.kgart.smode!=null && data.kgart.fmode==null && data.kgart.analysis_type=='E' && (data.kgart.distri=='1' || data.kgart.distri=='2'  || data.kgart.distri=='4')){
+				inHtml= getCase5(data,inHtml,inDistri);
+				console.log('debug ::::::::::::::: case5')
+			}
+			if(data.kgart.smode==null) {
+				inInformation= '<p>- 생존 그림 = 신뢰도 그림 , 누적실패 그림 = 불신뢰도 그림 , 위험 그림 = 고장률 그림을 의미합니다.</p>'
+			}else{
+				inInformation= '' +
+					'<p>- 생존 그림 = 신뢰도 그림 , 누적실패 그림 = 불신뢰도 그림 , 위험 그림 = 고장률 그림을 의미합니다.</p>' +
+					'<p>- P 값이 0.05 보다 작은 경우 두 플랜트간에 고장시간의 차이가 있다고 해석하고 P 값이 0.05 보다 큰 경우 두 플랜트간에 고장시간의 차이를 증명하지 못했다고 해석합니다(차이가 없다)</p>'
+			}
+
+			inContent = data.content;
+			modal.find('.modal-body .inInformation').html(inInformation);
+			modal.find('.modal-body .inHtml').html(inHtml);
+			modal.find('.modal-body .inContent').html(inContent);
+		}else {
+			callToast("분석된 데이터가 없습니다.","error","알림")
+		}
+
+	});
+}
+
 //case1 기본 B
 function getDefaultClases(data,inHtmlNoneFmode,inHtml) {
 	inHtmlNoneFmode += '' +
@@ -638,19 +740,22 @@ function getInFModeClass(data,inHtmlNoneFmode,inHtml,inFmode,inDistri) {
 }
 //case3 심화 E fmode not null  distri 1,2,4
 function getInFModeNotSmodeClass(data,inHtml,inDistri){
+
 	var wvalue = data.kgart.wvalue.split(",");//고장시간
 	var value1 = data.viewRctDetail.value1.split(",");//신뢰도
 	var value2 = data.viewRctDetail.value2.split(",");//하한
 	var value3 = data.viewRctDetail.value3.split(",");//상한
 	var value4 = data.viewRctDetail.value4.split(",");//불신뢰도
-	var value5 = data.viewRctDetail.value5.split(",");//상한
-	var value6 = data.viewRctDetail.value6.split(",");//하한
-	var value7 = data.viewRctDetail.value7.split(",");//하한
-	var value8 = data.viewRctDetail.value8.split(",");//하한
-	var value9 = data.viewRctDetail.value9.split(",");//하한
-	var value10 = data.viewRctDetail.value10.split(",");//하한
-	var value11 = data.viewRctDetail.value11.split(",");//하한
-	var value12 = data.viewRctDetail.value12.split(",");//하한
+	var value5 = data.viewRctDetail.value5.split(",");
+	var value6 = data.viewRctDetail.value6.split(",");
+	var value7 = data.viewRctDetail.value7.split(",");
+	var value8 = data.viewRctDetail.value8.split(",");
+	var value9 = data.viewRctDetail.value9.split(",");
+	var value10 = data.viewRctDetail.value10.split(",");
+	var value11 = data.viewRctDetail.value11.split(",");
+	var value12 = data.viewRctDetail.value12.split(",");
+	var value13 = data.viewRctDetail.value13.split(",");
+	var value14 = data.viewRctDetail.value14.split(",");
 	//신뢰도
 	inDistri+='' +
 		'<h5 class="text-right">(95% CI)</h5>' +
@@ -709,6 +814,37 @@ function getInFModeNotSmodeClass(data,inHtml,inDistri){
 		'</table>' +
 		'';
 	inHtml += inDistri;
+
+	//고장 모드별 고장률
+	inDistri+='' +
+
+		'<table class="table table-valign-middle table-sm">' +
+		'	<tbody>' +
+		'	<tr>' +
+		'	<td rowspan="'+(value13.length+1)+'">고장모드별</br>고장률</td><td>고장모드/시간</td><td>1000</td><td>5000</td><td>10000</td><td>50000</td><td>100000</td>' +
+		'	</tr>' +
+		'';
+	var a=0;
+	var b=1;
+	var c=2;
+	var d=3;
+	var e=4;
+	$.each(wvalue,function (key,value) {
+
+		inDistri += '' +
+			'	<tr>' +
+			'		<td>' + value13[key] + '</td><td>' + value14[a] + '</td><td>' + value14[b] + '</td><td>' + value14[c] + '</td><td>' + value14[d] + '</td><td>' + value14[e] + '</td>' +
+			'	</tr>';
+		a=a+5;b=b+5;c=c+5;d=d+5;e=e+5
+
+	});
+	inDistri+='' +
+		'	</tbody>' +
+		'</table>' +
+		'';
+	inHtml += inDistri;
+
+
 	return inHtml;
 }
 //case4 심화 E smode 있음 1,2,4
@@ -1059,7 +1195,7 @@ $('#modal-default2').on('show.bs.modal', function (event) {
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm13\')"> 고장조치사항 별 고장시간 히스토그램</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm14\')"> 설비 별 작동시간 히스토그램</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm15\')"> 설비 구분 고장모드 별<br> 작동시간 히스토그램</button>\n' +
-		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm16\')"> 설비 구분 고장원일 별<br> 작동시간 히스토그램</button>\n' +
+		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm16\')"> 설비 구분 고장원인 별<br> 작동시간 히스토그램</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm17\')"> 설비 구분 고장조치사항 별<br> 작동시간 히스토그램</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm18\')"> 고장모드 별 보수시간 히스토그램</button>\n' +
 		'\t\t\t\t\t<button class="btn btn-block btn-outline-secondary text-left text-xs" onclick="callChart(\''+recipient+'\',\'htm19\')"> 고장원인 별 보수시간 히스토그램</button>\n' +
@@ -1206,6 +1342,8 @@ function adviewCall(data) {
 
 	var ar_cd =data.ar_cd;
 	var smode =data.smode;
+	var analysys_flg=data.kgart.analysys_flg;
+	var html='';
 	var inHtml ='';
 	var inContent = '';
 	var smodeActive ='';
@@ -1216,78 +1354,148 @@ function adviewCall(data) {
 		type: "POST",
 		url: base_url+"kgview/htmlAdViewer",
 		dataType:"json",
-		data:{"arcd":ar_cd},
+		data:{"arcd":ar_cd,"anal_type":data.anal_type,"analysys_flg":analysys_flg},
 		// async: false
 	}).done(function(data){
-		inHtml ='';
-		inContent = '조회된 데이터가 없습니다.';
-		inContent2 = '조회된 데이터가 없습니다.';
-		if(smode){
-			smodeActive="disabled";
+
+		if(analysys_flg === 'Z'){
+			$.toast({
+				position: 'bottom-right',
+				heading: "알림",
+				text: "분석 실행 성공",
+				icon: "success",
+				// hideAfter: false
+				loaderBg: '#ffffff',  // Background color of the toast loader
+				hideAfter: 3000,
+				afterHidden: function () {
+					html+='' +
+						'<tr>' +
+						'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
+						'\t<td>'+data.kgartview.ar_time+'</td>\n' +
+						'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
+						'\t<td class="text-truncate">'+data.kgartview.analysis_name+'</td>\n' +
+						'\t<td>\n' +
+						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
+						'\t</td>\n' +
+						'\t<td>\n' +
+						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" ><i class="fas fa-search"></i> </button>\n' +
+						'\t</td>\n' +
+						'\t<td>\n' +
+						'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
+						'</td>' +
+						'</tr>';
+					// location.reload();
+					// callDebugToast(data.debug);
+					$('#kgArgViewList').prepend(html);
+					$('#kgArgViewList tr:last').remove();
+				}
+			});
+		}else{
+			inHtml ='';
+			inContent = '조회된 데이터가 없습니다.';
+			inContent2 = '조회된 데이터가 없습니다.';
+			if(smode){
+				smodeActive="disabled";
+			}
+			if(data.contentD) {
+				$("#modal-adview").data('bs.modal')._config.backdrop = 'static';
+				inContent = data.contentD;
+				inContent2 = data.contentD2;
+				inHtml += '' +
+					'<div class="col-6 inContent"></div>' +
+					'<div class="col-6">' +
+					'\t<div class="form-group clearfix">\n' +
+					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+					'\t\t\t<input type="radio" id="districhk1" name="distri" value="1" checked data-id="'+ar_cd+'">\n' +
+					'\t\t\t<label for="districhk1" class="">Weibull 분포\n' +
+					'\t\t\t</label>\n' +
+					'\t\t</div>\n' +
+					'\t</div>' +
+					'\t<div class="form-group clearfix">\n' +
+					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+					'\t\t\t<input type="radio" id="districhk2" name="distri" value="2" data-id="'+ar_cd+'">' +
+					'\t\t\t<label for="districhk2" class="">로그 정규 분포\n' +
+					'\t\t\t</label>\n' +
+					'\t\t</div>\n' +
+					'\t</div>' +
+					'\t<div class="form-group clearfix">\n' +
+					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+					'\t\t\t<input type="radio" id="districhk3" name="distri" '+smodeActive+' value="3" data-id="'+ar_cd+'">\n' +
+					'\t\t\t<label for="districhk3" class="">지수\n' +
+					'\t\t\t</label>\n' +
+					'\t\t</div>\n' +
+					'\t</div>' +
+					'\t<div class="form-group clearfix">\n' +
+					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+					'\t\t\t<input type="radio" id="districhk4" name="distri" value="4" data-id="'+ar_cd+'">\n' +
+					'\t\t\t<label for="districhk4" class="">정규 분포\n' +
+					'\t\t\t</label>\n' +
+					'\t\t</div>\n' +
+					'\t</div>' +
+					'\t<div class="form-group clearfix">\n' +
+					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+					'\t\t\t<input type="radio" id="districhk5" name="distri" '+smodeActive+' value="5" data-id="'+ar_cd+'">\n' +
+					'\t\t\t<label for="districhk5" class="">비모수 분포\n' +
+					'\t\t\t</label>\n' +
+					'\t\t</div>\n' +
+					'\t</div>' +
+					'</div>' +
+					'';
+			}
+			$('#modal-adview').find('.modal-body').eq(0).html(inHtml)
+			$('#modal-adview').find('.inContent').html(inContent)
+			$('#modal-adview').find('.card-body').html(inContent2)
 		}
-		if(data.contentD) {
-			$("#modal-adview").data('bs.modal')._config.backdrop = 'static';
-			inContent = data.contentD;
-			inContent2 = data.contentD2;
-			inHtml += '' +
-				'<div class="col-6 inContent"></div>' +
-				'<div class="col-6">' +
-				'\t<div class="form-group clearfix">\n' +
-				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk1" name="distri" value="1" checked data-id="'+ar_cd+'">\n' +
-				'\t\t\t<label for="districhk1" class="">Weibull 분포\n' +
-				'\t\t\t</label>\n' +
-				'\t\t</div>\n' +
-				'\t</div>' +
-				'\t<div class="form-group clearfix">\n' +
-				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk2" name="distri" value="2" data-id="'+ar_cd+'">' +
-				'\t\t\t<label for="districhk2" class="">로그 정규 분포\n' +
-				'\t\t\t</label>\n' +
-				'\t\t</div>\n' +
-				'\t</div>' +
-				'\t<div class="form-group clearfix">\n' +
-				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk3" name="distri" '+smodeActive+' value="3" data-id="'+ar_cd+'">\n' +
-				'\t\t\t<label for="districhk3" class="">지수\n' +
-				'\t\t\t</label>\n' +
-				'\t\t</div>\n' +
-				'\t</div>' +
-				'\t<div class="form-group clearfix">\n' +
-				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk4" name="distri" value="4" data-id="'+ar_cd+'">\n' +
-				'\t\t\t<label for="districhk4" class="">정규 분포\n' +
-				'\t\t\t</label>\n' +
-				'\t\t</div>\n' +
-				'\t</div>' +
-				'\t<div class="form-group clearfix">\n' +
-				'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-				'\t\t\t<input type="radio" id="districhk5" name="distri" '+smodeActive+' value="5" data-id="'+ar_cd+'">\n' +
-				'\t\t\t<label for="districhk5" class="">비모수 분포\n' +
-				'\t\t\t</label>\n' +
-				'\t\t</div>\n' +
-				'\t</div>' +
-				'</div>' +
-				'';
-		}
-		$('#modal-adview').find('.modal-body').eq(0).html(inHtml)
-		$('#modal-adview').find('.inContent').html(inContent)
-		$('#modal-adview').find('.card-body').html(inContent2)
+
 	});
 
 }
 //심화 분석 요청
 $(document).on('click','#requestAdRun',function () {
+	var html='';
 	$('.loading-bar-wrap').removeClass("hidden");
 	var ar_cd = $('input[name=distri]:checked').attr("data-id");
 	var distri = $('input[name=distri]:checked').val();
+
 	$.ajax({
 		type: "POST",
 		url: base_url+"kgpbt/insertAdSelect",
 		dataType:"json",
 		data:{"ar_cd":ar_cd,"distri":distri},
 		success : function(data) {
-			callToastHideAfter(data.alerts_title,"success","Info",data,$('#modal-adview'));
+			$.toast({
+				position: 'bottom-right',
+				heading: "알림",
+				text: "분석 실행 성공",
+				icon: "success",
+				// hideAfter: false
+				loaderBg: '#ffffff',  // Background color of the toast loader
+				hideAfter: 3000,
+				afterHidden: function () {
+					html+='' +
+						'<tr>' +
+						'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
+						'\t<td>'+data.kgartview.ar_time+'</td>\n' +
+						'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
+						'\t<td class="text-truncate">'+data.kgartview.analysis_name+'</td>\n' +
+						'\t<td>\n' +
+						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
+						'\t</td>\n' +
+						'\t<td>\n' +
+						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" ><i class="fas fa-search"></i> </button>\n' +
+						'\t</td>\n' +
+						'\t<td>\n' +
+						'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
+						'</td>' +
+						'</tr>';
+					// location.reload();
+					// callDebugToast(data.debug);
+					$('#kgArgViewList').prepend(html);
+					$('#kgArgViewList tr:last').remove();
+					$('#modal-adview').modal('toggle');
+					runReportViewer(ar_cd,$('#modal-default'))
+				}
+			});
 		},
 		// async: false
 		complete: function(data){
@@ -1345,3 +1553,19 @@ function deleteFile(file_id) {
 
 	});
 }
+$(document).on("click","#btnPrint",function () {
+// printElement(document.getElementById("modal-default"));
+	$("#modal-default .modal-body").printThis({
+		debug: true,
+		importCSS: true,
+		importStyle: true,
+		printContainer: true,
+		// loadCSS: "/assets/dist/css/common.js",
+		pageTitle: "My Modal",
+		removeInline: false,
+		printDelay: 333,
+		header: null,
+		formValues: true
+	});
+})
+
