@@ -68,6 +68,7 @@ $('.startDate').daterangepicker({
 		format: 'YYYY-MM-DD',
 	}
 });
+
 $('.endDate').daterangepicker({
 	singleDatePicker: true,
 	startDate: moment().subtract(0, 'days'),
@@ -76,6 +77,15 @@ $('.endDate').daterangepicker({
 		format: 'YYYY-MM-DD',
 	}
 });
+$(".startDate").on("focus",function () {
+	$(this).val("");
+	$(".startDate").inputmask('9999-99-99');
+})
+$(".endDate").on("click",function () {
+	$(this).val("");
+	$(".endDate").inputmask('9999-99-99');
+})
+
 // 전체 선택
 $('input[name=checkAll]').on("change",function () {
 	var target = $(this).val();
@@ -400,7 +410,13 @@ function callToastHideFalse(text,icon,heading) {
 }
 //분석 실행
 $('.submitKgArt').on("click",function () {
-	$('.loading-bar-wrap').removeClass("hidden");
+
+
+	var ohour = $('input[name=ohour]').val();
+	if(ohour === null || ohour <= 0 || ohour ===''){
+		ohour =1;
+		// $('input[name=ohour]').val(ohour);
+	}
 	var html='';
 	var url='';
 	var type=$(this).attr("data-id");
@@ -413,86 +429,105 @@ $('.submitKgArt').on("click",function () {
 	}else{
 		url = base_url+"kgpbt/insertKgArt";
 	}
-	$.ajax({
-		type: "POST",
-		url: url,
-		data:$('#defaultForm').serialize(),
-		dataType: "json",
-		success: function (data) {
-			console.log("심화분석 테이블 저장후 반환",data)
 
-			if(data.anal_type=='C') {
-				$('#modal-adview').modal({backdrop: true, keyboard: false, show: true});
-				adviewCall(data);
-			}else{
-				if(data.alerts_status=="success") {
-					$.toast({
-						position: 'bottom-right',
-						heading: "알림",
-						text: "분석 실행 성공",
-						icon: "success",
-						// hideAfter: false
-						loaderBg: '#ffffff',  // Background color of the toast loader
-						hideAfter: 3000,
-						afterHidden: function () {
-							html+='' +
-								'<tr>' +
-								'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
-								'\t<td>'+data.kgartview.ar_time+'</td>\n' +
-								'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
-								'\t<td class="text-truncate">'+data.kgartview.analysis_name+'</td>\n' +
-								'\t<td>\n' +
-								'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
-								'\t</td>\n' +
-								'\t<td>\n' +
-								'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" ><i class="fas fa-search"></i> </button>\n' +
-								'\t</td>\n' +
-								'\t<td>\n' +
-								'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
-								'</td>' +
-								'</tr>';
-								// location.reload();
-							// callDebugToast(data.debug);
-							$('#kgArgViewList').prepend(html);
-							$('#kgArgViewList tr:last').remove();
-							runReportViewer(data.kgartview.ar_cd,$('#modal-default'));
-						}
-					});
+
+	if(ohour <= 1 && ohour > 0){
+
+		$('.loading-bar-wrap').removeClass("hidden");
+		$.ajax({
+			type: "POST",
+			url: url,
+			data:$('#defaultForm').serialize()+'&ohour='+ohour,
+			dataType: "json",
+			success: function (data) {
+
+				if(data.anal_type=='C') {
+					adviewCall(data);
 				}else{
-					$.each(data.alerts_title, function (key, value) {
+					if(data.alerts_status=="success") {
 						$.toast({
 							position: 'bottom-right',
 							heading: "알림",
-							text: value,
-							icon: data.alerts_icon,
+							text: "분석 실행 성공",
+							icon: "success",
 							// hideAfter: false
 							loaderBg: '#ffffff',  // Background color of the toast loader
-							hideAfter: false,
+							hideAfter: 3000,
+							afterHidden: function () {
+								html+='' +
+									'<tr>' +
+									'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
+									'\t<td>'+data.kgartview.ar_time+'</td>\n' +
+									'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
+									'\t<td class="text-truncate">'+data.kgartview.analysis_name+'&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt(\''+data.kgartview.ar_cd+'\')"><i class="fas fa-copy"></i></button></td>\n' ;
+								if(type==="kgpbt" || type==="kgsbt") {
+									html += '' +
+										'\t<td>\n' +
+										'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="' + data.kgartview.ar_cd + '"><i class="fas fa-search"></i> </button>\n' +
+										'\t</td>\n';
+								}
+								html+='' +
+									'\t<td>\n' +
+									'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" id="kgbasicButton'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
+									'\t</td>\n' +
+									'\t<td>\n' +
+									'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
+									'</td>' +
+									'</tr>';
+								// location.reload();
+								// callDebugToast(data.debug);
+								$('#kgArgViewList').prepend(html);
+								$('#kgArgViewList tr:last').remove();
+								if(type=="kgbasicpbt" || type=="kgbasicsbt") {
+									$('#kgbasicButton'+data.kgartview.ar_cd).click();
+								}else{
+									runReportViewer(data.kgartview.ar_cd,$('#modal-default'));
+								}
+
+							}
 						});
-					});
+					}else{
+						$.each(data.alerts_title, function (key, value) {
+							$.toast({
+								position: 'bottom-right',
+								heading: "알림",
+								text: value,
+								icon: data.alerts_icon,
+								// hideAfter: false
+								loaderBg: '#ffffff',  // Background color of the toast loader
+								hideAfter: false,
+							});
+						});
+					}
 				}
+
+			},
+			beforeSend: function(data){
+				//진행중
+				// insertToast;
+
+			},
+			complete: function(data){
+				// insertToast.update({
+				// 	heading: "Info",
+				// 	text: "분석요청 완료.",
+				// 	icon: "info",
+				// 	hideAfter: 2000,
+				// });
+				// TODO
+				$('.loading-bar-wrap').addClass("hidden");
+			},
+			error: function (xhr, status, error) {
+				//console.log(error,xhr,status );
 			}
+		});
+	}else{
+		callToast('Operation Hour 해당 값은 0보다 크고 1보다 작은 값으로 입력 .','error','알림')
+	}
 
-		},
-		beforeSend: function(data){
-			//진행중
-			// insertToast;
 
-		},
-		complete: function(data){
-			// insertToast.update({
-			// 	heading: "Info",
-			// 	text: "분석요청 완료.",
-			// 	icon: "info",
-			// 	hideAfter: 2000,
-			// });
-			// TODO
-			$('.loading-bar-wrap').addClass("hidden");
-		},
-		error: function (xhr, status, error) {
-			//console.log(error,xhr,status );
-		}
-	});
+
+
 });
 //모달 뷰어
 $('#modal-default').on('show.bs.modal', function (event) {
@@ -523,6 +558,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 		modal.find('.modal-body .inInformation').html('');
 		modal.find('.modal-body .inHtml').html('');
 		modal.find('.modal-body .inContent').html('');
+		modal.find('#ohourText').html(data.kgart.ohour)
 		if(data.alerts_status=="success"){
 			//기본
 			if(data.kgart.analysis_type=='B' && data.kgart.fmode==null && data.kgart.distri==null) {
@@ -571,6 +607,7 @@ $('#modal-default').on('show.bs.modal', function (event) {
 
 //모달 뷰어 분석완료 후 즉시 실행
 function runReportViewer(ar_cd,target) {
+
 	target.modal('toggle');
 	var inHtml ='';
 	var inContent = '';
@@ -830,7 +867,7 @@ function getInFModeNotSmodeClass(data,inHtml,inDistri){
 	var c=2;
 	var d=3;
 	var e=4;
-	$.each(wvalue,function (key,value) {
+	$.each(value13,function (key,value) {
 
 		inDistri += '' +
 			'	<tr>' +
@@ -843,10 +880,10 @@ function getInFModeNotSmodeClass(data,inHtml,inDistri){
 		'	</tbody>' +
 		'</table>' +
 		'';
-	inHtml += inDistri;
+	// inHtml += inDistri;
 
 
-	return inHtml;
+	return inDistri;
 }
 //case4 심화 E smode 있음 1,2,4
 function getInSModeClass(data,inHtml,inDistri){
@@ -1036,7 +1073,7 @@ function getCase5(data,inHtml,inDistri){
 		'<table class="table-valign-middle w-100" style="border-right: 1px solid #eee">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(wvalue.length+1)+'">불신뢰도</td><td>시간</td><td>하한</td><td>신뢰도</td><td>상한</td>' +
+		'	<td rowspan="'+(wvalue.length+1)+'">불신뢰도</td><td>시간</td><td>하한</td><td>불신뢰도</td><td>상한</td>' +
 		'	</tr>' +
 		'';
 	$.each(wvalue,function (key,value) {
@@ -1054,7 +1091,7 @@ function getCase5(data,inHtml,inDistri){
 		'<table class="table-valign-middle w-100" >' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td>시간</td><td>하한</td><td>신뢰도</td><td>상한</td>' +
+		'	<td>시간</td><td>하한</td><td>불신뢰도</td><td>상한</td>' +
 		'	</tr>' +
 		'';
 	// $.each(wvalue,function (key,value) {
@@ -1088,14 +1125,19 @@ function getCase5(data,inHtml,inDistri){
 		'<table class="w-100" style="border-right: 1px solid #eee">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(wvalue.length+1)+'">전체</br>고장률</td><td>시간</td><td>고장률 (per hour) </td>' +
+		'	<td rowspan="'+((value10.length/2)+1)+'">전체</br>고장률</td><td>시간</td><td>고장률 (per hour) </td>' +
 		'	</tr>' +
 		'';
-	$.each(wvalue,function (key,value) {
-		inDistri+='' +
-			'	<tr>' +
-			'		<td>'+wvalue[key]+'</td><td>'+value10[key]+'</td>' +
-			'	</tr>';
+	var value10count = value10.length/2
+	var wvaluekey=0;
+	$.each(value10,function (key,value) {
+		if(key < value10count){
+			inDistri+='' +
+				'	<tr>' +
+				'		<td>'+wvalue[wvaluekey]+'</td><td>'+value10[key]+'</td>' +
+				'	</tr>';
+		}
+		wvaluekey= wvaluekey+1;
 	});
 	inDistri+='' +
 		'	</tbody>' +
@@ -1107,14 +1149,19 @@ function getCase5(data,inHtml,inDistri){
 		'<table class="w-100">' +
 		'	<tbody>' +
 		'	<tr>' +
-		'	<td rowspan="'+(wvalue.length+1)+'">전체</br>고장률</td><td>시간</td><td>고장률 (per hour) </td>' +
+		'	<td rowspan="'+((value10.length/2)+1)+'">전체</br>고장률</td><td>시간</td><td>고장률 (per hour) </td>' +
 		'	</tr>' +
 		'';
-	$.each(wvalue,function (key,value) {
-		inDistri+='' +
-			'	<tr>' +
-			'		<td>'+wvalue[key]+'</td><td>'+value10[key]+'</td>' +
-			'	</tr>';
+	wvaluekey=0;
+	$.each(value10,function (key,value) {
+		if(key >= value10count){
+			inDistri+='' +
+				'	<tr>' +
+				'		<td>'+wvalue[wvaluekey]+'</td><td>'+value10[key]+'</td>' +
+				'	</tr>';
+			wvaluekey= wvaluekey+1;
+		}
+
 	});
 	inDistri+='' +
 		'	</tbody>' +
@@ -1206,6 +1253,28 @@ $('#modal-default2').on('show.bs.modal', function (event) {
 		'\t\t\t\t<div class="col-9 chartViewer">\n' +
 
 		'\t\t\t\t</div>';
+
+	$.ajax({
+		type: "POST",
+		url: base_url+"kgview/htmlViewer",
+		data:{'arcd':recipient},
+		dataType: "json",
+		success: function (data) {
+			console.log(data)
+			modal.find('#ohourText').html(data.kgart.ohour)
+		},
+		beforeSend: function(data){
+			// insertToast;
+
+		},
+		complete: function(data){
+			// TODO
+
+		},
+		error: function (xhr, status, error) {
+			//console.log(error,xhr,status );
+		}
+	});
 	modal.find('.modal-body.row').html(html)
 
 })
@@ -1215,7 +1284,7 @@ function callChart(arcd,htmlNum) {
 		type: "POST",
 		url: base_url+"kgview/htmlDefaultViewer",
 		// dataType:"html",
-		data:{"arcd":arcd,"htmlNum":htmlNum,},
+		data:{"ar_cd":arcd,"htmlNum":htmlNum,},
 		// async: false
 	}).done(function(data){
 		$('.modal-body.row .chartViewer').html(data)
@@ -1340,10 +1409,10 @@ function uploadSummernoteImageFile(file, editor) {
 
 //심화분석 모달
 function adviewCall(data) {
-
+	console.log('adviewCall',data)
 	var ar_cd =data.ar_cd;
 	var smode =data.smode;
-	var analysys_flg=data.kgart.analysys_flg;
+	var analysis_flg=data.kgart.analysis_flg;
 	var html='';
 	var inHtml ='';
 	var inContent = '';
@@ -1355,104 +1424,116 @@ function adviewCall(data) {
 		type: "POST",
 		url: base_url+"kgview/htmlAdViewer",
 		dataType:"json",
-		data:{"arcd":ar_cd,"anal_type":data.anal_type,"analysys_flg":analysys_flg},
+		data:{"ar_cd":ar_cd,"anal_type":data.anal_type,"analysis_flg":analysis_flg},
 		// async: false
-	}).done(function(data){
-
-		if(analysys_flg === 'Z'){
-			$.toast({
-				position: 'bottom-right',
-				heading: "알림",
-				text: "분석 실행 성공",
-				icon: "success",
-				// hideAfter: false
-				loaderBg: '#ffffff',  // Background color of the toast loader
-				hideAfter: 3000,
-				afterHidden: function () {
-					html+='' +
-						'<tr>' +
-						'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
-						'\t<td>'+data.kgartview.ar_time+'</td>\n' +
-						'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
-						'\t<td class="text-truncate">'+data.kgartview.analysis_name+'</td>\n' +
-						'\t<td>\n' +
-						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
-						'\t</td>\n' +
-						'\t<td>\n' +
-						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" ><i class="fas fa-search"></i> </button>\n' +
-						'\t</td>\n' +
-						'\t<td>\n' +
-						'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
-						'</td>' +
-						'</tr>';
-					// location.reload();
-					// callDebugToast(data.debug);
-					$('#kgArgViewList').prepend(html);
-					$('#kgArgViewList tr:last').remove();
+		success : function(data) {
+			if(data.kgart.analysis_flg == 'Z'){
+				$.toast({
+					position: 'bottom-right',
+					heading: "알림",
+					text: "분석 실행 성공",
+					icon: "success",
+					// hideAfter: false
+					loaderBg: '#ffffff',  // Background color of the toast loader
+					hideAfter: 3000,
+					afterHidden: function () {
+						html+='' +
+							'<tr>' +
+							'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
+							'\t<td>'+data.kgartview.ar_time+'</td>\n' +
+							'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
+							'\t<td class="text-truncate">'+data.kgartview.analysis_name+'&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt(\''+data.kgartview.ar_cd+'\')"><i class="fas fa-copy"></i></button></td>\n' +
+							'\t<td>\n' +
+							'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'" id="runModalViewer'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
+							'\t</td>\n' +
+							'\t<td>\n' +
+							'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" ><i class="fas fa-search"></i> </button>\n' +
+							'\t</td>\n' +
+							'\t<td>\n' +
+							'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
+							'</td>' +
+							'</tr>';
+						// location.reload();
+						// callDebugToast(data.debug);
+						$('#kgArgViewList').prepend(html);
+						$('#kgArgViewList tr:last').remove();
+						$('#runModalViewer'+data.kgartview.ar_cd).click()
+						// runReportViewer(ar_cd,$('#modal-default'))
+					}
+				});
+			}else{
+				// $('#modal-adview').modal({backdrop: true, keyboard: false, show: true});
+				$('#modal-adview').modal("toggle");
+				inHtml ='';
+				inContent = '조회된 데이터가 없습니다.';
+				inContent2 = '조회된 데이터가 없습니다.';
+				if(smode){
+					smodeActive="disabled";
 				}
-			});
-		}else{
-			inHtml ='';
-			inContent = '조회된 데이터가 없습니다.';
-			inContent2 = '조회된 데이터가 없습니다.';
-			if(smode){
-				smodeActive="disabled";
+				if(data.contentD) {
+					// $("#modal-adview").data('bs.modal')._config.backdrop = 'static';
+					inContent = data.contentD;
+					inContent2 = data.contentD2;
+					inHtml += '' +
+						'<div class="col-6 inContent"></div>' +
+						'<div class="col-6">' +
+						'\t<div class="form-group clearfix">\n' +
+						'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+						'\t\t\t<input type="radio" id="districhk1" name="distri" value="1" checked data-id="'+ar_cd+'">\n' +
+						'\t\t\t<label for="districhk1" class="">Weibull 분포\n' +
+						'\t\t\t</label>\n' +
+						'\t\t</div>\n' +
+						'\t</div>' +
+						'\t<div class="form-group clearfix">\n' +
+						'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+						'\t\t\t<input type="radio" id="districhk2" name="distri" value="2" data-id="'+ar_cd+'">' +
+						'\t\t\t<label for="districhk2" class="">로그 정규 분포\n' +
+						'\t\t\t</label>\n' +
+						'\t\t</div>\n' +
+						'\t</div>' +
+						'\t<div class="form-group clearfix">\n' +
+						'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+						'\t\t\t<input type="radio" id="districhk3" name="distri" '+smodeActive+' value="3" data-id="'+ar_cd+'">\n' +
+						'\t\t\t<label for="districhk3" class="">지수\n' +
+						'\t\t\t</label>\n' +
+						'\t\t</div>\n' +
+						'\t</div>' +
+						'\t<div class="form-group clearfix">\n' +
+						'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+						'\t\t\t<input type="radio" id="districhk4" name="distri" value="4" data-id="'+ar_cd+'">\n' +
+						'\t\t\t<label for="districhk4" class="">정규 분포\n' +
+						'\t\t\t</label>\n' +
+						'\t\t</div>\n' +
+						'\t</div>' +
+						'\t<div class="form-group clearfix">\n' +
+						'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
+						'\t\t\t<input type="radio" id="districhk5" name="distri" '+smodeActive+' value="5" data-id="'+ar_cd+'">\n' +
+						'\t\t\t<label for="districhk5" class="">비모수 분포\n' +
+						'\t\t\t</label>\n' +
+						'\t\t</div>\n' +
+						'\t</div>' +
+						'</div>' +
+						'';
+				}
+				$('#modal-adview').find('.modal-body').eq(0).html(inHtml)
+				$('#modal-adview').find('.inContent').html(inContent)
+				$('#modal-adview').find('.card-body').html(inContent2)
 			}
-			if(data.contentD) {
-				$("#modal-adview").data('bs.modal')._config.backdrop = 'static';
-				inContent = data.contentD;
-				inContent2 = data.contentD2;
-				inHtml += '' +
-					'<div class="col-6 inContent"></div>' +
-					'<div class="col-6">' +
-					'\t<div class="form-group clearfix">\n' +
-					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-					'\t\t\t<input type="radio" id="districhk1" name="distri" value="1" checked data-id="'+ar_cd+'">\n' +
-					'\t\t\t<label for="districhk1" class="">Weibull 분포\n' +
-					'\t\t\t</label>\n' +
-					'\t\t</div>\n' +
-					'\t</div>' +
-					'\t<div class="form-group clearfix">\n' +
-					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-					'\t\t\t<input type="radio" id="districhk2" name="distri" value="2" data-id="'+ar_cd+'">' +
-					'\t\t\t<label for="districhk2" class="">로그 정규 분포\n' +
-					'\t\t\t</label>\n' +
-					'\t\t</div>\n' +
-					'\t</div>' +
-					'\t<div class="form-group clearfix">\n' +
-					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-					'\t\t\t<input type="radio" id="districhk3" name="distri" '+smodeActive+' value="3" data-id="'+ar_cd+'">\n' +
-					'\t\t\t<label for="districhk3" class="">지수\n' +
-					'\t\t\t</label>\n' +
-					'\t\t</div>\n' +
-					'\t</div>' +
-					'\t<div class="form-group clearfix">\n' +
-					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-					'\t\t\t<input type="radio" id="districhk4" name="distri" value="4" data-id="'+ar_cd+'">\n' +
-					'\t\t\t<label for="districhk4" class="">정규 분포\n' +
-					'\t\t\t</label>\n' +
-					'\t\t</div>\n' +
-					'\t</div>' +
-					'\t<div class="form-group clearfix">\n' +
-					'\t\t<div class="icheck-primary d-inline text-truncate">\n' +
-					'\t\t\t<input type="radio" id="districhk5" name="distri" '+smodeActive+' value="5" data-id="'+ar_cd+'">\n' +
-					'\t\t\t<label for="districhk5" class="">비모수 분포\n' +
-					'\t\t\t</label>\n' +
-					'\t\t</div>\n' +
-					'\t</div>' +
-					'</div>' +
-					'';
-			}
-			$('#modal-adview').find('.modal-body').eq(0).html(inHtml)
-			$('#modal-adview').find('.inContent').html(inContent)
-			$('#modal-adview').find('.card-body').html(inContent2)
-		}
+		},
+		// async: false
+		complete: function(data){
+			// TODO
 
-	});
+		},
+		error: function (xhr, status, error) {
+			console.log(error,xhr,status );
+		}
+	})
 
 }
 //심화 분석 요청
 $(document).on('click','#requestAdRun',function () {
+	$('#modal-adview').modal('hide');
 	var html='';
 	$('.loading-bar-wrap').removeClass("hidden");
 	var ar_cd = $('input[name=distri]:checked').attr("data-id");
@@ -1478,9 +1559,9 @@ $(document).on('click','#requestAdRun',function () {
 						'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
 						'\t<td>'+data.kgartview.ar_time+'</td>\n' +
 						'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
-						'\t<td class="text-truncate">'+data.kgartview.analysis_name+' ;&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt(\''+data.kgartview.ar_cd+'\')"><i class="fas fa-copy"></i></button></td>\n' +
+						'\t<td class="text-truncate">'+data.kgartview.analysis_name+'&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt(\''+data.kgartview.ar_cd+'\')"><i class="fas fa-copy"></i></button></td>\n' +
 						'\t<td>\n' +
-						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
+						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="'+data.kgartview.ar_cd+'" id="runModalViewer'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
 						'\t</td>\n' +
 						'\t<td>\n' +
 						'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" ><i class="fas fa-search"></i> </button>\n' +
@@ -1493,8 +1574,8 @@ $(document).on('click','#requestAdRun',function () {
 					// callDebugToast(data.debug);
 					$('#kgArgViewList').prepend(html);
 					$('#kgArgViewList tr:last').remove();
-					$('#modal-adview').modal('toggle');
-					runReportViewer(ar_cd,$('#modal-default'))
+					$('#runModalViewer'+data.kgartview.ar_cd).click()
+					// runReportViewer(ar_cd,$('#modal-default'))
 				}
 			});
 		},
@@ -1557,29 +1638,36 @@ function deleteFile(file_id) {
 $(document).on("click","#btnPrint",function () {
 // printElement(document.getElementById("modal-default"));
 	$("#modal-default .modal-body").printThis({
-		debug: true,
-		importCSS: true,
-		importStyle: true,
-		printContainer: true,
+		// header: $('#modal-default .modal-body').clone(),
+		// debug: true,
+		// importCSS: true,
+		// importStyle: true,
+		// printContainer: true,
 		// loadCSS: "/assets/dist/css/common.js",
-		pageTitle: "My Modal",
-		removeInline: false,
+		// pageTitle: "My Modal",
+		// removeInline: false,
 		printDelay: 333,
 		header: null,
-		formValues: true
+		// formValues: true
 	});
-})
+	// Create a jquery plugin that prints the given element.
+	})
 
 //분석결과 복사
 function copyKgArt(ar_cd) {
+
+
+	$('.key4_cd_view').html('');
+	$('.key5_cd_view').html('');
+	$('.key6_cd_view').html('');
+	var returnData;
 	$.ajax({
 		type: "POST",
 		url: base_url+"kgview/getKgArt",
 		dataType:"json",
 		data:{"ar_cd":ar_cd},
 		success : function(data) {
-
-			console.log(111,data)
+			returnData = data;
 			if(data.analysis_type==='E'){
 				$('input:radio[name=anal_type][value="C"]').prop("checked",true).trigger('change');
 			}
@@ -1593,11 +1681,7 @@ function copyKgArt(ar_cd) {
 					$('input:checkbox[name="fmode[]"][value="'+value+'"]').prop("checked",true).trigger('change');
 				})
 			}
-			if(data.key1_cd!==null && data.key1_cd.split(",").length>0){
-				$.each(data.key1_cd.split(","),function (key,value) {
-					$('input:checkbox[name="key1_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
-				})
-			}
+
 			if(data.smode!==null && data.smode.split(",").length>0){
 				$('input:radio[name=select_mode][value="smode"]').prop("checked",true).trigger('change');
 				$.each(data.smode.split(","),function (key,value) {
@@ -1605,44 +1689,86 @@ function copyKgArt(ar_cd) {
 					$('input:checkbox[name="smode[]"][value="'+value+'"]').prop("checked",true).trigger('change');
 				})
 			}
-			if(data.key2_cd!==null && data.key2_cd.split(",").length>0){
-				$.each(data.key2_cd.split(","),function (key,value) {
-					$('input:checkbox[name="key2_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+			if(data.key1_cd!==null && data.key1_cd.split(",").length>0){
+				$.each(data.key1_cd.split(","),function (key,value) {
+					$('input:checkbox[name="key1_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
 				})
+				setTimeout(function () {
+					if(data.key2_cd!==null && data.key2_cd.split(",").length>0){
+						$.each(data.key2_cd.split(","),function (key,value) {
+							$('input:checkbox[name="key2_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+						})
+					}
+				},500)
 			}
+
 			if(data.key3_cd.split(",").length>0){
 				$.each(data.key3_cd.split(","),function (key,value) {
 					$('input:checkbox[name="key3_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
 				})
-			}
-			if(data.key4_cd.split(",").length>0){
-				$.each(data.key4_cd.split(","),function (key,value) {
-					$('input:checkbox[name="key4_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
-				})
-			}
-			if(data.key5_cd.split(",").length>0){
-				$.each(data.key5_cd.split(","),function (key,value) {
-					$('input:checkbox[name="key5_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
-				})
-			}
-			if(data.key6_cd.split(",").length>0){
-				$.each(data.key6_cd.split(","),function (key,value) {
-					$('input:checkbox[name="key6_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
-				})
-			}
-			if(data.key3_1_cd.split(",").length>0){
-				$.each(data.key3_1_cd.split(","),function (key,value) {
-					$('input:checkbox[name="key3_1_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
-				})
+				setTimeout(function () {
+					if(data.key3_1_cd.split(",").length>0){
+						$.each(data.key3_1_cd.split(","),function (key,value) {
+							$('input:checkbox[name="key3_1_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+						})
+					}
+					setTimeout(function () {
+						if(data.key4_cd.split(",").length>0){
+							$.each(data.key4_cd.split(","),function (key,value) {
+								$('input:checkbox[name="key4_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+							})
+							setTimeout(function () {
+								if(data.key5_cd.split(",").length>0){
+									$.each(data.key5_cd.split(","),function (key,value) {
+										$('input:checkbox[name="key5_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+									})
+									setTimeout(function () {
+										if(data.key6_cd.split(",").length>0){
+											$.each(data.key6_cd.split(","),function (key,value) {
+												$('input:checkbox[name="key6_cd[]"][value="'+value+'"]').prop("checked",true).trigger('change');
+											})
+										}
+									},1100)
+								}
+							},1100)
+						}
+					},1100)
+				},1000)
 			}
 		},
 
 		complete: function(data){
 			// TODO
+			// console.log(1111);
 		},
 		error: function (xhr, status, error) {
 			//console.log(error,xhr,status );
 		}
-	})
+	}).done(function (data) {
+
+	});
+
+
 }
+$(document).ready(function(){
+	console.log()
+})
+
+// 이런 함수로 비교해야 함
+
+function isSame(a, b, epsilon)
+
+{
+
+	if (!epsilon) epsilon = 0.000001;
+
+
+
+	return Math.abs(a - b) < epsilon;
+
+}
+
+
+
+
 

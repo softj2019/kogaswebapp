@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-6">
 				<div class="card collapsed-card">
 					<div class="card-header">
-						<h3 class="card-title">최근 발생 고장 10건</h3>
+						<h3 class="card-title">최근 고장 현상 10건</h3>
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
 							</button>

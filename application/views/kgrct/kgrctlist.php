@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<i class="far fa-calendar-alt"></i>
 									  </span>
 								</div>
-								<input type="text" name="endDate" class="form-control float-right endDate bg-white" readonly="ture">
+								<input type="text" name="endDate" class="form-control float-right endDate bg-white">
 							</div>
 						</div>
 
@@ -77,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>분석 구분</th>
 						<th>신뢰도 분석 결과</th>
 						<th>기초통계 분석 결과</th>
-						<th>데이터 파일</th>
+						<th>분석원데이터 파일</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="<?php echo $row->ar_cd; ?>"><?php echo $row->ar_cd; ?></a></td>
 								<td><?php echo $row->ar_time; ?></td>
 								<td class="text-truncate"><?php echo $row->user_id; ?></td>
-								<td class="text-truncate"><?php echo $row->analysis_name; ?>&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt('<?php echo $row->ar_cd; ?>')"><i class="fas fa-copy"></i></button> </td>
+								<td class="text-truncate"><?php echo $row->analysis_name; ?></td>
 								<td>
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
@@ -119,8 +119,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">신뢰도 분석결과</h4>
-				<button type="button" class="btn btn-default" id="btnPrint">인쇄</button>
+				<h4 class="modal-title" id="exampleModalLabel">
+					신뢰도 분석결과
+					<span id="test" class="mt-1 float-right text-md">Operation hour 비율 : <span id="ohourText"></span>   </span>
+				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -157,7 +159,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">기초통계 분석 결과</h4>
+
+				<h4 class="modal-title" id="exampleModalLabel">
+					기초통계 분석 결과
+					<span id="test" class="mt-1 float-right text-md">Operation hour 비율 : <span id="ohourText"></span>   </span>
+				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>

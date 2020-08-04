@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="icheck-primary d-inline">
 									<input type="radio" id="select_mode_fA" name="select_mode" value="fmodeALL">
 									<label for="select_mode_fA">
-										고장모드
+										전체 고장모드
 									</label>
 								</div>
 								<div class="icheck-primary d-inline">
@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<i class="far fa-calendar-alt"></i>
 									  </span>
 									</div>
-									<input type="text" name="startDate" class="form-control float-right startDate bg-white" readonly="ture">
+									<input type="text" name="startDate" class="form-control float-right startDate bg-white" >
 								</div>
 							</div>
 							<div class="col-5">
@@ -92,7 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<i class="far fa-calendar-alt"></i>
 									  </span>
 									</div>
-									<input type="text" name="endDate" class="form-control float-right endDate bg-white" readonly="ture">
+									<input type="text" name="endDate" class="form-control float-right endDate bg-white">
 								</div>
 							</div>
 						</div>
@@ -100,9 +100,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<label class="text-info offset-2">해당 분석의 시작시점은 2009년 1월 1일 이후로 설정해야 합니다.</label>
 						</div>
 						<div class="form-group row">
-							<label class="col-2" >관심시간 입력 </label>
-							<div class="col-10">
+							<label class="col-2 col-form-label" >관심시간 입력 </label>
+							<div class="col-4">
 								<input class="form-control" name="wvalue" placeholder="" value="1000,5000,10000,50000,100000 ">
+							</div>
+							<label class="col-3 offset-1 col-form-label">Operation Hour 비율 </label>
+							<div class="col-2">
+								<input class="form-control" name="ohour"  >
 							</div>
 						</div>
 
@@ -288,10 +292,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>분석 구분</th>
 						<th>신뢰도 분석 결과</th>
 						<th>기초통계 분석 결과</th>
-						<th>데이터 파일</th>
+						<th>분석원데이터 파일</th>
 					</tr>
 					</thead>
-					<tbody>
+					<tbody id="kgArgViewList">
 					<?php if(@$list) {
 						foreach ($list as $row) {
 							?>
@@ -299,7 +303,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="<?php echo $row->ar_cd; ?>"><?php echo $row->ar_cd; ?></a></td>
 								<td><?php echo $row->ar_time; ?></td>
 								<td class="text-truncate"><?php echo $row->user_id; ?></td>
-								<td class="text-truncate"><?php echo $row->analysis_name; ?></td>
+								<td class="text-truncate"><?php echo $row->analysis_name; ?>&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt('<?php echo $row->ar_cd; ?>')"><i class="fas fa-copy"></i></button></td>
 								<td>
 									<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="<?php echo $row->ar_cd; ?>"><i class="fas fa-search"></i> </button>
 								</td>
@@ -329,8 +333,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">신뢰도 분석결과</h4>
-				<button type="button" class="btn btn-default" id="btnPrint">인쇄</button>
+				<h4 class="modal-title" id="exampleModalLabel">
+					신뢰도 분석결과
+					<span id="test" class="mt-1 float-right">Operation hour 비율 : <span id="ohourText"></span>   </span>
+				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -366,7 +372,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">기초통계 분석 결과</h4>
+				<h4 class="modal-title" id="exampleModalLabel">
+					기초통계 분석 결과
+					<span id="test" class="mt-1 float-right text-md">Operation hour 비율 : <span id="ohourText"></span>   </span>
+				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>

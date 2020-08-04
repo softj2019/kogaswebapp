@@ -121,7 +121,7 @@ class Kgbasicsbt  extends CI_Controller
 			$data["alerts_icon"]="error";
 			$data["alerts_title"]="&nbsp;1차 분류는 1개만 선택 가능";
 		}else{
-			$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key4_cd,key4_nm',$where="key4_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}
 		echo json_encode($data);
 	}
@@ -155,7 +155,7 @@ class Kgbasicsbt  extends CI_Controller
 			"key4_cd"=>	$keyArr2,
 		);
 
-		$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+		$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key5_cd,key5_nm',$where="key5_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 
 		echo json_encode($data);
 	}
@@ -261,6 +261,7 @@ class Kgbasicsbt  extends CI_Controller
 					"fmode" => $fmode,
 					"smode" => $smode,
 					"wvalue" => $wvalue,
+					"ohour" => $this->input->post("ohour"),
 					"user_id" => @$this->session->userdata('user_id'),
 				);
 				$this->common->insert("kgart",$updateData);
