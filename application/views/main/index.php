@@ -83,6 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>위치</th>
 								<th>설비 이름</th>
 								<th>고장 내역</th>
+								<th>통지일</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -94,6 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td><?=$row->prloc?></td>
 										<td><?=$row->pr?></td>
 										<td><?=$row->probj?></td>
+										<td><?=$row->sdate?></td>
 									</tr>
 									<?php
 								}

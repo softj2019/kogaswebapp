@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<label class="col-3 offset-1 col-form-label">Operation Hour 비율 </label>
 							<div class="col-2">
-								<input class="form-control" name="ohour"  >
+								<input class="form-control" name="ohour" value="1" >
 							</div>
 						</div>
 

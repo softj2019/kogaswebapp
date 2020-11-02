@@ -670,6 +670,8 @@ function runReportViewer(ar_cd,target) {
 			modal.find('.modal-body .inInformation').html(inInformation);
 			modal.find('.modal-body .inHtml').html(inHtml);
 			modal.find('.modal-body .inContent').html(inContent);
+			//Operation hour 비율(찾는데 한참걸림 ㅠㅠ)
+			modal.find('#ohourText').html(data.kgart.ohour);
 		}else {
 			callToast("분석된 데이터가 없습니다.","error","알림")
 		}
@@ -1407,7 +1409,7 @@ function uploadSummernoteImageFile(file, editor) {
 	});
 }
 
-//심화분석 모달
+//심화분석 선택 모달 선택 후 분석요청 시 심화 분석 요청 결과 모달 창 생성
 function adviewCall(data) {
 	console.log('adviewCall',data)
 	var ar_cd =data.ar_cd;
@@ -1531,7 +1533,7 @@ function adviewCall(data) {
 	})
 
 }
-//심화 분석 요청
+//심화 분석 요청 결과
 $(document).on('click','#requestAdRun',function () {
 	$('#modal-adview').modal('hide');
 	var html='';
@@ -1590,6 +1592,7 @@ $(document).on('click','#requestAdRun',function () {
 	});
 
 });
+
 function submitBoardFormSave(){
 	var title = $('input[name=title]').val();
 	var content = $('textarea[name=content]').val();
@@ -1635,6 +1638,7 @@ function deleteFile(file_id) {
 
 	});
 }
+//인쇄기능 지금은 안쓴다 20.09.14
 $(document).on("click","#btnPrint",function () {
 // printElement(document.getElementById("modal-default"));
 	$("#modal-default .modal-body").printThis({
@@ -1676,7 +1680,13 @@ function copyKgArt(ar_cd) {
 			}
 
 			if(data.fmode!==null && data.fmode.split(",").length>0){
-				$('input:radio[name=select_mode][value="fmode"]').prop("checked",true).trigger('change');
+				//전체고장모드 ALL인경우 처리
+				if(data.fmode=='ALL'){
+					$('input:radio[name=select_mode][value="fmodeALL"]').prop("checked",true).trigger('change');
+				}else{
+					$('input:radio[name=select_mode][value="fmode"]').prop("checked",true).trigger('change');
+				}
+
 				$.each(data.fmode.split(","),function (key,value) {
 					$('input:checkbox[name="fmode[]"][value="'+value+'"]').prop("checked",true).trigger('change');
 				})

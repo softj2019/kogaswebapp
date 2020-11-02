@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 								<label class="col-2 col-form-label">Operation Hour 비율 </label>
 								<div class="col-1">
-									<input class="form-control" name="ohour"  >
+									<input class="form-control" name="ohour"  value="1">
 								</div>
 								<div class="col-2">
 									<button type="button" class="btn btn-success btn-block submitKgArt" data-id="kgbasicpbt">분석 실행</button>

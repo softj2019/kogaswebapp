@@ -111,6 +111,39 @@ class Console  extends CI_Controller
 		$this->load->view('console/loginhistory',$data);
 		$this->load->view('layout/footer',$data);
 	}
+	public function allfdata()
+	{
+		$data=Array();
+		//사용자 정보
+
+
+		$data['page_title']="전체 고장 데이터";
+//		$data['page_sub_title']="";
+//        $data['page_css_style']="fee.css";
+		$data['menu_code']="021";
+//		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
+
+		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
+		$config['base_url'] =base_url('console/allfdata');
+		$config['total_rows'] = $this->common->select_count('kgdataview','','');
+		$config['per_page'] = 10;
+
+		$this->pagination->initialize($config);
+		$page = $this->uri->segment(3,0);
+		$data['pagination']= $this->pagination->create_links();
+		$limit[1]=$page;
+		$limit[0]=$config['per_page'];
+
+		$order_by ='sdate DESC,stime DESC';
+		//기본목록
+		$data["list"]= $this->common->select_list_table_result_new('kgdataview',
+			$sql='',
+			$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+
+		$this->load->view('layout/header',$data);
+		$this->load->view('console/allfdata',$data);
+		$this->load->view('layout/footer',$data);
+	}
 	public function boardlist()
 	{
 		$data=Array();

@@ -79,7 +79,7 @@ class Main  extends CI_Controller
 			'(SELECT (SELECT distinct C.key1_nm FROM kgLOC C WHERE C.key1_cd = A.plant) plant, '.
 			'(SELECT distinct C.key2_nm_old FROM kgLOC C WHERE C.key2_cd_old = A.prloc and C.key1_cd = A.plant) prloc, '.
 		    '(SELECT distinct B.pr FROM kgspmt B WHERE B.pr_cd = A.pr_cd) pr, '.
-		    'probj  '.
+		    'probj, sdate '.
 			'from kgdata A where bstat = \'F\' ORDER BY id DESC limit 10) C ',
 			$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit ='');
 //		$where=array(
