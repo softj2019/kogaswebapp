@@ -205,11 +205,11 @@ class Kgsbt  extends CI_Controller
 
 		$key1_cd_arr = $this->whereInArrayInsert($this->input->post("key1_cd"));
 		$key2_cd_arr = $this->whereInArrayInsert($this->input->post("key2_cd"));
-		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd"));
-		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd"));
-		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
-		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
-		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
+		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd",TRUE));;
+		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd",TRUE));;
+		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd",TRUE));
+		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd",TRUE));
+		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
 		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
 		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
 

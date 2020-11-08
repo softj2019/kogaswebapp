@@ -73,9 +73,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script type="text/javascript">
 //        $(window).load(function(){
-            $('#modal-default').modal('show');
+//             $('#modal-default').modal('show');
 //        });
         $('#modal-default').on('hidden.bs.modal', function (e) {
-            window.location = '<?php echo site_url($target_url);?>';
+            //window.location = '<?php //echo site_url($target_url);?>//';
         })
     </script>

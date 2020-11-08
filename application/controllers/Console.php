@@ -278,14 +278,14 @@ class Console  extends CI_Controller
 		$data['board_type']=$this->input->post("board_type");
 		$data['br_cd']='';
 		$data['title']='';
-		if($this->input->post("br_cd"))$data['br_cd']=$this->input->post("br_cd");
-		if($this->input->post("title"))$data['title']=$this->input->post("title");
+		if($this->input->post("br_cd",TRUE))$data['br_cd']=$this->input->post("br_cd");
+		if($this->input->post("title",TRUE))$data['title']=$this->input->post("title");
 
 		//파일 번호
 		$better_date = date('Ymd');
 
 		//업데이트 할떼
-		if($this->input->post("br_cd")){
+		if($this->input->post("br_cd",TRUE)){
 			$br_cd = $this->input->post("br_cd");
 		}else{
 			$like=array(
@@ -317,7 +317,7 @@ class Console  extends CI_Controller
 				$this->common->insert('boardfile',$paramfile);
 			}
 
-			redirect(base_url().'console/boardlist?board_type='.$this->input->post("board_type"));
+			redirect(base_url().'console/boardlist?board_type='.$this->input->post("board_type",TRUE));
 		}else{
 			$this->load->view('layout/header',$data);
 			$this->load->view('console/boardform',$data);
