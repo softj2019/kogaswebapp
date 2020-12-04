@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<label class="col-1 text-center col-form-label" >사용자</label>
 						<div class="col-2">
-							<input type="text" class = "form-control" name="user" placeholder="User Name" data-id="" value="<?=$this->input->post_get('user')?>"><br><br>
+							<input type="text" class = "form-control" name="user" placeholder="User Name" data-id="" value="<?=html_escape($this->input->post_get('user',TRUE))?>"><br><br>
 						</div>
 
 						<div class="col-2" >
