@@ -460,4 +460,39 @@ class Console  extends CI_Controller
 
 		echo json_encode($data);
 	}
+	public function mgphour()
+	{
+		$data = array();
+		$data['page_title']="예방정비 주기 관리";
+		$data['menu_code']="022";
+		$data["list"]=$this->common->select_list_table_result(
+			$table='kgpmc',
+			$sql='',
+			$where=array('plant_cd'=>2),
+			$coding=false,$order_by='',$group_by='',
+			$where_in='',
+			$like='',$joina='',$joinb='',$limit=''
+		);
+		$data["list2"]=$this->common->select_list_table_result(
+			$table='kgpmc',
+			$sql='',
+			$where=array('plant_cd'=>3),
+			$coding=false,$order_by='',$group_by='',
+			$where_in='',
+			$like='',$joina='',$joinb='',$limit=''
+		);
+		$this->load->view('layout/header',$data);
+		$this->load->view('console/mgphour',$data);
+		$this->load->view('layout/footer',$data);
+
+	}
+	public function mgphoursave(){
+		$data = array();
+		$id = $this->input->post("id");
+		$phour = $this->input->post("phour");
+		foreach ($id as $key=>$value) {
+			$this->common->update_row($table='kgpmc',array('phour'=>$phour[$key]),'id',$value);
+		}
+		redirect('console/mgphour');
+	}
 }

@@ -410,14 +410,48 @@ function callToastHideFalse(text,icon,heading) {
 }
 //분석 실행
 $('.submitKgArt').on("click",function () {
-
-
+	var formData = $('#defaultForm').serialize();
 	var ohour = $('input[name=ohour]').val();
 	if(ohour === null || ohour <= 0 || ohour ===''){
 		ohour =1;
 		// $('input[name=ohour]').val(ohour);
 	}
-	var html='';
+
+	var url='';
+	var type=$(this).attr("data-id");
+	var callKgpmc='';
+
+	if(type=="kgsbt"){
+		url = base_url+"kgsbt/insertKgArt";
+		formData = formData +'&plant_cd=3'
+		callKgpmc= ajaxKgpmcProc(formData);
+	}else if(type=="kgbasicpbt"){
+		url = base_url+"kgbasicpbt/insertKgArt";
+	}else if(type=="kgbasicsbt"){
+		url = base_url+"kgbasicsbt/insertKgArt";
+	}else{
+		url = base_url+"kgpbt/insertKgArt";
+		formData = formData +'&plant_cd=2'
+		callKgpmc = ajaxKgpmcProc(formData);
+
+	}
+
+	if(callKgpmc != 'onList'){
+		submitKgArtCheckPhour(ohour,formData,url,type)
+	}
+});
+$('#runKgPmc').on("click",function () {
+	$('#modalLngPump').modal('toggle');
+	//lng pump 및 벨브 전송데이터
+	$.each($('.reqPhour'),function(key,value){
+		$('.reqPhour').eq(key).val($('input[name=phour]').eq(key).val());
+	});
+	var formData = $('#defaultForm').serialize();
+	var ohour = $('input[name=ohour]').val();
+	if(ohour === null || ohour <= 0 || ohour ===''){
+		ohour =1;
+		// $('input[name=ohour]').val(ohour);
+	}
 	var url='';
 	var type=$(this).attr("data-id");
 	if(type=="kgsbt"){
@@ -429,106 +463,103 @@ $('.submitKgArt').on("click",function () {
 	}else{
 		url = base_url+"kgpbt/insertKgArt";
 	}
-
-
+	submitKgArtCheckPhour(ohour,formData,url,type)
+});
+function submitKgArtCheckPhour(ohour,formData,url,type){
+	var html='';
 	if(ohour <= 1 && ohour > 0){
-
 		$('.loading-bar-wrap').removeClass("hidden");
 		$.ajax({
-			type: "POST",
-			url: url,
-			data:$('#defaultForm').serialize()+'&ohour='+ohour,
-			dataType: "json",
-			success: function (data) {
+				type: "POST",
+				url: url,
+				data:formData+'&ohour='+ohour,
+				dataType: "json",
+				success: function (data) {
 
-				if(data.anal_type=='C') {
-					adviewCall(data);
-				}else{
-					if(data.alerts_status=="success") {
-						$.toast({
-							position: 'bottom-right',
-							heading: "알림",
-							text: "분석 실행 성공",
-							icon: "success",
-							// hideAfter: false
-							loaderBg: '#ffffff',  // Background color of the toast loader
-							hideAfter: 3000,
-							afterHidden: function () {
-								html+='' +
-									'<tr>' +
-									'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
-									'\t<td>'+data.kgartview.ar_time+'</td>\n' +
-									'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
-									'\t<td class="text-truncate">'+data.kgartview.analysis_name+'&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt(\''+data.kgartview.ar_cd+'\')"><i class="fas fa-copy"></i></button></td>\n' ;
-								if(type==="kgpbt" || type==="kgsbt") {
-									html += '' +
-										'\t<td>\n' +
-										'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="' + data.kgartview.ar_cd + '"><i class="fas fa-search"></i> </button>\n' +
-										'\t</td>\n';
-								}
-								html+='' +
-									'\t<td>\n' +
-									'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" id="kgbasicButton'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
-									'\t</td>\n' +
-									'\t<td>\n' +
-									'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
-									'</td>' +
-									'</tr>';
-								// location.reload();
-								// callDebugToast(data.debug);
-								$('#kgArgViewList').prepend(html);
-								$('#kgArgViewList tr:last').remove();
-								if(type=="kgbasicpbt" || type=="kgbasicsbt") {
-									$('#kgbasicButton'+data.kgartview.ar_cd).click();
-								}else{
-									runReportViewer(data.kgartview.ar_cd,$('#modal-default'));
-								}
-
-							}
-						});
+					if(data.anal_type=='C') {
+						adviewCall(data);
 					}else{
-						$.each(data.alerts_title, function (key, value) {
+						if(data.alerts_status=="success") {
 							$.toast({
 								position: 'bottom-right',
 								heading: "알림",
-								text: value,
-								icon: data.alerts_icon,
+								text: "분석 실행 성공",
+								icon: "success",
 								// hideAfter: false
 								loaderBg: '#ffffff',  // Background color of the toast loader
-								hideAfter: false,
+								hideAfter: 3000,
+								afterHidden: function () {
+									html+='' +
+										'<tr>' +
+										'\t<td class="text"><a href="javascript:void(0);" data-toggle="modal" data-target="#modal-kgartRunView" data-whatever="'+data.kgartview.ar_cd+'">'+data.kgartview.ar_cd+'</a></td>\n' +
+										'\t<td>'+data.kgartview.ar_time+'</td>\n' +
+										'\t<td class="text-truncate">'+data.kgartview.user_id+'</td>\n' +
+										'\t<td class="text-truncate">'+data.kgartview.analysis_name+'&nbsp;&nbsp;<button type="button" class="btn btn-default" onclick="copyKgArt(\''+data.kgartview.ar_cd+'\')"><i class="fas fa-copy"></i></button></td>\n' ;
+									if(type==="kgpbt" || type==="kgsbt") {
+										html += '' +
+											'\t<td>\n' +
+											'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default" data-whatever="' + data.kgartview.ar_cd + '"><i class="fas fa-search"></i> </button>\n' +
+											'\t</td>\n';
+									}
+									html+='' +
+										'\t<td>\n' +
+										'\t\t<button class="btn btn-info btn-block" type="button" data-toggle="modal" data-target="#modal-default2" data-whatever="'+data.kgartview.ar_cd+'" id="kgbasicButton'+data.kgartview.ar_cd+'"><i class="fas fa-search"></i> </button>\n' +
+										'\t</td>\n' +
+										'\t<td>\n' +
+										'\t\t<a class="btn btn-info btn-block" href="/download/getfile/'+data.kgartview.ar_cd+'">download</a>\n' +
+										'</td>' +
+										'</tr>';
+									// location.reload();
+									// callDebugToast(data.debug);
+									$('#kgArgViewList').prepend(html);
+									$('#kgArgViewList tr:last').remove();
+									if(type=="kgbasicpbt" || type=="kgbasicsbt") {
+										$('#kgbasicButton'+data.kgartview.ar_cd).click();
+									}else{
+										runReportViewer(data.kgartview.ar_cd,$('#modal-default'));
+									}
+
+								}
 							});
-						});
+						}else{
+							$.each(data.alerts_title, function (key, value) {
+								$.toast({
+									position: 'bottom-right',
+									heading: "알림",
+									text: value,
+									icon: data.alerts_icon,
+									// hideAfter: false
+									loaderBg: '#ffffff',  // Background color of the toast loader
+									hideAfter: false,
+								});
+							});
+						}
 					}
+
+				},
+				beforeSend: function(data){
+					//진행중
+					// insertToast;
+
+				},
+				complete: function(data){
+					// insertToast.update({
+					// 	heading: "Info",
+					// 	text: "분석요청 완료.",
+					// 	icon: "info",
+					// 	hideAfter: 2000,
+					// });
+					// TODO
+					$('.loading-bar-wrap').addClass("hidden");
+				},
+				error: function (xhr, status, error) {
+					//console.log(error,xhr,status );
 				}
-
-			},
-			beforeSend: function(data){
-				//진행중
-				// insertToast;
-
-			},
-			complete: function(data){
-				// insertToast.update({
-				// 	heading: "Info",
-				// 	text: "분석요청 완료.",
-				// 	icon: "info",
-				// 	hideAfter: 2000,
-				// });
-				// TODO
-				$('.loading-bar-wrap').addClass("hidden");
-			},
-			error: function (xhr, status, error) {
-				//console.log(error,xhr,status );
-			}
-		});
+			});
 	}else{
 		callToast('Operation Hour 해당 값은 0보다 크고 1보다 작은 값으로 입력 .','error','알림')
 	}
-
-
-
-
-});
+}
 //모달 뷰어
 $('#modal-default').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal
@@ -1778,7 +1809,71 @@ function isSame(a, b, epsilon)
 
 }
 
+// $('.key3_cd').on("change",function () {
+// 	/**신뢰도분석(생산) LNG pump check*/
+// 	$.each($('.key3_cd:checked') ,function(key,value){
+// 		if(value.value==4){
+// 			// $('#modalLngPump').modal('toggle');
+// 		}
+// 		if(value.value==1){
+// 			// $('#modalLngPump').modal('toggle');
+// 		}
+// 	});
+// })
 
+$('input[name=phourClass]').on("change",function(e){
 
+	if ($('input[name=phourClass]:checked').val()==="1") {
+
+		$('input[name=phour]').attr("disabled",false)
+
+	}else{
+		$('input[name=reqPhour]').val("");
+		$('input[name=phour]').val("")
+		$('input[name=phour]').attr("disabled",true)
+	}
+
+});
+function ajaxKgpmcProc (formData) {
+
+	/**신뢰도분석(생산) LNG pump check*/
+	var html ="";
+	var reqPhourHtml ="";
+	var status ="";
+	$('.showPump').html('');
+	$('.hiddenReqPhour').html('');
+
+	$.ajax({
+		type: "POST",
+		url: '/kgpbt/ajaxLgpmcListAll/',
+		data:formData,
+		dataType: "json",
+		async: false,//동기식
+		success: function (data) {
+
+			if(data.kgpmcList.length > 0 ){
+				$('#modalLngPump').modal('toggle');
+				status = 'onList'
+				$.each(data.kgpmcList,function (key,value) {
+					html += '' +
+						'<div class="form-group row">\n' +
+						'\t<label for="phour'+key+'" class="col-sm-8 col-form-label">'+value.product_nm+'</label>\n' +
+						'\t<div class="col-sm-4">\n' +
+						'\t<input type="text" class="form-control" name="phour" id="phour'+key+'" value="'+value.phour+'">\n' +
+						'\t</div>\n' +
+						'</div>\n';
+					reqPhourHtml += '<input type="hidden" name="reqPhour[]" class="reqPhour"  value="'+value.phour+'">';
+				})
+				$('.showKgpmcList').html(html);
+				$('.hiddenReqPhour').html(reqPhourHtml);
+			}else{
+				status = 'noneList'
+			}
+
+		}
+
+	});
+	return status;
+}
 
 

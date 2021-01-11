@@ -65,9 +65,9 @@ class Kgsbt  extends CI_Controller
 		$limit[1]=$page;
 		$limit[0]=$config['per_page'];
 
-		$where=array(
-			"analysis_type"=>"B",
-		);
+//		$where=array(
+//			"analysis_type"=>"B",
+//		);
 		//기본목록
 		$sql="" .
 			"TB.*," .
@@ -272,6 +272,7 @@ class Kgsbt  extends CI_Controller
 					"user_id" => @$this->session->userdata('user_id'),
 				);
 				$this->common->insert("kgart",$updateData);
+
 				$data['alerts_title'] = array("분석요청 완료");
 				$data['alerts_status'] = "success";
 				$data['anal_type'] = $anal_type;

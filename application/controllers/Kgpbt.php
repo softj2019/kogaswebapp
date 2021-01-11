@@ -240,7 +240,7 @@ class Kgpbt  extends CI_Controller
 		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
 		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
 		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
-
+		$phour =  $this->whereInArrayInsert($this->input->post("reqPhour",TRUE));
 		$fmode_type =$this->input->post("select_mode");
 		if($fmode_type == "fmodeALL"){
 			$fmode = "ALL";
@@ -302,6 +302,8 @@ class Kgpbt  extends CI_Controller
 					"wvalue" => $wvalue,
 					"ohour" => $this->input->post("ohour"),
 					"user_id" => @$this->session->userdata('user_id'),
+					"phour" => $phour,
+
 				);
 
 				$this->common->insert("kgart",$updateData);
@@ -352,6 +354,62 @@ class Kgpbt  extends CI_Controller
 			$data['kgartview']=$this->common->select_row($table='kgartview','',$where=array('ar_cd'=>$ar_cd),$coding=false,$order_by='',$group_by='','');
 		}
 
+
+		echo json_encode($data);
+	}
+	/**LNG PUMP 선택시 kgpmc list*/
+	public function ajaxLgpmcList(){
+		header('Content-type: application/json');
+		$phourId = $this->input->post("phourId",TRUE);
+		if($phourId=="1"){
+			$where_in = $where_in=array(
+				'id'=>array('1')
+			);
+		}else{
+			$where_in = $where_in=array(
+				'id'=>array('3','4','5')
+			);
+		}
+		$data["kgpmcList"]=$this->common->select_list_table_result(
+			$table='kgpmc',$sql='id,phour',
+			$where='',
+			$coding=false,$order_by='',$group_by='',
+			$where_in=$where_in,
+			$like='',$joina='',$joinb='',$limit=''
+		);
+
+		echo json_encode($data);
+	}
+	/**LNG PUMP 선택시 kgpmc list*/
+	public function ajaxLgpmcListAll(){
+		header('Content-type: application/json');
+		$phourId = $this->input->post("phourId",TRUE);
+		$plant_cd = $this->input->post("plant_cd",TRUE);
+		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd",TRUE));
+		$key31_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
+		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd",TRUE));
+		$where = array(
+			'plant_cd'=>$plant_cd
+		);
+		$where_in = array(
+			'key3_cd'=>$key3_cd_arr,
+		);
+		if($key31_cd_arr !='ALL'){
+			$where_in['key3_1_cd']=$this->input->post("key3_1_cd",TRUE);
+
+		}
+		if($key4_cd_arr !='ALL'){
+			$where_in['key4_cd']=$this->input->post("key4_cd",TRUE);
+
+		}
+		$data["kgpmcList"]=$this->common->select_list_table_result(
+			$table='kgpmc',
+			$sql='',
+			$where,
+			$coding=false,$order_by='',$group_by='',
+			$where_in,
+			$like='',$joina='',$joinb='',$limit=''
+		);
 
 		echo json_encode($data);
 	}

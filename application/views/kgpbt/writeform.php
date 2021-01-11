@@ -8,6 +8,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$attributes = array('class' => 'form-horizonatal', 'id' => 'defaultForm','name' => 'defaultForm');
 		echo form_open('email/send',$attributes);
 		?>
+		<div class="hiddenReqPhour">
+
+		</div>
 			<div class="selectListCard row">
 				<div class="col-6">
 					<div class="card border-0">
@@ -368,7 +371,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 </div>
 
-<div class="modal  fade" id="modal-default">
+<div class="modal fade" id="modal-default">
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -433,3 +436,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<!-- /.modal-dialog -->
 </div>
+
+
