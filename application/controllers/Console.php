@@ -66,11 +66,11 @@ class Console  extends CI_Controller
 		$data['pagination']= $this->pagination->create_links();
 		$limit[1]=$page;
 		$limit[0]=$config['per_page'];
-
+		$order_by=array('key'=>'created_at','value'=>'desc');
 		//기본목록
 		$data["list"]= $this->common->select_list_table_result('kguse',
 			$sql='kguse.*, (select Z.typename from kgref Z where Z.typetable = \'kguse\' and Z.typecolumn = \'role\' and Z.typecode = kguse.role) as role_name',
-			$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+			$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
         $this->load->view('console/mguser',$data);
@@ -109,6 +109,39 @@ class Console  extends CI_Controller
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('console/loginhistory',$data);
+		$this->load->view('layout/footer',$data);
+	}
+	public function allfdata()
+	{
+		$data=Array();
+		//사용자 정보
+
+
+		$data['page_title']="전체 고장 데이터";
+//		$data['page_sub_title']="";
+//        $data['page_css_style']="fee.css";
+		$data['menu_code']="021";
+//		$user_data = $this->common->select_row('member','',Array('email'=>@$this->session->userdata('email')));
+
+		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
+		$config['base_url'] =base_url('console/allfdata');
+		$config['total_rows'] = $this->common->select_count('kgdataview','','');
+		$config['per_page'] = 10;
+
+		$this->pagination->initialize($config);
+		$page = $this->uri->segment(3,0);
+		$data['pagination']= $this->pagination->create_links();
+		$limit[1]=$page;
+		$limit[0]=$config['per_page'];
+
+		$order_by ='sdate DESC,stime DESC';
+		//기본목록
+		$data["list"]= $this->common->select_list_table_result_new('kgdataview',
+			$sql='',
+			$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+
+		$this->load->view('layout/header',$data);
+		$this->load->view('console/allfdata',$data);
 		$this->load->view('layout/footer',$data);
 	}
 	public function boardlist()
@@ -245,14 +278,14 @@ class Console  extends CI_Controller
 		$data['board_type']=$this->input->post("board_type");
 		$data['br_cd']='';
 		$data['title']='';
-		if($this->input->post("br_cd"))$data['br_cd']=$this->input->post("br_cd");
-		if($this->input->post("title"))$data['title']=$this->input->post("title");
+		if($this->input->post("br_cd",TRUE))$data['br_cd']=$this->input->post("br_cd");
+		if($this->input->post("title",TRUE))$data['title']=$this->input->post("title");
 
 		//파일 번호
 		$better_date = date('Ymd');
 
 		//업데이트 할떼
-		if($this->input->post("br_cd")){
+		if($this->input->post("br_cd",TRUE)){
 			$br_cd = $this->input->post("br_cd");
 		}else{
 			$like=array(
@@ -284,7 +317,7 @@ class Console  extends CI_Controller
 				$this->common->insert('boardfile',$paramfile);
 			}
 
-			redirect(base_url().'console/boardlist?board_type='.$this->input->post("board_type"));
+			redirect(base_url().'console/boardlist?board_type='.$this->input->post("board_type",TRUE));
 		}else{
 			$this->load->view('layout/header',$data);
 			$this->load->view('console/boardform',$data);
@@ -426,5 +459,40 @@ class Console  extends CI_Controller
 
 
 		echo json_encode($data);
+	}
+	public function mgphour()
+	{
+		$data = array();
+		$data['page_title']="예방정비 주기 관리";
+		$data['menu_code']="022";
+		$data["list"]=$this->common->select_list_table_result(
+			$table='kgpmc',
+			$sql='',
+			$where=array('plant_cd'=>2),
+			$coding=false,$order_by='',$group_by='',
+			$where_in='',
+			$like='',$joina='',$joinb='',$limit=''
+		);
+		$data["list2"]=$this->common->select_list_table_result(
+			$table='kgpmc',
+			$sql='',
+			$where=array('plant_cd'=>3),
+			$coding=false,$order_by='',$group_by='',
+			$where_in='',
+			$like='',$joina='',$joinb='',$limit=''
+		);
+		$this->load->view('layout/header',$data);
+		$this->load->view('console/mgphour',$data);
+		$this->load->view('layout/footer',$data);
+
+	}
+	public function mgphoursave(){
+		$data = array();
+		$id = $this->input->post("id");
+		$phour = $this->input->post("phour");
+		foreach ($id as $key=>$value) {
+			$this->common->update_row($table='kgpmc',array('phour'=>$phour[$key]),'id',$value);
+		}
+		redirect('console/mgphour');
 	}
 }

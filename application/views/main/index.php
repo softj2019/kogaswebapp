@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-6">
 				<div class="card collapsed-card">
 					<div class="card-header">
-						<h3 class="card-title">최근 발생 고장 10건</h3>
+						<h3 class="card-title">최근 고장 현상 10건</h3>
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
 							</button>
@@ -83,6 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>위치</th>
 								<th>설비 이름</th>
 								<th>고장 내역</th>
+								<th>통지일</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -94,6 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td><?=$row->prloc?></td>
 										<td><?=$row->pr?></td>
 										<td><?=$row->probj?></td>
+										<td><?=$row->sdate?></td>
 									</tr>
 									<?php
 								}

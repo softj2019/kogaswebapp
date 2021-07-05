@@ -53,11 +53,14 @@ class Kgview  extends CI_Controller
 			"ar_cd"=>$arcd,
 		);
 		$row =  $this->common->select_row($table='kgrct','htm3, htm4',$where,$coding=false,$order_by='',$group_by='' );
-		$data['kgart']  =  $this->common->select_row($table='kgart','',$where,$coding=false,$order_by='',$group_by='' );
+		$kgartRow = $this->common->select_row($table='kgart','',$where,$coding=false,$order_by='',$group_by='' );
+		$data['kgart']  =  $kgartRow;
 		$data['kgartView']  =  $this->common->select_row($table='kgartview','',$where,$coding=false,$order_by='',$group_by='' );
 		$data['viewRctDetail']  =  $this->common->select_row($table='kgrct','',$where,$coding=false,$order_by='',$group_by='' );
 		$data['content']="";
-		if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
+		if($kgartRow->smode == null){
+			if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
+		}
 		if($row->htm4) $data['content'] .= file_get_contents('file:///'.$row->htm4);
 
 		//표시데이터
@@ -71,24 +74,26 @@ class Kgview  extends CI_Controller
 	//생산 심화 분석 뷰어
 	public function htmlAdViewer(){
 		header('Content-type: application/json');
-		$anal_type=$arcd = $this->input->post("anal_type");
-		$arcd = $this->input->post("arcd");
-		$analysys_flg = $this->input->post("analysys_flg");
 
-		if($analysys_flg =="Z") {
+		$ar_cd = $this->input->post("ar_cd");
+		$analysis_flg = $this->input->post("analysis_flg");
 
-		}else{
-			$yy = substr($arcd,'2',4);
-			$dd = substr($arcd,'6',4);
-			$data['contentD'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID.htm");
-			$data['contentD2'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID2.htm");
+		if($analysis_flg !="Z") {
+			$yy = substr($ar_cd,'2',4);
+			$dd = substr($ar_cd,'6',4);
+			$data['contentD'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$ar_cd."\\".$ar_cd."_distriID.htm");
+			$data['contentD2'] = file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$ar_cd."\\".$ar_cd."_distriID2.htm");
 		}
-
+		$where = array(
+			"ar_cd"=>$ar_cd,
+		);
+		$data['kgart'] =  $this->common->select_row($table='kgart','',$where,$coding=false,$order_by='',$group_by='' );
+		$data['kgartview'] =  $this->common->select_row($table='kgartview','',$where,$coding=false,$order_by='',$group_by='' );
 		echo json_encode($data);
 	}
 	//기초분석 뷰어
 	public function htmlDefaultViewer(){
-    	$arcd = $this->input->post("arcd");
+    	$arcd = $this->input->post("ar_cd");
     	$selectKey = $this->input->post("htmlNum")." as htmNum ";
     	$where = array(
     		"ar_cd"=>$arcd,
@@ -96,5 +101,15 @@ class Kgview  extends CI_Controller
     	$row =  $this->common->select_row($table='kgrct',$selectKey,$where,$coding=false,$order_by='',$group_by='' );
 		$content = file_get_contents($row->htmNum);
 		echo $content;
+	}
+	//분석 결과 복사
+	public function getKgArt(){
+		header('Content-type: application/json');
+		$ar_cd = $this->input->post("ar_cd");
+		$where = array(
+			"ar_cd"=>$ar_cd,
+		);
+		$row =  $this->common->select_row($table='kgart','',$where,$coding=false,$order_by='',$group_by='' );
+		echo json_encode($row);
 	}
 }

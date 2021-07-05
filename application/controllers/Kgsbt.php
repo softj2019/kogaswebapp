@@ -65,9 +65,9 @@ class Kgsbt  extends CI_Controller
 		$limit[1]=$page;
 		$limit[0]=$config['per_page'];
 
-		$where=array(
-			"analysis_type"=>"B",
-		);
+//		$where=array(
+//			"analysis_type"=>"B",
+//		);
 		//기본목록
 		$sql="" .
 			"TB.*," .
@@ -124,7 +124,7 @@ class Kgsbt  extends CI_Controller
 			$data["alerts_icon"]="error";
 			$data["alerts_title"]="&nbsp;1차 분류는 1개만 선택 가능";
 		}else{
-			$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key4_cd,key4_nm',$where="key4_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}
 		echo json_encode($data);
 	}
@@ -158,7 +158,7 @@ class Kgsbt  extends CI_Controller
 			"key4_cd"=>	$keyArr2,
 		);
 
-		$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+		$data["list"]= $this->common->select_list_table_result('kgsbt',$sql='distinct key5_cd,key5_nm',$where="key5_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 
 		echo json_encode($data);
 	}
@@ -205,11 +205,11 @@ class Kgsbt  extends CI_Controller
 
 		$key1_cd_arr = $this->whereInArrayInsert($this->input->post("key1_cd"));
 		$key2_cd_arr = $this->whereInArrayInsert($this->input->post("key2_cd"));
-		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd"));
-		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd"));
-		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
-		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
-		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
+		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd",TRUE));;
+		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd",TRUE));;
+		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd",TRUE));
+		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd",TRUE));
+		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
 		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
 		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
 
@@ -268,9 +268,11 @@ class Kgsbt  extends CI_Controller
 					"fmode" => $fmode,
 					"smode" => $smode,
 					"wvalue" => $wvalue,
+					"ohour" => $this->input->post("ohour"),
 					"user_id" => @$this->session->userdata('user_id'),
 				);
 				$this->common->insert("kgart",$updateData);
+
 				$data['alerts_title'] = array("분석요청 완료");
 				$data['alerts_status'] = "success";
 				$data['anal_type'] = $anal_type;

@@ -126,9 +126,9 @@ class Kgpbt  extends CI_Controller
 		}else{
 
 			if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
-				$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+				$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key4_cd,key4_nm',$where="key4_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 			}else{
-				$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+				$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key4_cd,key4_nm',$where="key4_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 			}
 		}
 		echo json_encode($data);
@@ -163,9 +163,9 @@ class Kgpbt  extends CI_Controller
 			"key4_cd"=>	$keyArr2,
 		);
 		if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
-			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key5_cd,key5_nm',$where="key5_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}else{
-			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key5_cd,key5_nm',$where="key5_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}
 		echo json_encode($data);
 	}
@@ -181,9 +181,9 @@ class Kgpbt  extends CI_Controller
 			"key5_cd"=>	$keyArr3,
 		);
 		if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
-			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key6_cd,key6_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key6_cd,key6_nm',$where="key6_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}else{
-			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key6_cd,key6_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key6_cd,key6_nm',$where="key6_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}
 
 
@@ -231,16 +231,16 @@ class Kgpbt  extends CI_Controller
 		$this->form_validation->set_rules('key1_cd[]', '플랜트 ', 'required');
 		$this->form_validation->set_rules('key3_cd[]', '1차 ', 'required');
 
-		$key1_cd_arr = $this->whereInArrayInsert($this->input->post("key1_cd"));
-		$key2_cd_arr = $this->whereInArrayInsert($this->input->post("key2_cd"));
-		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd"));
-		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd"));
-		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
-		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
-		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
+		$key1_cd_arr = $this->whereInArrayInsert($this->input->post("key1_cd",TRUE));
+		$key2_cd_arr = $this->whereInArrayInsert($this->input->post("key2_cd",TRUE));
+		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd",TRUE));
+		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd",TRUE));
+		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd",TRUE));
+		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd",TRUE));
+		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
 		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
 		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
-
+		$phour =  $this->whereInArrayInsert($this->input->post("reqPhour",TRUE));
 		$fmode_type =$this->input->post("select_mode");
 		if($fmode_type == "fmodeALL"){
 			$fmode = "ALL";
@@ -300,7 +300,10 @@ class Kgpbt  extends CI_Controller
 					"fmode" => $fmode,
 					"smode" => $smode,
 					"wvalue" => $wvalue,
+					"ohour" => $this->input->post("ohour"),
 					"user_id" => @$this->session->userdata('user_id'),
+					"phour" => $phour,
+
 				);
 
 				$this->common->insert("kgart",$updateData);
@@ -351,6 +354,62 @@ class Kgpbt  extends CI_Controller
 			$data['kgartview']=$this->common->select_row($table='kgartview','',$where=array('ar_cd'=>$ar_cd),$coding=false,$order_by='',$group_by='','');
 		}
 
+
+		echo json_encode($data);
+	}
+	/**LNG PUMP 선택시 kgpmc list*/
+	public function ajaxLgpmcList(){
+		header('Content-type: application/json');
+		$phourId = $this->input->post("phourId",TRUE);
+		if($phourId=="1"){
+			$where_in = $where_in=array(
+				'id'=>array('1')
+			);
+		}else{
+			$where_in = $where_in=array(
+				'id'=>array('3','4','5')
+			);
+		}
+		$data["kgpmcList"]=$this->common->select_list_table_result(
+			$table='kgpmc',$sql='id,phour',
+			$where='',
+			$coding=false,$order_by='',$group_by='',
+			$where_in=$where_in,
+			$like='',$joina='',$joinb='',$limit=''
+		);
+
+		echo json_encode($data);
+	}
+	/**LNG PUMP 선택시 kgpmc list*/
+	public function ajaxLgpmcListAll(){
+		header('Content-type: application/json');
+		$phourId = $this->input->post("phourId",TRUE);
+		$plant_cd = $this->input->post("plant_cd",TRUE);
+		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd",TRUE));
+		$key31_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
+		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd",TRUE));
+		$where = array(
+			'plant_cd'=>$plant_cd
+		);
+		$where_in = array(
+			'key3_cd'=>$key3_cd_arr,
+		);
+		if($key31_cd_arr !='ALL'){
+			$where_in['key3_1_cd']=$this->input->post("key3_1_cd",TRUE);
+
+		}
+		if($key4_cd_arr !='ALL'){
+			$where_in['key4_cd']=$this->input->post("key4_cd",TRUE);
+
+		}
+		$data["kgpmcList"]=$this->common->select_list_table_result(
+			$table='kgpmc',
+			$sql='',
+			$where,
+			$coding=false,$order_by='',$group_by='',
+			$where_in,
+			$like='',$joina='',$joinb='',$limit=''
+		);
 
 		echo json_encode($data);
 	}

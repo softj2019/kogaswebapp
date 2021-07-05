@@ -205,6 +205,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									<p>도움말 관리</p>
 								</a>
 							</li>
+							<li class="nav-item">
+								<a href="/console/allfdata" class="nav-link <?=$menu_code=='021'?'active':''?>" >
+									<i class="far fa-circle nav-icon"></i>
+									<p>전체 고장 데이터</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="/console/mgphour" class="nav-link <?=$menu_code=='022'?'active':''?>" >
+									<i class="far fa-circle nav-icon"></i>
+									<p>예방정비 주기 관리</p>
+								</a>
+							</li>
 						</ul>
 					</li>
 					<?php } ?>

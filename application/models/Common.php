@@ -79,7 +79,21 @@ class Common extends CI_Model
         $result = $this->db->get($table);
         return $result->result();
     }
-
+	function select_list_table_result_new($table='',$sql='',$where='',$coding=false,$order_by='',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit='')
+	{
+		$this->db->select($sql,$coding);
+		if($where)  $this->db->where($where);
+//        if($where_in) $this->db->where_in($where_in);
+		if($where_in) $this->multiple_where_in($where_in);
+		if($like) $this->db->like($like);
+		if($joina) $this->db->join($joina[0],$joina[1],$joina[2]);
+		if($joinb) $this->db->join($joinb[0],$joinb[1],$joinb[2]);
+		if($limit) $this->db->limit($limit[0],$limit[1]);
+		if($order_by) $this->db->order_by($order_by);
+		if($group_by) $this->db->group_by($group_by);
+		$result = $this->db->get($table);
+		return $result->result();
+	}
     function insert($table,$param)
     {
         return $this->db->insert($table,$param);
