@@ -214,7 +214,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							<li class="nav-item">
 								<a href="/console/mgphour" class="nav-link <?=$menu_code=='022'?'active':''?>" >
 									<i class="far fa-circle nav-icon"></i>
-									<p>예방정비 주기 관리</p>
+									<p>예방정비주기 설정</p>
 								</a>
 							</li>
 						</ul>

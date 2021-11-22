@@ -1,3 +1,4 @@
+
 //분석타입 선택
 $('input[name=anal_type]').on('change',function(){
 	var anal_type_value = $(this).val();
@@ -421,10 +422,10 @@ $('.submitKgArt').on("click",function () {
 	var type=$(this).attr("data-id");
 	var callKgpmc='';
 
-	if(type=="kgsbt"){
+    if(type=="kgsbt"){ /*210706 수정 ~ */
 		url = base_url+"kgsbt/insertKgArt";
 		formData = formData +'&plant_cd=3'
-		callKgpmc= ajaxKgpmcProc(formData);
+		$('input[name=plant_cd]').val(3);
 	}else if(type=="kgbasicpbt"){
 		url = base_url+"kgbasicpbt/insertKgArt";
 	}else if(type=="kgbasicsbt"){
@@ -432,15 +433,26 @@ $('.submitKgArt').on("click",function () {
 	}else{
 		url = base_url+"kgpbt/insertKgArt";
 		formData = formData +'&plant_cd=2'
-		callKgpmc = ajaxKgpmcProc(formData);
-
+		$('input[name=plant_cd]').val(2);
 	}
 
-	if(callKgpmc != 'onList'){
-		submitKgArtCheckPhour(ohour,formData,url,type)
-	}
+	if(callKgpmc = 'onList'){//신뢰도분석
+        var selectModeValue =$('input[name=select_mode]:checked').val();
+        if($('.smode:checked').length <2 && selectModeValue == 'smode'){
+            callToast("검정모드를 2개이상 선택해주세요.","error","알림");//검정모드 2개이하 체크
+        }else{
+            $('input[name=phourClass][value="1"], input[name=thourClass][value="C"]').click();//초기화
+            callKgpmc = ajaxKgpmcProc(formData);
+        }
+	}else{//기초통계분석
+        submitKgArtCheckPhour(ohour,formData,url,type)
+    }/* ~ 210706 수정 */
 });
 $('#runKgPmc').on("click",function () {
+
+	var thour =$('input[name=thourClass]:checked').val()
+	$('input[name=thour]').val(thour);
+
 	$('#modalLngPump').modal('toggle');
 	//lng pump 및 벨브 전송데이터
 	$.each($('.reqPhour'),function(key,value){
@@ -453,7 +465,7 @@ $('#runKgPmc').on("click",function () {
 		// $('input[name=ohour]').val(ohour);
 	}
 	var url='';
-	var type=$(this).attr("data-id");
+	var type=$('.hiddenReqPhour').attr("data-id");
 	if(type=="kgsbt"){
 		url = base_url+"kgsbt/insertKgArt";
 	}else if(type=="kgbasicpbt"){
@@ -466,6 +478,7 @@ $('#runKgPmc').on("click",function () {
 	submitKgArtCheckPhour(ohour,formData,url,type)
 });
 function submitKgArtCheckPhour(ohour,formData,url,type){
+
 	var html='';
 	if(ohour <= 1 && ohour > 0){
 		$('.loading-bar-wrap').removeClass("hidden");
@@ -1822,18 +1835,40 @@ function isSame(a, b, epsilon)
 // })
 
 $('input[name=phourClass]').on("change",function(e){
+	var phourClass = $('input[name=phourClass]:checked').val();
+	var formData = $('#defaultForm').serialize();
+	formData = formData +'&plant_cd='+$('input[name=plant_cd]').val();
+	if (phourClass==="1") {
+		ajaxKgpmcProcNext(formData,phourClass);
 
-	if ($('input[name=phourClass]:checked').val()==="1") {
-
+		// $.each($('input[name=phour]'),function (key,value) {
+		// 	$(this).attr("disabled",false)
+		// })
 		$('input[name=phour]').attr("disabled",false)
-
+		$('.thourSeccion').removeClass('hidden')
 	}else{
-		$('input[name=reqPhour]').val("");
+		$('.thourSeccion').addClass('hidden')
+		// $('input[name=reqPhour]').val("");
 		$('input[name=phour]').val("")
 		$('input[name=phour]').attr("disabled",true)
+		// var reqPhourHtml = '<input type="hidden" name="reqPhour" class="reqPhour" >';
+		// $('.hiddenReqPhour').html(reqPhourHtml);
 	}
-
+	// $.each($('input[name=phour]'),function (key,value) {
+	//
+	// 	if(value.value){
+	// 		tmp = false;
+	// 	}
+	// 	if(phourClass=="0"){
+	// 		$(this).val("");
+	// 		$(this).attr("disabled",true);
+	// 	}
+	// })
 });
+// $('input[thourClass]').on("change",function () {
+// 	var thour =$('input[name=thourClass]:checked').val()
+// 	$('input[name=thour]').val(thour);
+// })
 function ajaxKgpmcProc (formData) {
 
 	/**신뢰도분석(생산) LNG pump check*/
@@ -1842,6 +1877,7 @@ function ajaxKgpmcProc (formData) {
 	var status ="";
 	$('.showPump').html('');
 	$('.hiddenReqPhour').html('');
+	var phourClass= $('input[name=phourClass]:checked').val();
 
 	$.ajax({
 		type: "POST",
@@ -1864,8 +1900,82 @@ function ajaxKgpmcProc (formData) {
 						'</div>\n';
 					reqPhourHtml += '<input type="hidden" name="reqPhour[]" class="reqPhour"  value="'+value.phour+'">';
 				})
+				console.log(html)
 				$('.showKgpmcList').html(html);
 				$('.hiddenReqPhour').html(reqPhourHtml);
+				//모든 phour null 이면 없음에 채크
+				var tmp =true;
+				$.each($('input[name=phour]'),function (key,value) {
+					if(value.value){
+						tmp = false;
+					}
+					if(phourClass=="0"){
+						$(this).val("");
+						$(this).attr("disabled",true);
+					}
+
+				})
+				if(tmp) {
+					$('input[name=phourClass][value="0"]').click();
+				}
+
+			}else{
+				status = 'noneList'
+			}
+
+		}
+
+	});
+	return status;
+
+}
+function ajaxKgpmcProcNext (formData,phourClass) {
+
+	/**신뢰도분석(생산) LNG pump check 2*/
+	var html ="";
+	var reqPhourHtml ="";
+	var status ="";
+	$('.showPump').html('');
+	$('.hiddenReqPhour').html('');
+	// var phourClass = $('input[name=phourClass]:checked').val();
+
+	$.ajax({
+		type: "POST",
+		url: '/kgpbt/ajaxLgpmcListAll/',
+		data:formData,
+		dataType: "json",
+		async: false,//동기식
+		success: function (data) {
+
+			if(data.kgpmcList.length > 0 ){
+				// $('#modalLngPump').modal('toggle');
+				status = 'onList'
+				$.each(data.kgpmcList,function (key,value) {
+					html += '' +
+						'<div class="form-group row">\n' +
+						'\t<label for="phour'+key+'" class="col-sm-8 col-form-label">'+value.product_nm+'</label>\n' +
+						'\t<div class="col-sm-4">\n' +
+						'\t<input type="text" class="form-control" name="phour" id="phour'+key+'" value="'+value.phour+'">\n' +
+						'\t</div>\n' +
+						'</div>\n';
+					reqPhourHtml += '<input type="hidden" name="reqPhour[]" class="reqPhour"  value="'+value.phour+'">';
+					// if(value.phour)$('input[name=phourClass]').eq(0).click()
+				})
+				$('.showKgpmcList').html(html);
+				$('.hiddenReqPhour').html(reqPhourHtml);
+				//모든 phour null 이면 없음에 채크
+				var tmp =true;
+				$.each($('input[name=phour]'),function (key,value) {
+
+					if(value.value){
+						tmp = false;
+					}
+					if(phourClass=="0"){
+						$(this).val("");
+						$(this).attr("disabled",true);
+					}
+				})
+				// if(tmp)$('input[name=phourClass][value="0"]').click();
 			}else{
 				status = 'noneList'
 			}

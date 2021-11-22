@@ -189,7 +189,26 @@ class Kgpbt  extends CI_Controller
 
 		echo json_encode($data);
 	}
+	//make where phour
+	public function arrayPhour($array){
+		if(is_array($array)){
+			$arrString ="";
+			$arrayLast = sizeof($array);
+//			array_push($array,$arrayLast);
+			foreach($array as $key=>$value){
+				if($value == null || $value==""){
+					$arrString.= " ";
+				}else{
+					$arrString.=$value;
+				}
 
+				if(($arrayLast-1) > $key) $arrString.=",";
+			}
+		}else{
+			$arrString=$array==""?null:$array;
+		}
+		return $arrString;
+	}
 	//make where in
 	public function whereInArrayInsert($array){
 		if(is_array($array)){
@@ -240,8 +259,9 @@ class Kgpbt  extends CI_Controller
 		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
 		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
 		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
-		$phour =  $this->whereInArrayInsert($this->input->post("reqPhour",TRUE));
+		$phour =  $this->arrayPhour($this->input->post("reqPhour",TRUE));
 		$fmode_type =$this->input->post("select_mode");
+		$thour =$this->input->post("thour",TRUE);
 		if($fmode_type == "fmodeALL"){
 			$fmode = "ALL";
 		}
@@ -303,7 +323,7 @@ class Kgpbt  extends CI_Controller
 					"ohour" => $this->input->post("ohour"),
 					"user_id" => @$this->session->userdata('user_id'),
 					"phour" => $phour,
-
+					"thour"=>$thour,
 				);
 
 				$this->common->insert("kgart",$updateData);
@@ -385,23 +405,29 @@ class Kgpbt  extends CI_Controller
 		header('Content-type: application/json');
 		$phourId = $this->input->post("phourId",TRUE);
 		$plant_cd = $this->input->post("plant_cd",TRUE);
-		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd",TRUE));
+		$key3_cd = $this->input->post("key3_cd",TRUE);
 		$key31_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
 		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd",TRUE));
 		$where = array(
 			'plant_cd'=>$plant_cd
 		);
 		$where_in = array(
-			'key3_cd'=>$key3_cd_arr,
+			'key3_cd'=>$key3_cd,
 		);
-		if($key31_cd_arr !='ALL'){
-			$where_in['key3_1_cd']=$this->input->post("key3_1_cd",TRUE);
+		if($key3_cd[0] == "2"){
 
-		}
-		if($key4_cd_arr !='ALL'){
-			$where_in['key4_cd']=$this->input->post("key4_cd",TRUE);
+			if($key31_cd_arr !='ALL'){
+				$where_in['key3_1_cd']=$this->input->post("key3_1_cd",TRUE);
+			}
+		}else{
+			if($key4_cd_arr !='ALL'){
+				$where_in['key4_cd']=$this->input->post("key4_cd",TRUE);
 
+			}
 		}
+
+
+
 		$data["kgpmcList"]=$this->common->select_list_table_result(
 			$table='kgpmc',
 			$sql='',

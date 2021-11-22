@@ -132,23 +132,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<!-- /.modal-dialog -->
 </div>
-
+<input type="hidden" name="plant_cd">
 <div class="modal fade" id="modalLngPump">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">
 				</h4>
+
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
 
-
+				<h6 class="text-right">단위 : Hour</h6>
+				<h6 class="text-right">(참고 : 1년 8760 hr, 2년 17520 hr, 3년 26280 hr)</h6>
+				<br>
+				<p></p>
 				<div class="form-group">
 					<div class="d-inline">
-						<label>설비 예방 정비주기</label>
+						<label>설비 예방 정비주기 &nbsp;</label>
 					</div>
 					<div class="icheck-primary d-inline">
 						<input type="radio" id="phourClass1" name="phourClass" value="1" checked>
@@ -163,6 +167,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</label>
 					</div>
 				</div>
+				<div class="form-group thourSeccion">
+					<div class="d-inline">
+						<label>예방주기시간 유형 &nbsp;&nbsp;</label>
+					</div>
+					<div class="icheck-primary d-inline">
+						<input type="radio" id="thour1" name="thourClass" value="C" checked>
+						<label for="thour1">
+							Calendar hour
+						</label>
+					</div>
+					<div class="icheck-primary d-inline">
+						<input type="radio" id="thour2" name="thourClass" value="O">
+						<label for="thour2">
+							Operation hour
+						</label>
+					</div>
+				</div>
+				<br>
 				<div class="showKgpmcList">
 
 				</div>

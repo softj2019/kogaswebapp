@@ -88,6 +88,7 @@ class Main  extends CI_Controller
 
 
 		$data['footerScript']="/assets/dist/js/chart/defaultChart.js";
+		$data['footerScript']="/assets/dist/js/noticealert.js";
 		$this->load->view('layout/header',$data);
         $this->load->view('main/index',$data);
 		$this->load->view('layout/footer',$data);

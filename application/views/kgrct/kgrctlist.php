@@ -121,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLabel">
 					신뢰도 분석결과
-					<span id="test" class="mt-1 float-right text-md">Operation hour 비율 : <span id="ohourText"></span>   </span>
+					<span id="test" class="mt-1 float-right text-md">운전시간 비율(0~1) : <span id="ohourText"></span>   </span>
 				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -162,7 +162,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<h4 class="modal-title" id="exampleModalLabel">
 					기초통계 분석 결과
-					<span id="test" class="mt-1 float-right text-md">Operation hour 비율 : <span id="ohourText"></span>   </span>
+					<span id="test" class="mt-1 float-right text-md">운전시간 비율(0~1) : <span id="ohourText"></span>   </span>
 				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>

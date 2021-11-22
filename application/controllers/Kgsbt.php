@@ -162,6 +162,26 @@ class Kgsbt  extends CI_Controller
 
 		echo json_encode($data);
 	}
+	//make where phour
+	public function arrayPhour($array){
+		if(is_array($array)){
+			$arrString ="";
+			$arrayLast = sizeof($array);
+//			array_push($array,$arrayLast);
+			foreach($array as $key=>$value){
+				if($value == null || $value==""){
+					$arrString.= " ";
+				}else{
+					$arrString.=$value;
+				}
+
+				if(($arrayLast-1) > $key) $arrString.=",";
+			}
+		}else{
+			$arrString=$array==""?null:$array;
+		}
+		return $arrString;
+	}
 	//make where in
 	public function whereInArrayInsert($array){
 		if(is_array($array)){
@@ -212,8 +232,9 @@ class Kgsbt  extends CI_Controller
 		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
 		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
 		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
-
-		$fmode_type =$this->input->post("select_mode");
+		$phour =  $this->arrayPhour($this->input->post("reqPhour",TRUE));
+		$fmode_type =$this->input->post("select_mode",TRUE);
+		$thour =$this->input->post("thour",TRUE);
 		if($fmode_type == "fmodeALL"){
 			$fmode = "ALL";
 		}
@@ -270,6 +291,8 @@ class Kgsbt  extends CI_Controller
 					"wvalue" => $wvalue,
 					"ohour" => $this->input->post("ohour"),
 					"user_id" => @$this->session->userdata('user_id'),
+					"phour" => $phour,
+					"thour"=>$thour,
 				);
 				$this->common->insert("kgart",$updateData);
 

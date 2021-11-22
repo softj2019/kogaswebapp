@@ -133,12 +133,14 @@ class Console  extends CI_Controller
 		$data['pagination']= $this->pagination->create_links();
 		$limit[1]=$page;
 		$limit[0]=$config['per_page'];
-
+		$like='';
+		$pr_nm = $this->input->post('pr_nm');
+		if($pr_nm) $like=array('pr_nm'=>$pr_nm);
 		$order_by ='sdate DESC,stime DESC';
 		//기본목록
 		$data["list"]= $this->common->select_list_table_result_new('kgdataview',
 			$sql='',
-			$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+			$where='',$coding=false,$order_by,$group_by='',$where_in='',$like,$joina='',$joinb='',$limit);
 
 		$this->load->view('layout/header',$data);
 		$this->load->view('console/allfdata',$data);
@@ -463,7 +465,7 @@ class Console  extends CI_Controller
 	public function mgphour()
 	{
 		$data = array();
-		$data['page_title']="예방정비 주기 관리";
+		$data['page_title']="예방정비주기 설정 (Hour)";
 		$data['menu_code']="022";
 		$data["list"]=$this->common->select_list_table_result(
 			$table='kgpmc',

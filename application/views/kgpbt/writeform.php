@@ -8,7 +8,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$attributes = array('class' => 'form-horizonatal', 'id' => 'defaultForm','name' => 'defaultForm');
 		echo form_open('email/send',$attributes);
 		?>
-		<div class="hiddenReqPhour">
+		<input type="hidden" name="thour">
+		<div class="hiddenReqPhour" data-id="kgpbt">
 
 		</div>
 			<div class="selectListCard row">
@@ -107,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-4">
 									<input class="form-control" name="wvalue" placeholder="" value="1000,5000,10000,50000,100000 ">
 								</div>
-								<label class="col-3 offset-1 col-form-label">Operation Hour 비율 </label>
+								<label class="col-3 offset-1 col-form-label">운전시간 비율(0~1) </label>
 								<div class="col-2">
 									<input class="form-control" name="ohour"  value="1">
 								</div>
@@ -377,7 +378,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLabel">
 					신뢰도 분석결과
-					<span id="test" class="mt-1 float-right text-md">Operation hour 비율 : <span id="ohourText"></span>   </span>
+					<span id="test" class="mt-1 float-right text-md">운전시간 비율(0~1) : <span id="ohourText"></span>   </span>
 				</h4>
 
 <!--				<button type="button" class="btn btn-default" id="btnCreateWord"> Download <i class="far fa-file-word"></i></button>-->
@@ -418,7 +419,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="modal-header">
 				<h4 class="modal-title" id="exampleModalLabel">
 					기초통계 분석 결과
-					<span id="test" class="mt-1 float-right text-md">Operation hour 비율 : <span id="ohourText"></span>   </span>
+					<span id="test" class="mt-1 float-right text-md">운전시간 비율(0~1) : <span id="ohourText"></span>   </span>
 				</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
