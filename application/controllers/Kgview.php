@@ -60,6 +60,9 @@ class Kgview  extends CI_Controller
 		$data['content']="";
 		if($kgartRow->smode == null){
 			if($row->htm3) $data['content'] .= file_get_contents('file:///'.$row->htm3);
+			$yy = substr($arcd,'2',4);
+			$dd = substr($arcd,'6',4);
+			$data['content'] .= file_get_contents('file:///'.$this->config->item("report_path").$yy."\\".$dd."\\".$arcd."\\".$arcd."_distriID2.htm");
 		}
 		if($row->htm4) $data['content'] .= file_get_contents('file:///'.$row->htm4);
 
