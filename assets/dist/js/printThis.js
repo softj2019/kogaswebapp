@@ -40,7 +40,12 @@
 
         var strFrameName = "printThis-" + (new Date()).getTime();
 
-        if (window.location.hostname !== document.domain && navigator.userAgent.match(/msie/i)) {
+		var agent = navigator.userAgent.toLowerCase();
+
+        // if (window.location.hostname !== document.domain && navigator.userAgent.match(/msie/i)) {
+
+
+		if ((navigator.appName == 'Netscape' && agent.indexOf('trident') != -1) || (agent.indexOf("msie") != -1)) {
             // Ugly IE hacks due to IE not inheriting document.domain from parent
             // checks if document.domain is set by comparing the host name against document.domain
             var iframeSrc = "javascript:document.write(\"<head><script>document.domain=\\\"" + document.domain + "\\\";</script></head><body></body>\")";

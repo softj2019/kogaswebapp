@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-6">
 				<div class="card collapsed-card">
 					<div class="card-header">
-						<h3 class="card-title">최근 발생 고장 10건</h3>
+						<h3 class="card-title">최근 고장 현상 10건</h3>
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
 							</button>
@@ -83,6 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<th>위치</th>
 								<th>설비 이름</th>
 								<th>고장 내역</th>
+								<th>통지일</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -94,6 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<td><?=$row->prloc?></td>
 										<td><?=$row->pr?></td>
 										<td><?=$row->probj?></td>
+										<td><?=$row->sdate?></td>
 									</tr>
 									<?php
 								}
@@ -234,3 +236,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="modal-notice">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body row">
+				분석 결과가 투명하게 보이는 경우 Internet Explorer를 최소화 한 후 다시 최대화 하면 정상적으로 보입니다
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<!--				<button type="button" class="btn btn-primary">Save changes</button>-->
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+

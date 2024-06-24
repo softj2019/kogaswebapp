@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<input type="hidden" name="br_cd" value="<?=$br_cd?>">
 				<div class="form-group">
 
-					<input type="text" class="form-control" id="title" name="title" placeholder="글 제목" value="<?=$title?>">
+					<input type="text" class="form-control" id="title" name="title" placeholder="글 제목" value="<?=html_escape($title)?>">
 					<?php echo form_error('title');?>
 				</div>
 				<div class="form-group">

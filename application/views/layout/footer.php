@@ -132,6 +132,72 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<!-- /.modal-dialog -->
 </div>
+<input type="hidden" name="plant_cd">
+<div class="modal fade" id="modalLngPump">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">
+				</h4>
+
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+
+				<h6 class="text-right">단위 : Hour</h6>
+				<h6 class="text-right">(참고 : 1년 8760 hr, 2년 17520 hr, 3년 26280 hr)</h6>
+				<br>
+				<p></p>
+				<div class="form-group">
+					<div class="d-inline">
+						<label>설비 예방 정비주기 &nbsp;</label>
+					</div>
+					<div class="icheck-primary d-inline">
+						<input type="radio" id="phourClass1" name="phourClass" value="1" checked>
+						<label for="phourClass1">
+							있음
+						</label>
+					</div>
+					<div class="icheck-primary d-inline">
+						<input type="radio" id="phourClass2" name="phourClass" value="0">
+						<label for="phourClass2">
+							없음
+						</label>
+					</div>
+				</div>
+				<div class="form-group thourSeccion">
+					<div class="d-inline">
+						<label>예방주기시간 유형 &nbsp;&nbsp;</label>
+					</div>
+					<div class="icheck-primary d-inline">
+						<input type="radio" id="thour1" name="thourClass" value="C" checked>
+						<label for="thour1">
+							Calendar hour
+						</label>
+					</div>
+					<div class="icheck-primary d-inline">
+						<input type="radio" id="thour2" name="thourClass" value="O">
+						<label for="thour2">
+							Operation hour
+						</label>
+					</div>
+				</div>
+				<br>
+				<div class="showKgpmcList">
+
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-primary" id="runKgPmc">분석실행</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
@@ -154,6 +220,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="/assets/plugins/moment/moment.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/moment/locale/ko.js"></script>
 <script type="text/javascript" src="/assets/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="/assets/dist/js/jquery.inputmask.min.js"></script><!--inputmask 사용 시 포함-->
 
 <script src="/assets/plugins/summernote/summernote-bs4.js"></script>
 <script src="/assets/dist/js/summernote-ko-KR.js"></script>

@@ -86,7 +86,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						<button type="submit" class="btn btn-primary btn-block">로그인</button>
 					</div>
 					<!-- /.col -->
+
 				</div>
+			<p>&nbsp;</p>
+			<div class="input-group mb-3">
+				<?php echo form_error('applyStatus'); ?>
+			</div>
 			<?php
 				echo form_close();
 			?>

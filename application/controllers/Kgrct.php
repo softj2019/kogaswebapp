@@ -112,17 +112,17 @@ class Kgrct  extends CI_Controller
 		
 		//유저아이디 조건 추가
 		if($user != ''){
-			$selectQry = $selectQry.'and user_id = \''.$user.'\' ';
+			$selectQry .='and user_id = \''.$user.'\' ';
 		}
 
 		//분석타입 조건 추가
 		if($anal_type != ''){
-			$selectQry = $selectQry.'and analysis_type = \''.$anal_type.'\' ';
+			$selectQry .= 'and analysis_type = \''.$anal_type.'\' ';
 		}
 
 		//정렬기준 조건 추가
-		$selectQry = $selectQry.'order by ar_time desc';
-
+		$selectQry .= 'order by ar_time desc';
+		$order_by=array('key'=>'ar_time','value'=>'desc');
 		//페이징 base_url '컨트롤러명/컨트롤러안의 함수명
 		$config['base_url'] =base_url('kgrct/kgrctSelect');
 		$config['total_rows'] = $this->common->select_count('('.$selectQry.') A','','');
@@ -136,7 +136,7 @@ class Kgrct  extends CI_Controller
 		$data['footerScript']="/assets/dist/js/commonSbt.js";
 
 		//data list
-		$data["list"]= $this->common->select_list_table_result('('.$selectQry.') A',$sql = '',$where='',$coding=false,$order_by = '',$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
+		$data["list"]= $this->common->select_list_table_result('('.$selectQry.') A',$sql = '',$where='',$coding=false,$order_by,$group_by='',$where_in='',$like='',$joina='',$joinb='',$limit);
 		//분석타입 select box
 		$data["listType"]= $this->common->select_list_table_result('(select typecode value, typename name '.
 			'from kgref where typecolumn = \'analysis_type\' and typecode != \'C\') A ',
@@ -145,5 +145,8 @@ class Kgrct  extends CI_Controller
 		$this->load->view('layout/header',$data);
 		$this->load->view('kgrct/kgrctlist',$data);
 		$this->load->view('layout/footer',$data);
+		log_message('debug', 'Query log:>>>>>> '. $selectQry);
+		log_message('debug', 'this el :>>>>>> '.$user );
+		log_message('debug', 'this el :>>>>>> '.$anal_type );
 	}
 }

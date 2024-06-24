@@ -126,9 +126,9 @@ class Kgbasicpbt  extends CI_Controller
 		}else{
 
 			if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
-				$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+				$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key4_cd,key4_nm',$where="key4_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 			}else{
-				$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key4_cd,key4_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+				$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key4_cd,key4_nm',$where="key4_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 			}
 		}
 		echo json_encode($data);
@@ -163,9 +163,9 @@ class Kgbasicpbt  extends CI_Controller
 			"key4_cd"=>	$keyArr2,
 		);
 		if (in_array("1", $keyArr) || in_array("2", $keyArr) || in_array("3", $keyArr) ) {
-			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $this->common->select_list_table_result('kgtag',$sql='distinct key5_cd,key5_nm',$where="key5_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}else{
-			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key5_cd,key5_nm',$where='',$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
+			$data["list"]= $this->common->select_list_table_result('kgpbt',$sql='distinct key5_cd,key5_nm',$where="key5_cd != ''",$coding=false,$order_by='',$group_by='',$where_in,$like='',$joina='',$joinb='','');
 		}
 		echo json_encode($data);
 	}
@@ -230,13 +230,13 @@ class Kgbasicpbt  extends CI_Controller
 		header('Content-type: application/json');
 		$this->form_validation->set_rules('key1_cd[]', '플랜트 ', 'required');
 		$this->form_validation->set_rules('key3_cd[]', '1차 ', 'required');
-		$key1_cd_arr = $this->whereInArrayInsert($this->input->post("key1_cd"));
-		$key2_cd_arr = $this->whereInArrayInsert($this->input->post("key2_cd"));
-		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd"));
-		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd"));
-		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd"));
-		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd"));
-		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd"));
+		$key1_cd_arr = $this->whereInArrayInsert($this->input->post("key1_cd",TRUE));
+		$key2_cd_arr = $this->whereInArrayInsert($this->input->post("key2_cd",TRUE));
+		$key3_cd_arr = $this->whereInArrayInsert($this->input->post("key3_cd",TRUE));
+		$key4_cd_arr = $this->whereInArrayInsert($this->input->post("key4_cd",TRUE));
+		$key5_cd_arr = $this->whereInArrayInsert($this->input->post("key5_cd",TRUE));
+		$key6_cd_arr = $this->whereInArrayInsert($this->input->post("key6_cd",TRUE));
+		$key3_1_cd_arr = $this->whereInArrayInsert($this->input->post("key3_1_cd",TRUE));
 		$fmode = $this->whereInArrayInsertForMode($this->input->post("fmode"),true);
 		$smode = $this->whereInArrayInsertForMode($this->input->post("smode"),true);
 
@@ -291,6 +291,7 @@ class Kgbasicpbt  extends CI_Controller
 					"fmode" => $fmode,
 					"smode" => $smode,
 					"wvalue" => $wvalue,
+					"ohour" => $this->input->post("ohour"),
 					"user_id" => @$this->session->userdata('user_id'),
 				);
 				$this->common->insert("kgart",$updateData);
